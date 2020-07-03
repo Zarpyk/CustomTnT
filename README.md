@@ -1,2 +1,2 @@
 # TnTCore
-Codigo del TnTCore, plugin para el servidor de Minecraft de EspañolTnT
+TnTCore es el plugin para el servidor de Minecraft de EspañolTnT
