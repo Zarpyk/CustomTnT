@@ -1,0 +1,11 @@
+main: guerrero61.tntcore.Main
+version: 0.1.2
+name: TnTCore
+api-version: 1.13
+authors: [GuerreroCraft61]
+description: TnT Server Plugin
+website: https://discord.gg/espanoltnt
+
+commands:
+  tnt:
+    description: comando principal
