@@ -33,7 +33,7 @@ public class ReportSuggest implements MessageCreateListener {
 		Icon avatar = api.getYourself().getAvatar();
 		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir").setThumbnail(avatar)
+		EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir", "", event.getMessageAuthor().getAvatar()).setThumbnail(avatar)
 				.addField("Para reportar o sugerir cosas de minecraft",
 						"https://github.com/GuerreroCraft61/TnTCoreReport/issues")
 				.addField("Para reportar o sugerir cosas del bot",
@@ -46,5 +46,6 @@ public class ReportSuggest implements MessageCreateListener {
 				.setFooter(ip, "https://imgur.com/jrz2u0a.png").setTimestampToNow();
 
 		new MessageBuilder().setEmbed(embed).send(event.getChannel());
+		event.getMessage().delete();
 	}
 }

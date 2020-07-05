@@ -20,6 +20,7 @@ import guerrero61.tntcore.commands.MainCommand;
 import guerrero61.tntcore.commands.discord.Help;
 import guerrero61.tntcore.commands.discord.ReportSuggest;
 import guerrero61.tntcore.commands.discord.ServerInfo;
+import guerrero61.tntcore.commands.discord.Summon;
 import guerrero61.tntcore.commands.tabcompleter.MainCommandCompleter;
 import guerrero61.tntcore.events.Death;
 import guerrero61.tntcore.events.Sleep;
@@ -44,6 +45,8 @@ public class Main extends JavaPlugin {
 	
 	private DiscordApi api;
 	
+	public String stormTime;
+	
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin(getPluginLoader(), (Plugin) this)) {
@@ -60,13 +63,13 @@ public class Main extends JavaPlugin {
 					long minutes = segundosbrutos % 3600L / 60L;
 					long seconds = segundosbrutos % 60L;
 					long days = segundosbrutos / 86400L;
-					String time = String.format("%02d:%02d:%02d",
+					stormTime = String.format("%02d:%02d:%02d",
 							new Object[] { Long.valueOf(hours), Long.valueOf(minutes), Long.valueOf(seconds) });
 					if (days < 1L && Bukkit.getWorld("world").hasStorm()) {
 						String Message = Main.this.getConfig().getString("Messages.Death.train-actionbar");
 						Bukkit.getOnlinePlayers().forEach(player -> player.spigot()
 								.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-										ChatColor.translateAlternateColorCodes('&', Message.replace("%time%", time)))));
+										ChatColor.translateAlternateColorCodes('&', Message.replace("%time%", stormTime)))));
 					}
 				}
 			}, 0L, 20L);
@@ -123,6 +126,7 @@ public class Main extends JavaPlugin {
         api.addListener(new ServerInfo(api, this));
         api.addListener(new ReportSuggest(api));
         api.addListener(new Help());
+        api.addListener(new Summon(this));
     }
 
 	public static boolean CheckDisablePlugin(PluginLoader pl, Plugin plugin) {

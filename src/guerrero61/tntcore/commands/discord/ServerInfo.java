@@ -27,12 +27,10 @@ public class ServerInfo implements MessageCreateListener {
 
 	@Override
 	public void onMessageCreate(MessageCreateEvent event) {
-		// Ignore any message that is not !whoIsOnline
 		if (!event.getMessageContent().equalsIgnoreCase("/info")) {
 			return;
 		}
 
-		// Collect the names of all online players
 		String onlinePlayers = Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.joining(","))
 				.replace(",", "\n");
 		Integer onlinePlayersCount = main.getServer().getOnlinePlayers().size();
@@ -40,22 +38,23 @@ public class ServerInfo implements MessageCreateListener {
 		Icon avatar = api.getYourself().getAvatar();
 		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor("Información del server | TnTServer").setThumbnail(avatar)
+		EmbedBuilder embed = new EmbedBuilder().setAuthor("Información del server | TnTServer", "", event.getMessageAuthor().getAvatar()).setThumbnail(avatar)
 				.addField("Versión",
 						Bukkit.getVersion().replace("git-", "") + "\n"
 								+ (Bukkit.getOnlineMode() ? "Premium" : "Premium/No Premium"),
 						true)
 				.addField("Jugadores " + onlinePlayersCount + "/" + Integer.toString(main.getServer().getMaxPlayers()),
 						(onlinePlayersCount == 0) ? "No hay nadie jugando" : onlinePlayers, true)
+				.addField("Horas de tormenta", (Bukkit.getWorld("world").hasStorm() ? main.stormTime : "No hay tormenta"))
 				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png").setTimestampToNow();
 
-		// Check if there are any online players
 		if (onlinePlayers.isEmpty()) {
 			new MessageBuilder().setEmbed(embed).send(event.getChannel());
+			event.getMessage().delete();
 			return;
 		}
 
-		// Display the names of all online players
 		new MessageBuilder().setEmbed(embed).send(event.getChannel());
+		event.getMessage().delete();
 	}
 }

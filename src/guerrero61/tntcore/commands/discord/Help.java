@@ -25,12 +25,13 @@ public class Help implements MessageCreateListener {
 
 		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles")
+		EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles", "", event.getMessageAuthor().getAvatar())
 				.addField("/info", "Sirve para ver la información del server de minecraft")
 				.addField("/report - /suggest", "Sirve para ver donde reportar o sugerir")
 				.setUrl("https://github.com/GuerreroCraft61/TnTCoreReport/issues").setColor(new Color(255, 61, 61))
 				.setFooter(ip, "https://imgur.com/jrz2u0a.png").setTimestampToNow();
 
 		new MessageBuilder().setEmbed(embed).send(event.getChannel());
+		event.getMessage().delete();
 	}
 }
