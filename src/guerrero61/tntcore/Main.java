@@ -47,8 +47,10 @@ public class Main extends JavaPlugin {
 	
 	public String stormTime;
 	
+	
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
+		Bukkit.getConsoleSender().sendMessage(Integer.toString(config.getInt("Storm.add-seconds")));
 		if (CheckDisablePlugin(getPluginLoader(), (Plugin) this)) {
 			registerConfig();
 			registerEvents();
@@ -93,8 +95,8 @@ public class Main extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new Death(this), this);
 		pm.registerEvents(new Sleep(this), this);
-		pm.registerEvents(new Weather(this), this);
-		pm.registerEvents(new Totem(this), this);
+		pm.registerEvents(new Weather(), this);
+		pm.registerEvents(new Totem(), this);
 	}
 
 	private void registerConfig() {
@@ -156,11 +158,15 @@ public class Main extends JavaPlugin {
 		return config.getString(configOption);
 	}
 	
-	public static int getInt(String configOption) {
+	public static Integer getInt(String configOption) {
 		return config.getInt(configOption);
 	}
 	
-	public static boolean getBool(String configOption) {
+	public static Float getFloat(String configOption) {
+		return Float.parseFloat(config.getString(configOption));
+	}
+	
+	public static Boolean getBool(String configOption) {
 		return config.getBoolean(configOption);
 	}
 }

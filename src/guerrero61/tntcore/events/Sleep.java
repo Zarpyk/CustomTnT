@@ -25,42 +25,37 @@ import guerrero61.tntcore.Main;
 
 public class Sleep implements Listener {
 
-	private Main main;
-	private FileConfiguration config;
-	private String prefix;
 	ArrayList<Player> sleeping = new ArrayList<>();
 	ArrayList<Player> globalSleeping = new ArrayList<>();
-	private boolean executed = false;
+	private Boolean executed = false;
 	private String world;
+	private Main main;
 
 	public Sleep(Main m) {
 		main = m;
-		config = main.getConfig();
-		prefix = config.getString("Prefix");
-		world = config.getString("MainWorld");
+		world = Main.getString("MainWorld");
 	}
 
 	@EventHandler
 	public void playerSleep(final PlayerBedEnterEvent event) {
 		Player player = event.getPlayer();
 		Server server = Bukkit.getServer();
-		long time = Bukkit.getWorld(Objects.<String>requireNonNull(world)).getTime();
+		Long time = Bukkit.getWorld(Objects.<String>requireNonNull(world)).getTime();
 		if (time > 13000L && !executed && !Bukkit.getWorld(Objects.<String>requireNonNull(world)).hasStorm()) {
 			executed = true;
 			Bukkit.getServer().getScheduler().runTaskLater((Plugin) main, new Runnable() {
 				public void run() {
 					event.getPlayer().getWorld().setTime(0L);
 					executed = false;
-					String sleepMsg = config.getString("Sleep.msg");
-					Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&',
-							prefix + sleepMsg.replace("%player%", player.getName())));
+					String sleepMsg = Main.getString("Sleep.msg");
+					Bukkit.broadcastMessage(Main.FText(sleepMsg.replace("%player%", player.getName())));
 					event.setCancelled(true);
 				}
 			}, 100L);
-		} else if ((time < 13000L || executed || Bukkit.getWorld(Objects.<String>requireNonNull(world)).hasStorm()) && config.getBoolean("Sleep.explosive")){
+		} else if ((time < 13000L || executed || Bukkit.getWorld(Objects.<String>requireNonNull(world)).hasStorm()) && Main.getBool("Sleep.explosive")){
 			player.setStatistic(Statistic.TIME_SINCE_REST, 0);
 			Location playerbed = player.getBedSpawnLocation();
-			World world = Bukkit.getWorld(config.getString("MainWorld"));
+			World world = Bukkit.getWorld(Main.getString("MainWorld"));
 			world.playEffect(playerbed, Effect.GHAST_SHOOT, 100);
 			world.spawnParticle(Particle.EXPLOSION_HUGE, playerbed, 1);
 			world.createExplosion(playerbed, 0.0F);

@@ -27,7 +27,7 @@ public class MinecraftToDiscord implements Listener {
 	private String prefix;
 	ArrayList<Player> sleeping = new ArrayList<>();
 	ArrayList<Player> globalSleeping = new ArrayList<>();
-	private boolean executed = false;
+	private Boolean executed = false;
 	private String world;
 
 	public MinecraftToDiscord(Main m) {

@@ -6,9 +6,25 @@
 	<artifactId>TnTCore</artifactId>
 	<version>0.1.5</version>
 
+	<name>TnTCore</name>
+	<description>Plugin para el servidor de EspañolTNT</description>
+	<url>https://discord.gg/espanoltnt</url>
+
+
+    <developers>
+        <developer>
+                <name>GuerreroCraft61</name>
+                <url>https://discord.gg/edrpCvf</url>
+        </developer>
+    </developers>
+
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<author>GuerreroCraft61</author>
+		<mainClass>guerrero61.tntcore.Main</mainClass>
+		<api-version>1.13</api-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<repositories>
@@ -49,12 +65,13 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<sourceDirectory>src/guerrero61/tntcore</sourceDirectory>
 		<defaultGoal>clean install</defaultGoal>
 		<resources>
 			<resource>
-				<directory>/resources</directory>
+				<directory>resources</directory>
 				<!-- Keeping filtering at true here reduces plugin.yml redundancy! -->
 				<filtering>true</filtering>
 				<includes>
@@ -62,7 +79,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<directory>/resources</directory>
+				<directory>resources</directory>
 				<!-- Keep filtering at false for other resources to prevent bad magic -->
 				<filtering>false</filtering>
 				<excludes>
@@ -74,12 +91,26 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 </project>

@@ -13,7 +13,7 @@ import guerrero61.tntcore.Main;
 public class MainCommand implements CommandExecutor {
 
 	private Main main;
-	private boolean isPlayer;
+	private Boolean isPlayer;
 	private Player player;
 
 	public MainCommand(Main main) {
