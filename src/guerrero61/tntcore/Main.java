@@ -126,7 +126,7 @@ public class Main extends JavaPlugin {
         api.addListener(new ServerInfo(api, this));
         api.addListener(new ReportSuggest(api));
         api.addListener(new Help());
-        api.addListener(new Summon(this));
+        //api.addListener(new Summon(this));
     }
 
 	public static boolean CheckDisablePlugin(PluginLoader pl, Plugin plugin) {
