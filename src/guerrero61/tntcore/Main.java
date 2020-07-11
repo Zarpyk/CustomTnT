@@ -50,14 +50,13 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
-		Bukkit.getConsoleSender().sendMessage(Integer.toString(config.getInt("Storm.add-seconds")));
 		if (CheckDisablePlugin(getPluginLoader(), (Plugin) this)) {
 			registerConfig();
+			config = Main.this.getConfig();
+			prefix = config.getString("Prefix");
 			registerEvents();
 			registerCommands();
 			registerDiscord();
-			config = Main.this.getConfig();
-			prefix = config.getString("Prefix");
 			Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) this, new Runnable() {
 				public void run() {
 					long segundosbrutos = (Bukkit.getWorld("world").getWeatherDuration() / 20);

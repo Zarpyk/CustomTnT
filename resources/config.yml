@@ -16,12 +16,13 @@ Messages:
     subtitle: '&e¡%player% &cexploto!'
     players:
       GuerreroCraft61: ''
+  Reload: '&a&lReload completado.'
 Sleep:
   msg: '&e%player% ha dormido'
   explosive: true
 Storm:
   end-msg: '&aLa tormenta ha llegado a su fin'
-  AddSeconds: 1800
+  add-seconds: 1800
 Totem:
   fail-enable: true
   probability: 5

@@ -38,18 +38,18 @@ public class Death implements Listener {
 		Player killer = e.getEntity().getKiller();
 		String DeathChatMessage = Main.getString("Messages.Death.msg");
 		Bukkit.broadcastMessage(
-				Main.FText(DeathChatMessage.replace("%player%", victim)));
+				Main.FTextNPrefix(DeathChatMessage.replace("%player%", victim)));
 		if (Main.getBool("Messages.Death.coords-enable")) {
 			String CoordsMessage = Main.getString("Messages.Death.coords-msg");
 			String Dx = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockX());
 			String Dy = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockY());
 			String Dz = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockZ());
-			Bukkit.broadcastMessage(Main.FText(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz)));
+			Bukkit.broadcastMessage(Main.FTextNPrefix(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz)));
 		}
 		Integer stormDuration = Bukkit.getWorld(Objects.<String>requireNonNull(world)).getWeatherDuration();
 		Integer stormTicksToSeconds = stormDuration / 20;
 		Integer stormIncrement = Math.round(stormTicksToSeconds + this.addStormSeconds);
-		Integer intsTicks = Math.round(addStormSeconds);
+		Integer intsTicks = addStormSeconds;
 		Integer inc = Math.round(stormIncrement);
 		if (weather) {
 			Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), "minecraft:weather thunder");
@@ -63,7 +63,7 @@ public class Death implements Listener {
 			public void run() {
 				String DeathTrainMessage = Main.getString("Messages.Death.train");
 				Bukkit.broadcastMessage(
-						Main.FText(DeathTrainMessage.replace("%time%", Float.toString(stormHours))));
+						Main.FTextNPrefix(DeathTrainMessage.replace("%time%", Float.toString(stormHours))));
 				for (Player player : Bukkit.getOnlinePlayers())
 					player.playSound(player.getLocation(), Sound.ENTITY_SKELETON_HORSE_DEATH, 10.0F, 1.0F);
 			}
