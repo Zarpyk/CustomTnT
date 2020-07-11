@@ -46,7 +46,6 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage(startMessage);
-        Bukkit.getConsoleSender().sendMessage(Main.FText("Hola señor de la consola?"));
         if (CheckDisablePlugin(getPluginLoader(), this)) {
             registerConfig();
             registerEvents();

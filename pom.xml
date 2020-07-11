@@ -22,7 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <author>GuerreroCraft61</author>
-        <mainClass>Main</mainClass>
+        <mainClass>guerrero61.tntcore.Main</mainClass>
         <api-version>1.16</api-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
