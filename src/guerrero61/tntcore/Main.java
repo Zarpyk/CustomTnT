@@ -52,8 +52,6 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin(getPluginLoader(), (Plugin) this)) {
 			registerConfig();
-			config = Main.this.getConfig();
-			prefix = config.getString("Prefix");
 			registerEvents();
 			registerCommands();
 			registerDiscord();
@@ -99,12 +97,14 @@ public class Main extends JavaPlugin {
 	}
 
 	private void registerConfig() {
-		File config = new File(this.getDataFolder(), "config.yml");
-		configPath = config.getPath();
-		if (!config.exists()) {
+		File fConfig = new File(this.getDataFolder(), "config.yml");
+		configPath = fConfig.getPath();
+		if (!fConfig.exists()) {
 			this.getConfig().options().copyDefaults(true);
 			saveConfig();
 		}
+		config = Main.this.getConfig();
+		prefix = config.getString("Prefix");
 	}
 	
 	private void registerDiscord() {
