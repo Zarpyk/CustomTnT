@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
@@ -66,13 +67,12 @@ public class Main extends JavaPlugin {
 							new Object[] { Long.valueOf(hours), Long.valueOf(minutes), Long.valueOf(seconds) });
 					if (days < 1L && Bukkit.getWorld("world").hasStorm()) {
 						String Message = Main.this.getConfig().getString("Messages.Death.train-actionbar");
-						Bukkit.getOnlinePlayers().forEach(player -> player.spigot()
-								.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-										ChatColor.translateAlternateColorCodes('&', Message.replace("%time%", stormTime)))));
+						Bukkit.getOnlinePlayers().forEach(player -> player.sendActionBar(FText(Message.replace("%time%", stormTime))));
 					}
 				}
 			}, 0L, 20L);
 		}
+		Bukkit.getPlayer("");
 	}
 
 	public void onDisable() {
@@ -118,6 +118,7 @@ public class Main extends JavaPlugin {
             getPluginLoader().disablePlugin(this);
             return null;
         });
+		
 	}
 	
     private void onConnectToDiscord(DiscordApi api) {

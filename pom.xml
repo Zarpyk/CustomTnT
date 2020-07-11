@@ -11,12 +11,12 @@
 	<url>https://discord.gg/espanoltnt</url>
 
 
-    <developers>
-        <developer>
-                <name>GuerreroCraft61</name>
-                <url>https://discord.gg/edrpCvf</url>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<name>GuerreroCraft61</name>
+			<url>https://discord.gg/edrpCvf</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -33,18 +33,38 @@
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
+			<id>papermc-repo</id>
+			<url>https://papermc.io/repo/repository/maven-public/</url>
+		</repository>
+		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 
 	<dependencies>
+		<!--Paperclip API -->
+		<dependency>
+			<groupId>com.destroystokyo.paper</groupId>
+			<artifactId>paper-api</artifactId>
+			<version>1.16.1-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--Bukkit API -->
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.16.1-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--Spigot API and NMS -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot</artifactId>
 			<version>1.16.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<!--Javacord API -->
 		<dependency>
 			<groupId>org.javacord</groupId>
 			<artifactId>javacord</artifactId>
@@ -52,12 +72,14 @@
 			<type>pom</type>
 			<scope>compile</scope>
 		</dependency>
+		<!--Vault API -->
 		<dependency>
 			<groupId>com.github.MilkBowl</groupId>
 			<artifactId>VaultAPI</artifactId>
 			<version>1.7</version>
 			<scope>provided</scope>
 		</dependency>
+		<!--LuckPerms API -->
 		<dependency>
 			<groupId>net.luckperms</groupId>
 			<artifactId>api</artifactId>
@@ -99,18 +121,18 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

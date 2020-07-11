@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
 
 import guerrero61.tntcore.Main;
@@ -36,4 +37,12 @@ public class MinecraftToDiscord implements Listener {
 		prefix = config.getString("Prefix");
 		world = config.getString("MainWorld");
 	}
+	
+	@EventHandler
+	public void playerChat(AsyncPlayerChatEvent event) {
+		String message = event.getMessage();
+		
+		
+	}
+	
 }
