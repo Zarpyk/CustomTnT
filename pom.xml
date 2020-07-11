@@ -1,138 +1,138 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>TnTCore</groupId>
-	<artifactId>TnTCore</artifactId>
-	<version>0.1.5</version>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>TnTCore</groupId>
+    <artifactId>TnTCore</artifactId>
+    <version>0.1.5</version>
 
-	<name>TnTCore</name>
-	<description>Plugin para el servidor de EspañolTNT</description>
-	<url>https://discord.gg/espanoltnt</url>
+    <name>TnTCore</name>
+    <description>Plugin para el servidor de EspañolTNT</description>
+    <url>https://discord.gg/espanoltnt</url>
 
 
-	<developers>
-		<developer>
-			<name>GuerreroCraft61</name>
-			<url>https://discord.gg/edrpCvf</url>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>GuerreroCraft61</name>
+            <url>https://discord.gg/edrpCvf</url>
+        </developer>
+    </developers>
 
-	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<author>GuerreroCraft61</author>
-		<mainClass>guerrero61.tntcore.Main</mainClass>
-		<api-version>1.13</api-version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <author>GuerreroCraft61</author>
+        <mainClass>Main</mainClass>
+        <api-version>1.16</api-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<repositories>
-		<repository>
-			<id>spigotmc-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>papermc-repo</id>
-			<url>https://papermc.io/repo/repository/maven-public/</url>
-		</repository>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<!--Paperclip API -->
-		<dependency>
-			<groupId>com.destroystokyo.paper</groupId>
-			<artifactId>paper-api</artifactId>
-			<version>1.16.1-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--Bukkit API -->
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.16.1-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--Spigot API and NMS -->
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot</artifactId>
-			<version>1.16.1-R0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--Javacord API -->
-		<dependency>
-			<groupId>org.javacord</groupId>
-			<artifactId>javacord</artifactId>
-			<version>3.0.6</version>
-			<type>pom</type>
-			<scope>compile</scope>
-		</dependency>
-		<!--Vault API -->
-		<dependency>
-			<groupId>com.github.MilkBowl</groupId>
-			<artifactId>VaultAPI</artifactId>
-			<version>1.7</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--LuckPerms API -->
-		<dependency>
-			<groupId>net.luckperms</groupId>
-			<artifactId>api</artifactId>
-			<version>5.1</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--Paperclip API -->
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--Bukkit API -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--Spigot API and NMS -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--Javacord API -->
+        <dependency>
+            <groupId>org.javacord</groupId>
+            <artifactId>javacord</artifactId>
+            <version>3.0.6</version>
+            <type>pom</type>
+            <scope>compile</scope>
+        </dependency>
+        <!--Vault API -->
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--LuckPerms API -->
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<sourceDirectory>src/guerrero61/tntcore</sourceDirectory>
-		<defaultGoal>clean install</defaultGoal>
-		<resources>
-			<resource>
-				<directory>resources</directory>
-				<!-- Keeping filtering at true here reduces plugin.yml redundancy! -->
-				<filtering>true</filtering>
-				<includes>
-					<include>plugin.yml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>resources</directory>
-				<!-- Keep filtering at false for other resources to prevent bad magic -->
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>**/*.java</exclude>
-					<exclude>plugin.yml</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <sourceDirectory>src/guerrero61/tntcore</sourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <directory>resources</directory>
+                <!-- Keeping filtering at true here reduces plugin.yml redundancy! -->
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>resources</directory>
+                <!-- Keep filtering at false for other resources to prevent bad magic -->
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>plugin.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

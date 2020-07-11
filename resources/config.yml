@@ -13,7 +13,7 @@ Messages:
     train: '&c¡Comienza el Death Train con duración de %time% horas!'
     train-actionbar: '&7Quedan %time% de tormenta'
     title: '&c¡Boom!'
-    subtitle: '&e¡%player% &cexploto!'
+    subtitle: '&e¡%player% &cexplotó!'
     players:
       GuerreroCraft61: ''
   Reload: '&a&lReload completado.'
