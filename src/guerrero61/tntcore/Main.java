@@ -49,6 +49,7 @@ public class Main extends JavaPlugin {
 	
 	
 	public void onEnable() {
+		//F
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin(getPluginLoader(), (Plugin) this)) {
 			registerConfig();
