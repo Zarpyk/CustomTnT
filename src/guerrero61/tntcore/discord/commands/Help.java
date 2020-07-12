@@ -19,13 +19,15 @@ public class Help extends ListenerAdapter {
 
 		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles", "", event.getAuthor().getAvatarUrl())
+		String autorAvatar = event.getAuthor().getAvatarUrl();
+
+		EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles", autorAvatar, autorAvatar)
 				.addField("/info", "Sirve para ver la información del server de minecraft", false)
 				.addField("/report - /suggest", "Sirve para ver donde reportar o sugerir", false)
 				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png")
 				.setTimestamp(Instant.now());
 
-		event.getChannel().sendMessage(embed.build()).queue();
-		event.getMessage().delete().queue();
+		event.getChannel().sendMessage(embed.build()).complete();
+		event.getMessage().delete().complete();
 	}
 }

@@ -20,11 +20,10 @@ public class Summon extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if (!event.getMessage().getContentDisplay().equalsIgnoreCase("/summon")
 				|| event.getMessage().getAuthor().getId().equals(id)) {
-			main.getLogger().warning(event.getMessage().getAuthor().getId());
 			return;
 		}
 
 		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "boss summonp PhyPsi15 BossPalPepsi");
-		event.getMessage().delete().queue();
+		event.getMessage().delete().complete();
 	}
 }

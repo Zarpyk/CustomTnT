@@ -28,7 +28,9 @@ public class ReportSuggest extends ListenerAdapter {
 		String ip = Bukkit.getServer().getIp()
 				+ (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort());
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir", "", event.getAuthor().getAvatarUrl())
+		String autorAvatar = event.getAuthor().getAvatarUrl();
+
+		EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir", autorAvatar, autorAvatar)
 				.setThumbnail(api.getSelfUser().getAvatarUrl())
 				.addField("Para reportar o sugerir cosas de minecraft",
 						"https://github" + ".com/GuerreroCraft61" + "/TnTCoreReport" + "/issues", false)
@@ -41,7 +43,7 @@ public class ReportSuggest extends ListenerAdapter {
 						true)
 				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png")
 				.setTimestamp(Instant.now());
-		event.getChannel().sendMessage(embed.build()).queue();
-		event.getMessage().delete().queue();
+		event.getChannel().sendMessage(embed.build()).complete();
+		event.getMessage().delete().complete();
 	}
 }

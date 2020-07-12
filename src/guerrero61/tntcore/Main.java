@@ -8,9 +8,7 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,7 +47,7 @@ public class Main extends JavaPlugin {
 
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
-		if (CheckDisablePlugin(getPluginLoader(), this)) {
+		if (CheckDisablePlugin()) {
 			registerConfig();
 			registerEvents();
 			registerCommands();
@@ -75,7 +73,7 @@ public class Main extends JavaPlugin {
 
 	public void onDisable() {
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
-
+		api = null;
 	}
 
 	private void registerCommands() {
@@ -102,24 +100,25 @@ public class Main extends JavaPlugin {
 	}
 
 	private void registerDiscord() {
-		JDABuilder builder = JDABuilder.createDefault("token");
+		JDABuilder builder = JDABuilder.createDefault("NTk3NTMyMjgzNDMxMjg4ODM3.Xws4aQ.wml0s5dc3XFC3QyAzhUjQpk3FGU");
 
 		builder.setActivity(Activity.playing("/help para ayuda"));
 		builder.setLargeThreshold(50);
-		builder.addEventListeners(new DiscordReady());
-		builder.addEventListeners(new Help());
-		builder.addEventListeners(new ReportSuggest(api));
-		builder.addEventListeners(new ServerInfo(api, this));
-		builder.addEventListeners(new Summon(this));
 
 		try {
 			api = builder.build();
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+
+		api.addEventListener(new DiscordReady());
+		api.addEventListener(new Help());
+		api.addEventListener(new ReportSuggest(api));
+		api.addEventListener(new ServerInfo(api, this));
+		api.addEventListener(new Summon(this));
 	}
 
-	public static boolean CheckDisablePlugin(PluginLoader pl, Plugin plugin) {
+	public static boolean CheckDisablePlugin() {
 		String IP = Bukkit.getServer().getIp();
 		for (String s : allowIP) {
 			if (IP.equals(s)) {

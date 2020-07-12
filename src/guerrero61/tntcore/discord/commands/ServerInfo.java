@@ -35,9 +35,10 @@ public class ServerInfo extends ListenerAdapter {
 		int onlinePlayersCount = main.getServer().getOnlinePlayers().size();
 
 		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
+		String autorAvatar = event.getAuthor().getAvatarUrl();
 
 		EmbedBuilder embed = new EmbedBuilder()
-				.setAuthor("Información del server | TnTServer", "", event.getAuthor().getAvatarUrl())
+				.setAuthor("Información del server | TnTServer", autorAvatar, autorAvatar)
 				.setThumbnail(api.getSelfUser().getAvatarUrl())
 				.addField("Versión",
 						Bukkit.getVersion().replace("git-", "") + "\n"
@@ -52,7 +53,7 @@ public class ServerInfo extends ListenerAdapter {
 				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png")
 				.setTimestamp(Instant.now());
 
-		event.getChannel().sendMessage(embed.build()).queue();
-		event.getMessage().delete().queue();
+		event.getChannel().sendMessage(embed.build()).complete();
+		event.getMessage().delete().complete();
 	}
 }
