@@ -37,29 +37,30 @@ public class MainCommand implements CommandExecutor {
                     }
                     return true;
                 default:
-                    if (isPlayer) {
-                        player.sendMessage(Main.FText(Main.getString("Messages.no-exist")));
-                    } else {
-                        Bukkit.getConsoleSender().sendMessage(Main.FText(Main.getString("Messages.no-exist")));
-                    }
+                    SendHelp();
                     return true;
             }
         } else {
-            String[] commands = new String[]{
-                    Main.FTextNPrefix("&a--------&c&lTnTCore&a--------"),
-                    Main.FTextNPrefix("&6/tnt check &7- Comprobación basica del funcionamiento."),
-                    Main.FTextNPrefix("&6/tnt reload &7- Sirve para recargar la configuración."),
-                    Main.FTextNPrefix("&a--------&c&l-------&a--------"),
-            };
-            if (isPlayer) {
-                for (String s : commands) {
-                    player.sendMessage(Main.FText(s));
-                }
-                return true;
-            } else {
-                Bukkit.getConsoleSender()
-                        .sendMessage(Main.FText(Main.getString("Messages.no-exist")));
-                return false;
+            SendHelp();
+            return true;
+        }
+    }
+
+    private void SendHelp(){
+        String[] helpMsg = new String[]{
+                Main.FTextNPrefix("&a-----------------&c&lTnTCore&a-----------------"),
+                Main.FTextNPrefix("&6/tnt check &7- Comprobación basica del funcionamiento."),
+                Main.FTextNPrefix("&6/tnt reload &7- Sirve para recargar la configuración."),
+                Main.FTextNPrefix("&a------------------------------------------"),
+        };
+
+        if (isPlayer) {
+            for (String s : helpMsg) {
+                player.sendMessage(s);
+            }
+        } else {
+            for (String s : helpMsg) {
+                Bukkit.getConsoleSender().sendMessage(Main.FText(Main.FText(s)));
             }
         }
     }

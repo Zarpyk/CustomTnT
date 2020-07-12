@@ -37,6 +37,11 @@
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
+            <id>jcenter</id>
+            <name>jcenter-bintray</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -64,13 +69,12 @@
             <version>1.16.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--Javacord API -->
+        <!--Java Discord API -->
         <dependency>
-            <groupId>org.javacord</groupId>
-            <artifactId>javacord</artifactId>
-            <version>3.0.6</version>
-            <type>pom</type>
-            <scope>compile</scope>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>4.2.0_177</version>
+            <scope>provided</scope>
         </dependency>
         <!--Vault API -->
         <dependency>
@@ -88,8 +92,17 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>ServerDir</id>
+            <build>
+                <directory>F:\Users\GuerreroCraft61\Desktop\TnTServer\TnTCore</directory>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
-        <sourceDirectory>src/guerrero61/tntcore</sourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
         <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
@@ -132,6 +145,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <outputDirectory>F:\Users\GuerreroCraft61\Desktop\TnTServer\Server\plugins</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
