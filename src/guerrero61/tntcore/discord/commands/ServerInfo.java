@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -47,7 +48,7 @@ public class ServerInfo extends ListenerAdapter {
 				.addField("Jugadores " + onlinePlayersCount + "/" + main.getServer().getMaxPlayers(),
 						(onlinePlayersCount == 0) ? "No hay nadie jugando" : onlinePlayers, true)
 				.addField("Horas de tormenta",
-						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? main.stormTime
+						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
 								: "No hay tormenta"),
 						false)
 				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png")

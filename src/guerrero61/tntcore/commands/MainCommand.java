@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.RegisterEvents;
 import net.dv8tion.jda.api.JDA;
 
 public class MainCommand implements CommandExecutor {
@@ -39,7 +40,7 @@ public class MainCommand implements CommandExecutor {
 				Bukkit.getPluginManager().disablePlugin(main);
 				Objects.requireNonNull(Bukkit.getPluginManager().getPlugin(main.name)).reloadConfig();
 				Bukkit.getPluginManager().enablePlugin(main);
-				main.registerDiscord();
+				RegisterEvents.registerDiscord(main);
 				if (isPlayer) {
 					player.sendMessage(Main.FText(Main.getString("Messages.Reload")));
 				} else {
