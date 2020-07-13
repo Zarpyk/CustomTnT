@@ -4,7 +4,7 @@
   <groupId>TnTCore</groupId>
   <artifactId>TnTCore</artifactId>
   <name>TnTCore</name>
-  <version>0.1.5</version>
+  <version>0.2.0</version>
   <description>Plugin para el servidor de EspañolTNT</description>
   <url>https://discord.gg/espanoltnt</url>
   <developers>

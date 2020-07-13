@@ -1,7 +1,12 @@
 package guerrero61.tntcore;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.security.auth.login.LoginException;
 
@@ -11,6 +16,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import guerrero61.tntcore.commands.MainCommand;
 import guerrero61.tntcore.commands.tabcompleter.MainCommandCompleter;
@@ -26,6 +32,10 @@ import guerrero61.tntcore.events.Weather;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.ShutdownEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Main extends JavaPlugin {
 	PluginDescriptionFile pInfo = getDescription();
@@ -42,6 +52,7 @@ public class Main extends JavaPlugin {
 	public static String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0" };
 
 	private JDA api;
+	public String token;
 
 	public String stormTime;
 
@@ -72,8 +83,25 @@ public class Main extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		if (api != null) {
+			api.getEventManager().getRegisteredListeners()
+					.forEach(listener -> api.getEventManager().unregister(listener));
+			CompletableFuture<Void> shutdownTask = new CompletableFuture<>();
+			api.addEventListener(new ListenerAdapter() {
+				@Override
+				public void onShutdown(@NotNull ShutdownEvent event) {
+					shutdownTask.complete(null);
+				}
+			});
+			api.shutdownNow();
+			api = null;
+			try {
+				shutdownTask.get(5, TimeUnit.SECONDS);
+			} catch (TimeoutException | InterruptedException | ExecutionException e) {
+				getLogger().warning("JDA took too long to shut down, skipping");
+			}
+		}
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
-		api = null;
 	}
 
 	private void registerCommands() {
@@ -88,7 +116,7 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new Totem(), this);
 	}
 
-	private void registerConfig() {
+	public void registerConfig() {
 		File fConfig = new File(this.getDataFolder(), "config.yml");
 		configPath = fConfig.getPath();
 		if (!fConfig.exists()) {
@@ -99,17 +127,19 @@ public class Main extends JavaPlugin {
 		prefix = config.getString("Prefix");
 	}
 
-	private void registerDiscord() {
-		JDABuilder builder = JDABuilder.createDefault("NTk3NTMyMjgzNDMxMjg4ODM3.Xws4aQ.wml0s5dc3XFC3QyAzhUjQpk3FGU");
+	public void registerDiscord() {
+		JDABuilder builder = JDABuilder.createDefault(Main.getString("Discord.token"));
 
 		builder.setActivity(Activity.playing("/help para ayuda"));
 		builder.setLargeThreshold(50);
+		builder.setAutoReconnect(false);
 
 		try {
 			api = builder.build();
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		token = Main.getString("Discord.token");
 
 		api.addEventListener(new DiscordReady());
 		api.addEventListener(new Help());
@@ -129,7 +159,7 @@ public class Main extends JavaPlugin {
 	}
 
 	private void register(String command) {
-		Objects.requireNonNull(this.getCommand(command)).setExecutor(new MainCommand(this));
+		Objects.requireNonNull(this.getCommand(command)).setExecutor(new MainCommand(this, api));
 		Objects.requireNonNull(this.getCommand(command)).setTabCompleter(new MainCommandCompleter());
 	}
 
@@ -145,6 +175,10 @@ public class Main extends JavaPlugin {
 		return config.getString(configOption);
 	}
 
+	public static List<String> getStringList(String configOption) {
+		return config.getStringList(configOption);
+	}
+
 	public static Integer getInt(String configOption) {
 		return config.getInt(configOption);
 	}
@@ -155,5 +189,34 @@ public class Main extends JavaPlugin {
 
 	public static Boolean getBool(String configOption) {
 		return config.getBoolean(configOption);
+	}
+
+	public static Boolean checkCommand(String command, Message msg, MessageChannel mChannel) {
+		if (!msg.getContentDisplay().equalsIgnoreCase("/" + command)) {
+			return true;
+		}
+
+		List<String> channels = Main.getStringList("Discord.command-channel");
+		for (String channel : channels) {
+			if (mChannel.getId().equals(channel)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static Boolean checkCommand(String command, String command2, Message msg, MessageChannel mChannel) {
+		if (!msg.getContentDisplay().equalsIgnoreCase("/" + command)
+				&& !msg.getContentDisplay().equalsIgnoreCase("/" + command2)) {
+			return true;
+		}
+
+		List<String> channels = Main.getStringList("Discord.command-channel");
+		for (String channel : channels) {
+			if (mChannel.getId().equals(channel)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

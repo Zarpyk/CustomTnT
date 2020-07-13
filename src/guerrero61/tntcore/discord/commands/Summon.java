@@ -18,8 +18,8 @@ public class Summon extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getMessage().getContentDisplay().equalsIgnoreCase("/summon")
-				|| event.getMessage().getAuthor().getId().equals(id)) {
+		if (Main.checkCommand("summon", event.getMessage(), event.getChannel())
+				|| !event.getAuthor().getId().equals("290223330773172225")) {
 			return;
 		}
 

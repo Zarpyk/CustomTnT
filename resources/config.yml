@@ -1,31 +1,37 @@
-Prefix: '&a[&cTnTCore&a] &e'
+Prefix: "&a[&cTnTCore&a] &e"
 Messages:
   Errors:
-    no-exist: '&cEste comando no existe.'
-    no-console: '&cEste comando no esta disponible para consola.'
+    no-exist: "&cEste comando no existe."
+    no-console: "&cEste comando no esta disponible para consola."
   Check:
-    player: '&aEl plugin esta funcionando. Comando ejecutado des del jugador'
-    console: '&aEl plugin esta funcionando. Comando ejecutado des de la consola.'
+    player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador"
+    console: "&aEl plugin esta funcionando. Comando ejecutado des de la consola."
   Death:
-    msg: '&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!'
+    msg: "&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!"
     coords-enable: true
-    coords-msg: '&7&oX:%x% || Y:%y% || Z:%z%'
-    train: '&c¡Comienza el Death Train con duración de %time% horas!'
-    train-actionbar: '&7Quedan %time% de tormenta'
-    title: '&c¡Boom!'
-    subtitle: '&e¡%player% &cexplotó!'
+    coords-msg: "&7&oX:%x% || Y:%y% || Z:%z%"
+    train: "&c¡Comienza el Death Train con duración de %time% horas!"
+    train-actionbar: "&7Quedan %time% de tormenta"
+    title: "&c¡Boom!"
+    subtitle: "&e¡%player% &cexplotó!"
     players:
-      GuerreroCraft61: ''
-  Reload: '&a&lReload completado.'
+      GuerreroCraft61: ""
+  Reload: "&a&lReload completado."
 Sleep:
-  msg: '&e%player% ha dormido'
+  msg: "&e%player% ha dormido"
   explosive: true
 Storm:
-  end-msg: '&aLa tormenta ha llegado a su fin'
+  end-msg: "&aLa tormenta ha llegado a su fin"
   add-seconds: 1800
 Totem:
   fail-enable: true
   probability: 5
-  msg-fail: '&7¡El totem de &c%player% &7ha fallado!'
-  msg-used-totem: '&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)'
+  msg-fail: "&7¡El totem de &c%player% &7ha fallado!"
+  msg-used-totem: "&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
 MainWorld: world
+Discord:
+  token: "NzE1NjEzNzI0OTYxOTMxMzY1.XwwU4g.EPQecqIbZoG6mt4M3JNn9GTz7Hw"
+  send-msg-channel: "732144928372817953"
+  command-channel:
+    - "732144928372817953"
+    - "715633020882649158"

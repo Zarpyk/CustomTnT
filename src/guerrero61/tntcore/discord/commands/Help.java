@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import org.bukkit.Bukkit;
 
+import guerrero61.tntcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,7 +14,7 @@ public class Help extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getMessage().getContentDisplay().equalsIgnoreCase("/help")) {
+		if (Main.checkCommand("help", event.getMessage(), event.getChannel())) {
 			return;
 		}
 

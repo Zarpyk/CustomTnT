@@ -26,7 +26,7 @@ public class ServerInfo extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getMessage().getContentDisplay().equalsIgnoreCase("/info")) {
+		if (Main.checkCommand("info", event.getMessage(), event.getChannel())) {
 			return;
 		}
 

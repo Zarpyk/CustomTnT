@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import org.bukkit.Bukkit;
 
+import guerrero61.tntcore.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -20,8 +21,7 @@ public class ReportSuggest extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getMessage().getContentDisplay().equalsIgnoreCase("/report")
-				&& !event.getMessage().getContentDisplay().equalsIgnoreCase("/suggest")) {
+		if (Main.checkCommand("report", "suggest", event.getMessage(), event.getChannel())) {
 			return;
 		}
 
