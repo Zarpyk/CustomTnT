@@ -30,8 +30,29 @@ Totem:
   msg-used-totem: "&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
 MainWorld: world
 Discord:
-  token: "NzE1NjEzNzI0OTYxOTMxMzY1.XwwU4g.EPQecqIbZoG6mt4M3JNn9GTz7Hw"
-  send-msg-channel: "732144928372817953"
+  #token: "NTk3NTMyMjgzNDMxMjg4ODM3.XwxXHg.K6If7NYvq27-2ENLedhQrv3yt9w"
+  token: "***REMOVED***"
+  send-msg-channel: "712066417150787657"
+  msg-channel-description: "%status% | Ha entrado %unique-players% jugadores únicos"
+  unique-players: 100 #Don't Change
+  start-msg: "¡El servidor se ha iniciado!"
+  stop-msg: "¡El servidor se ha parado!"
   command-channel:
-    - "732144928372817953"
-    - "715633020882649158"
+    - "712066417150787657"
+    - "314143351848960001"
+    - "718800103384547378"
+    - "320953655178035202"
+    - "381919405988380672"
+    - "314143304201535488"
+  join-msg: "%player% ha entrado al servidor"
+  first-join-msg: "¡%player% ha entrado por primera vez al servidor!"
+  quit-msg: "%player% se ha salido del servidor"
+  minecraft-to-discord-chat-msg: "**%role%** %player% » %msg%"
+  discord-to-minecraft-chat-msg: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
+  adv-msg: "%player% ha conseguido el logro de: %adv%"
+  command-list:
+    - "/help"
+    - "/info"
+    - "/suggest"
+    - "/report"
+    - "/summon"

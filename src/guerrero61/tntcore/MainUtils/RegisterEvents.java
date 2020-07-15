@@ -5,7 +5,9 @@ import java.util.Objects;
 
 import javax.security.auth.login.LoginException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 import guerrero61.tntcore.Main;
 import guerrero61.tntcore.commands.MainCommand;
@@ -15,16 +17,19 @@ import guerrero61.tntcore.discord.commands.ReportSuggest;
 import guerrero61.tntcore.discord.commands.ServerInfo;
 import guerrero61.tntcore.discord.commands.Summon;
 import guerrero61.tntcore.discord.events.DiscordReady;
-import guerrero61.tntcore.events.Death;
-import guerrero61.tntcore.events.Sleep;
-import guerrero61.tntcore.events.Totem;
-import guerrero61.tntcore.events.Weather;
+import guerrero61.tntcore.discord.minecraft.DiscordToMinecraft;
+import guerrero61.tntcore.discord.minecraft.MinecraftToDiscord;
+import guerrero61.tntcore.events.*;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.luckperms.api.LuckPerms;
 
 public class RegisterEvents {
 
-	public static void registerConfig(Main m) {
+	/**
+	 * Sirve para registrar los archivos de configuración
+	 */
+	public void registerConfig(Main m) {
 		File fConfig = new File(m.getDataFolder(), "config.yml");
 		m.configPath = fConfig.getPath();
 		if (!fConfig.exists()) {
@@ -35,29 +40,48 @@ public class RegisterEvents {
 		Main.prefix = Main.getString("Prefix");
 	}
 
-	public static void registerEvents(Main m) {
+	public LuckPerms registerLuckPerms() {
+		RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+		if (provider != null) {
+			return provider.getProvider();
+		} else {
+			Main.consoleMsg("&cNo se ha podido cargar LuckPerms.");
+			return null;
+		}
+	}
+
+	/**
+	 * Sirve para registrar los eventos
+	 */
+	public void registerEvents(Main m) {
 		PluginManager pm = m.getServer().getPluginManager();
 		pm.registerEvents(new Death(m), m);
 		pm.registerEvents(new Sleep(m), m);
-		pm.registerEvents(new Weather(), m);
-		pm.registerEvents(new Totem(), m);
+		pm.registerEvents(new Weather(m.api), m);
+		pm.registerEvents(new Totem(m.api), m);
+		pm.registerEvents(new DisableCustomRepair(), m);
+		pm.registerEvents(new MinecraftToDiscord(m, m.api), m);
 	}
 
-	public static void registerCommands(Main m) {
+	/**
+	 * Sirve para registrar los comandos
+	 */
+	public void registerCommands(Main m) {
 		register("tnt", m);
 	}
 
-	private static void register(String command, Main m) {
+	private void register(String command, Main m) {
 		Objects.requireNonNull(m.getCommand(command)).setExecutor(new MainCommand(m, m.api));
 		Objects.requireNonNull(m.getCommand(command)).setTabCompleter(new MainCommandCompleter());
 	}
 
-	public static void registerDiscord(Main m) {
+	/**
+	 * Sirve para iniciar el bot de Discord
+	 */
+	public void registerDiscord(Main m) {
 		JDABuilder builder = JDABuilder.createDefault(Main.getString("Discord.token"));
 
 		builder.setActivity(Activity.playing("/help para ayuda"));
-		builder.setLargeThreshold(50);
-		builder.setAutoReconnect(false);
 
 		try {
 			m.api = builder.build();
@@ -66,6 +90,7 @@ public class RegisterEvents {
 		}
 
 		m.api.addEventListener(new DiscordReady());
+		m.api.addEventListener(new DiscordToMinecraft(m.api));
 		m.api.addEventListener(new Help());
 		m.api.addEventListener(new ReportSuggest(m.api));
 		m.api.addEventListener(new ServerInfo(m.api, m));

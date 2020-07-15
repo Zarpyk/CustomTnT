@@ -10,7 +10,7 @@ public class StormActionBar {
 
 	public static String stormTime;
 
-	public static void StormAB(Main main) {
+	public void StormAB(Main main) {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
 			int segundosbrutos = (Objects.requireNonNull(Bukkit.getWorld("world")).getWeatherDuration() / 20);
 			int hours = Math.toIntExact(segundosbrutos % 86400L / 3600L);

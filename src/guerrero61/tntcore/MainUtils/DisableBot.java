@@ -34,7 +34,7 @@ public class DisableBot {
 				shutdownTask.get(5, TimeUnit.SECONDS);
 			} catch (TimeoutException | InterruptedException | ExecutionException e) {
 				main.getLogger()
-						.warning("JDA no esta cerrando, saltando proceso. Se recomienda reiniciar el servidor.");
+						.warning("JDA no esta cerrando... saltando proceso... Se recomienda reiniciar el servidor.");
 			}
 		}
 	}

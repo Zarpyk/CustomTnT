@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.ReloadStatus;
 import guerrero61.tntcore.MainUtils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -33,9 +34,7 @@ public class ServerInfo extends ListenerAdapter {
 
 		String onlinePlayers = Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.joining(","))
 				.replace(",", "\n");
-		int onlinePlayersCount = main.getServer().getOnlinePlayers().size();
 
-		String ip = Bukkit.getServer().getIp() + ":" + Bukkit.getServer().getPort();
 		String autorAvatar = event.getAuthor().getAvatarUrl();
 
 		EmbedBuilder embed = new EmbedBuilder()
@@ -45,16 +44,18 @@ public class ServerInfo extends ListenerAdapter {
 						Bukkit.getVersion().replace("git-", "") + "\n"
 								+ (Bukkit.getOnlineMode() ? "Premium" : "Premium/No Premium"),
 						true)
-				.addField("Jugadores " + onlinePlayersCount + "/" + main.getServer().getMaxPlayers(),
-						(onlinePlayersCount == 0) ? "No hay nadie jugando" : onlinePlayers, true)
+				.addField(Main.getPlayerCount(),
+						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
 				.addField("Horas de tormenta",
 						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
 								: "No hay tormenta"),
 						false)
-				.setColor(new Color(255, 61, 61)).setFooter(ip, "https://imgur.com/jrz2u0a.png")
+				.setColor(new Color(255, 61, 61)).setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png")
 				.setTimestamp(Instant.now());
 
-		event.getChannel().sendMessage(embed.build()).complete();
-		event.getMessage().delete().complete();
+		event.getChannel().sendMessage(embed.build()).queue();
+		event.getMessage().delete().queue();
+
+		ReloadStatus.reloadStatus(api, "online");
 	}
 }

@@ -1,5 +1,7 @@
 package guerrero61.tntcore.discord.commands;
 
+import java.util.concurrent.ExecutionException;
+
 import org.bukkit.Bukkit;
 
 import guerrero61.tntcore.Main;
@@ -22,8 +24,14 @@ public class Summon extends ListenerAdapter {
 				|| !event.getAuthor().getId().equals("290223330773172225")) {
 			return;
 		}
-
-		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "boss summonp PhyPsi15 BossPalPepsi");
+		try {
+			boolean success = Bukkit
+					.getScheduler().callSyncMethod(main, () -> Bukkit
+							.dispatchCommand(main.getServer().getConsoleSender(), "boss summonp PhyPsi15 BossPalPepsi"))
+					.get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 		event.getMessage().delete().complete();
 	}
 }
