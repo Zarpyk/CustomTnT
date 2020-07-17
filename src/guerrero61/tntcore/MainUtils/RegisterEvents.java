@@ -37,22 +37,30 @@ public class RegisterEvents {
 	}
 
 	public void registerMessagesConfig(Main m) {
-		Main.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
-		if (!Main.messagesConfigFile.exists()) {
+		m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
+		if (!m.messagesConfigFile.exists()) {
 			MessagesConfig mc = new MessagesConfig();
-			mc.getMessagesConfig(m).options().copyDefaults(true);
-			mc.saveMessagesConfig();
+			MessagesConfig.getMessagesConfig(m).options().copyDefaults(true);
+			mc.saveMessagesConfig(m);
 		}
-		Main.configMap.put(Config.CONFIG.Messages, Main.messagesConfig);
-		Main.prefix = Config.getString("Prefix", Config.CONFIG.Messages);
 	}
 
 	public void registerDiscordConfig(Main m) {
-		Main.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
-		if (!Main.discordConfigFile.exists()) {
+		m.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
+		if (!m.discordConfigFile.exists()) {
 			DiscordConfig dc = new DiscordConfig();
-			dc.getDiscordConfig(m).options().copyDefaults(true);
-			dc.saveDiscordConfig();
+			DiscordConfig.getDiscordConfig(m).options().copyDefaults(true);
+			dc.saveDiscordConfig(m);
+		}
+	}
+
+	public LuckPerms registerLuckPerms() {
+		RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+		if (provider != null) {
+			return provider.getProvider();
+		} else {
+			Main.consoleMsg("&cNo se ha podido cargar LuckPerms.");
+			return null;
 		}
 	}
 
@@ -77,16 +85,6 @@ public class RegisterEvents {
 		m.api.addEventListener(new ReportSuggest(m.api));
 		m.api.addEventListener(new ServerInfo(m.api, m));
 		m.api.addEventListener(new Summon(m));
-	}
-
-	public LuckPerms registerLuckPerms() {
-		RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-		if (provider != null) {
-			return provider.getProvider();
-		} else {
-			Main.consoleMsg("&cNo se ha podido cargar LuckPerms.");
-			return null;
-		}
 	}
 
 	/**

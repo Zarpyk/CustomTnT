@@ -25,19 +25,12 @@ public class ReloadStatus {
 		TextChannel textChannel = Objects.requireNonNull(
 				api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 
-		if (!status.equals("offline")) {
-			textChannel.getManager()
-					.setTopic(Config.getString("Messages.msg-channel-description", Config.CONFIG.Discord)
-							.replace("%status%", "Servidor " + status + (" | " + Main.getPlayerCount()))
-							.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)))
-					.queue();
-		} else {
-			textChannel.getManager()
-					.setTopic(Config.getString("Messages.msg-channel-description", Config.CONFIG.Discord)
-							.replace("%status%", "Servidor " + status + "")
-							.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)))
-					.complete();
-		}
+		textChannel.getManager()
+				.setTopic(Config.getString("Messages.msg-channel-description", Config.CONFIG.Discord)
+						.replace("%status%",
+								"Servidor " + status + (status.equals("online") ? (" | " + Main.getPlayerCount()) : ""))
+						.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)))
+				.queue();
 
 	}
 

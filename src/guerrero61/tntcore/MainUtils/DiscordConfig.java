@@ -14,28 +14,28 @@ import guerrero61.tntcore.Main;
 
 public class DiscordConfig {
 
-	public FileConfiguration getDiscordConfig(Main m) {
-		if (Main.discordConfig == null) {
+	public static FileConfiguration getDiscordConfig(Main m) {
+		if (m.discordConfig == null) {
 			reloadDiscordConfig(m);
 		}
-		return Main.discordConfig;
+		return m.discordConfig;
 	}
 
-	public void reloadDiscordConfig(Main m) {
-		if (Main.discordConfig == null) {
-			Main.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
+	private static void reloadDiscordConfig(Main m) {
+		if (m.discordConfig == null) {
+			m.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
 		}
-		Main.discordConfig = YamlConfiguration.loadConfiguration(Main.discordConfigFile);
+		m.discordConfig = YamlConfiguration.loadConfiguration(m.discordConfigFile);
 		Reader defConfigStream;
 		defConfigStream = new InputStreamReader(Objects.requireNonNull(m.getResource("discord.yml")),
 				StandardCharsets.UTF_8);
 		YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-		Main.discordConfig.setDefaults(defConfig);
+		m.discordConfig.setDefaults(defConfig);
 	}
 
-	public void saveDiscordConfig() {
+	public void saveDiscordConfig(Main m) {
 		try {
-			Main.discordConfig.save(Main.discordConfigFile);
+			m.discordConfig.save(m.discordConfigFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

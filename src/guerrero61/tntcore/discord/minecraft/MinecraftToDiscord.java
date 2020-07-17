@@ -72,15 +72,17 @@ public class MinecraftToDiscord implements Listener {
 
 	@EventHandler
 	public void playerChat(AsyncPlayerChatEvent event) {
-		String message = event.getMessage();
-		Player player = event.getPlayer();
-		String playerN = event.getPlayer().getName();
-		String role = Objects.requireNonNull(main.lpApi.getUserManager().getUser(player.getUniqueId()))
-				.getPrimaryGroup();
-		String roleC = role.equals("default") ? "" : "**" + Main.capitalize(role) + "**";
+		if (!event.isCancelled()) {
+			String message = event.getMessage();
+			Player player = event.getPlayer();
+			String playerN = event.getPlayer().getName();
+			String role = Objects.requireNonNull(main.lpApi.getUserManager().getUser(player.getUniqueId()))
+					.getPrimaryGroup();
+			String roleC = role.equals("default") ? "" : "**" + Main.capitalize(role) + "**";
 
-		textChannel.sendMessage(Config.getString("Messages.minecraft-to-discord-chat-msg", Config.CONFIG.Discord)
-				.replace("%role%", roleC).replace("%player%", playerN).replace("%msg%", message)).queue();
+			textChannel.sendMessage(Config.getString("Messages.minecraft-to-discord-chat-msg", Config.CONFIG.Discord)
+					.replace("%role%", roleC).replace("%player%", playerN).replace("%msg%", message)).queue();
+		}
 	}
 
 	@EventHandler

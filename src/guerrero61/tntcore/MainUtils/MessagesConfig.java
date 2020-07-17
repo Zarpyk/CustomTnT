@@ -14,28 +14,28 @@ import guerrero61.tntcore.Main;
 
 public class MessagesConfig {
 
-	public FileConfiguration getMessagesConfig(Main m) {
-		if (Main.messagesConfig == null) {
+	public static FileConfiguration getMessagesConfig(Main m) {
+		if (m.messagesConfig == null) {
 			reloadMessagesConfig(m);
 		}
-		return Main.messagesConfig;
+		return m.messagesConfig;
 	}
 
-	public void reloadMessagesConfig(Main m) {
-		if (Main.messagesConfig == null) {
-			Main.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
+	private static void reloadMessagesConfig(Main m) {
+		if (m.messagesConfig == null) {
+			m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
 		}
-		Main.messagesConfig = YamlConfiguration.loadConfiguration(Main.messagesConfigFile);
+		m.messagesConfig = YamlConfiguration.loadConfiguration(m.messagesConfigFile);
 		Reader defConfigStream;
 		defConfigStream = new InputStreamReader(Objects.requireNonNull(m.getResource("messages.yml")),
 				StandardCharsets.UTF_8);
 		YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-		Main.messagesConfig.setDefaults(defConfig);
+		m.messagesConfig.setDefaults(defConfig);
 	}
 
-	public void saveMessagesConfig() {
+	public void saveMessagesConfig(Main m) {
 		try {
-			Main.messagesConfig.save(Main.messagesConfigFile);
+			m.messagesConfig.save(m.messagesConfigFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

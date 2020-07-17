@@ -31,10 +31,10 @@ public class Main extends JavaPlugin {
 
 	public String configPath;
 	public static FileConfiguration config;
-	public static FileConfiguration messagesConfig;
-	public static FileConfiguration discordConfig;
-	public static File messagesConfigFile;
-	public static File discordConfigFile;
+	public FileConfiguration messagesConfig;
+	public FileConfiguration discordConfig;
+	public File messagesConfigFile;
+	public File discordConfigFile;
 	public static Map<Config.CONFIG, FileConfiguration> configMap;
 
 	public static String prefix;
@@ -52,9 +52,12 @@ public class Main extends JavaPlugin {
 			registerEvents.registerConfig(this);
 			configMap.put(Config.CONFIG.Main, config);
 			registerEvents.registerMessagesConfig(this);
-
+			configMap.put(Config.CONFIG.Messages,
+					messagesConfig == null ? MessagesConfig.getMessagesConfig(this) : messagesConfig);
 			registerEvents.registerDiscordConfig(this);
-			configMap.put(Config.CONFIG.Discord, discordConfig);
+			configMap.put(Config.CONFIG.Discord,
+					discordConfig == null ? DiscordConfig.getDiscordConfig(this) : discordConfig);
+			consoleMsg(discordConfig.toString());
 			registerEvents.registerDiscord(this);
 			lpApi = registerEvents.registerLuckPerms();
 			registerEvents.registerEvents(this);
@@ -67,7 +70,7 @@ public class Main extends JavaPlugin {
 		} else {
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
-
+		Main.prefix = Config.getString("Prefix", Config.CONFIG.Messages);
 	}
 
 	public void onDisable() {
