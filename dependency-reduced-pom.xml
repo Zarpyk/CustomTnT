@@ -4,7 +4,7 @@
   <groupId>TnTCore</groupId>
   <artifactId>TnTCore</artifactId>
   <name>TnTCore</name>
-  <version>0.3.1</version>
+  <version>0.4.5</version>
   <description>Plugin para el servidor de EspañolTNT</description>
   <url>https://discord.gg/espanoltnt</url>
   <developers>
@@ -209,7 +209,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <api-version>1.15</api-version>
+    <api-version>1.13</api-version>
     <maven.compiler.target>1.8</maven.compiler.target>
     <mainClass>guerrero61.tntcore.Main</mainClass>
     <maven.compiler.source>1.8</maven.compiler.source>

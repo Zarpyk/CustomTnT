@@ -1,0 +1,30 @@
+Token: "***REMOVED***"
+Channels:
+  send-msg-channel: "712066417150787657"
+  command-channel:
+    - "712066417150787657"
+    - "314143351848960001"
+    - "718800103384547378"
+    - "320953655178035202"
+    - "381919405988380672"
+    - "314143304201535488"
+Messages:
+  msg-channel-description: "%status% | Ha entrado %unique-players% jugadores únicos | **/info** para mas info"
+  start-msg: "¡El servidor se ha iniciado!"
+  stop-msg: "¡El servidor se ha parado!"
+
+  join-msg: "%player% ha entrado al servidor"
+  first-join-msg: "¡%player% ha entrado por primera vez al servidor!"
+
+  quit-msg: "%player% se ha salido del servidor"
+
+  minecraft-to-discord-chat-msg: "%role% %player% » %msg%"
+  discord-to-minecraft-chat-msg: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
+  adv-msg: "%player% ha conseguido el logro de: %adv%"
+
+  command-list:
+    - "/help"
+    - "/info"
+    - "/suggest"
+    - "/report"
+    - "/summon"

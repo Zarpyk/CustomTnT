@@ -1,8 +1,10 @@
 package guerrero61.tntcore;
 
 import java.awt.*;
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,9 +31,15 @@ public class Main extends JavaPlugin {
 
 	public String configPath;
 	public static FileConfiguration config;
+	public static FileConfiguration messagesConfig;
+	public static FileConfiguration discordConfig;
+	public static File messagesConfigFile;
+	public static File discordConfigFile;
+	public static Map<Config.CONFIG, FileConfiguration> configMap;
+
 	public static String prefix;
 
-	public static String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0" };
+	private static final String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0" };
 
 	public JDA api;
 	public LuckPerms lpApi;
@@ -39,24 +47,32 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin()) {
+			configMap = new HashMap<>();
 			RegisterEvents registerEvents = new RegisterEvents();
 			registerEvents.registerConfig(this);
+			configMap.put(Config.CONFIG.Main, config);
+			registerEvents.registerMessagesConfig(this);
+
+			registerEvents.registerDiscordConfig(this);
+			configMap.put(Config.CONFIG.Discord, discordConfig);
 			registerEvents.registerDiscord(this);
 			lpApi = registerEvents.registerLuckPerms();
 			registerEvents.registerEvents(this);
 			registerEvents.registerCommands(this);
 
-			StormActionBar stormActionBar = new StormActionBar();
-			stormActionBar.StormAB(this);
+			new StormActionBar().StormAB(this);
 			Scheduler scheduler = new Scheduler();
 			scheduler.startMessageDelayScheduler(this);
 			scheduler.reloadStatusScheduler(this);
+		} else {
+			Bukkit.getPluginManager().disablePlugin(this);
 		}
+
 	}
 
 	public void onDisable() {
-		ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api, Main.getString("Discord.stop-msg"),
-				new Color(255, 10, 10), "offline");
+		ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api,
+				Config.getString("Messages.stop-msg", Config.CONFIG.Discord), new Color(255, 10, 10), "offline");
 		DisableBot.Disable(this, api);
 		api = null;
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
@@ -108,26 +124,6 @@ public class Main extends JavaPlugin {
 		}
 	}
 
-	public static String getString(String configOption) {
-		return config.getString(configOption);
-	}
-
-	public static List<String> getStringList(String configOption) {
-		return config.getStringList(configOption);
-	}
-
-	public static Integer getInt(String configOption) {
-		return config.getInt(configOption);
-	}
-
-	public static Float getFloat(String configOption) {
-		return Float.parseFloat(Objects.requireNonNull(config.getString(configOption)));
-	}
-
-	public static Boolean getBool(String configOption) {
-		return config.getBoolean(configOption);
-	}
-
 	public static String getIp() {
 		return Bukkit.getServer().getIp()
 				+ (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort());
@@ -150,7 +146,7 @@ public class Main extends JavaPlugin {
 			return true;
 		}
 
-		List<String> channels = Main.getStringList("Discord.command-channel");
+		List<String> channels = Config.getStringList("Channels.command-channel", Config.CONFIG.Discord);
 		for (String channel : channels) {
 			if (mChannel.getId().equals(channel)) {
 				return false;
@@ -165,7 +161,7 @@ public class Main extends JavaPlugin {
 			return true;
 		}
 
-		List<String> channels = Main.getStringList("Discord.command-channel");
+		List<String> channels = Config.getStringList("Channels.command-channel", Config.CONFIG.Discord);
 		for (String channel : channels) {
 			if (mChannel.getId().equals(channel)) {
 				return false;

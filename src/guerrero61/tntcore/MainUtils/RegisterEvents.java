@@ -12,10 +12,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import guerrero61.tntcore.Main;
 import guerrero61.tntcore.commands.MainCommand;
 import guerrero61.tntcore.commands.tabcompleter.MainCommandCompleter;
-import guerrero61.tntcore.discord.commands.Help;
-import guerrero61.tntcore.discord.commands.ReportSuggest;
-import guerrero61.tntcore.discord.commands.ServerInfo;
-import guerrero61.tntcore.discord.commands.Summon;
+import guerrero61.tntcore.discord.commands.*;
 import guerrero61.tntcore.discord.events.DiscordReady;
 import guerrero61.tntcore.discord.minecraft.DiscordToMinecraft;
 import guerrero61.tntcore.discord.minecraft.MinecraftToDiscord;
@@ -37,7 +34,49 @@ public class RegisterEvents {
 			m.saveConfig();
 		}
 		Main.config = m.getConfig();
-		Main.prefix = Main.getString("Prefix");
+	}
+
+	public void registerMessagesConfig(Main m) {
+		Main.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
+		if (!Main.messagesConfigFile.exists()) {
+			MessagesConfig mc = new MessagesConfig();
+			mc.getMessagesConfig(m).options().copyDefaults(true);
+			mc.saveMessagesConfig();
+		}
+		Main.configMap.put(Config.CONFIG.Messages, Main.messagesConfig);
+		Main.prefix = Config.getString("Prefix", Config.CONFIG.Messages);
+	}
+
+	public void registerDiscordConfig(Main m) {
+		Main.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
+		if (!Main.discordConfigFile.exists()) {
+			DiscordConfig dc = new DiscordConfig();
+			dc.getDiscordConfig(m).options().copyDefaults(true);
+			dc.saveDiscordConfig();
+		}
+	}
+
+	/**
+	 * Sirve para iniciar el bot de Discord
+	 */
+	public void registerDiscord(Main m) {
+		JDABuilder builder = JDABuilder.createDefault(Config.getString("Token", Config.CONFIG.Discord));
+
+		builder.setActivity(Activity.playing("/help para ayuda"));
+
+		try {
+			m.api = builder.build();
+		} catch (LoginException e) {
+			e.printStackTrace();
+		}
+
+		m.api.addEventListener(new DiscordReady());
+		m.api.addEventListener(new DiscordToMinecraft(m.api));
+		m.api.addEventListener(new Help());
+		m.api.addEventListener(new IP());
+		m.api.addEventListener(new ReportSuggest(m.api));
+		m.api.addEventListener(new ServerInfo(m.api, m));
+		m.api.addEventListener(new Summon(m));
 	}
 
 	public LuckPerms registerLuckPerms() {
@@ -73,27 +112,5 @@ public class RegisterEvents {
 	private void register(String command, Main m) {
 		Objects.requireNonNull(m.getCommand(command)).setExecutor(new MainCommand(m, m.api));
 		Objects.requireNonNull(m.getCommand(command)).setTabCompleter(new MainCommandCompleter());
-	}
-
-	/**
-	 * Sirve para iniciar el bot de Discord
-	 */
-	public void registerDiscord(Main m) {
-		JDABuilder builder = JDABuilder.createDefault(Main.getString("Discord.token"));
-
-		builder.setActivity(Activity.playing("/help para ayuda"));
-
-		try {
-			m.api = builder.build();
-		} catch (LoginException e) {
-			e.printStackTrace();
-		}
-
-		m.api.addEventListener(new DiscordReady());
-		m.api.addEventListener(new DiscordToMinecraft(m.api));
-		m.api.addEventListener(new Help());
-		m.api.addEventListener(new ReportSuggest(m.api));
-		m.api.addEventListener(new ServerInfo(m.api, m));
-		m.api.addEventListener(new Summon(m));
 	}
 }

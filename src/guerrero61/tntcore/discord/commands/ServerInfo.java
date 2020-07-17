@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.tntcore.Main;
-import guerrero61.tntcore.MainUtils.ReloadStatus;
 import guerrero61.tntcore.MainUtils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -46,16 +45,16 @@ public class ServerInfo extends ListenerAdapter {
 						true)
 				.addField(Main.getPlayerCount(),
 						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
+				.addBlankField(true)
 				.addField("Horas de tormenta",
 						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
 								: "No hay tormenta"),
-						false)
-				.setColor(new Color(255, 61, 61)).setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png")
-				.setTimestamp(Instant.now());
+						true)
+				.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
+				.addBlankField(true).setColor(new Color(255, 61, 61))
+				.setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png").setTimestamp(Instant.now());
 
 		event.getChannel().sendMessage(embed.build()).queue();
 		event.getMessage().delete().queue();
-
-		ReloadStatus.reloadStatus(api, "online");
 	}
 }

@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.Config;
 import guerrero61.tntcore.MainUtils.RegisterEvents;
 import net.dv8tion.jda.api.JDA;
 
@@ -39,13 +40,16 @@ public class MainCommand implements CommandExecutor {
 			case "reload":
 				Bukkit.getPluginManager().disablePlugin(main);
 				Objects.requireNonNull(Bukkit.getPluginManager().getPlugin(main.name)).reloadConfig();
-				Bukkit.getPluginManager().enablePlugin(main);
-				RegisterEvents.registerDiscord(main);
-				if (isPlayer) {
-					player.sendMessage(Main.FText(Main.getString("Messages.Reload")));
-				} else {
-					Bukkit.getConsoleSender().sendMessage(Main.FText(Main.getString("Messages.Reload")));
-				}
+				Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+					Bukkit.getPluginManager().enablePlugin(main);
+					new RegisterEvents().registerDiscord(main);
+					if (isPlayer) {
+						player.sendMessage(Main.FText(Config.getString("Reload", Config.CONFIG.Messages)));
+					} else {
+						Bukkit.getConsoleSender()
+								.sendMessage(Main.FText(Config.getString("Reload", Config.CONFIG.Messages)));
+					}
+				}, 100L);
 				return true;
 			default:
 				SendHelp();

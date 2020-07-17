@@ -19,7 +19,7 @@ public class StormActionBar {
 			int days = Math.toIntExact(segundosbrutos / 86400L);
 			stormTime = String.format("%02d:%02d:%02d", hours, minutes, seconds);
 			if (days < 1L && Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm()) {
-				String Message = Main.getString("Messages.Death.train-actionbar");
+				String Message = Config.getString("Death.train-actionbar", Config.CONFIG.Messages);
 				Bukkit.getOnlinePlayers().forEach(player -> {
 					assert Message != null;
 					player.sendActionBar(Main.FTextNPrefix(Message.replace("%time%", stormTime)));

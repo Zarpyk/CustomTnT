@@ -32,6 +32,6 @@ public class Summon extends ListenerAdapter {
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-		event.getMessage().delete().complete();
+		event.getMessage().delete().queue();
 	}
 }

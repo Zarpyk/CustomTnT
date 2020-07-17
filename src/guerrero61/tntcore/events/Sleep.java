@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.Config;
 
 public class Sleep implements Listener {
 
@@ -23,7 +24,7 @@ public class Sleep implements Listener {
 
 	public Sleep(Main m) {
 		main = m;
-		world = Main.getString("MainWorld");
+		world = Config.getString("MainWorld");
 	}
 
 	@EventHandler
@@ -36,16 +37,16 @@ public class Sleep implements Listener {
 			Bukkit.getServer().getScheduler().runTaskLater(main, () -> {
 				event.getPlayer().getWorld().setTime(0L);
 				executed = false;
-				String sleepMsg = Main.getString("Sleep.msg");
+				String sleepMsg = Config.getString("Sleep.msg", Config.CONFIG.Messages);
 				Bukkit.broadcastMessage(Main.FText(sleepMsg.replace("%player%", player.getName())));
 				event.setCancelled(true);
 			}, 100L);
 		} else if ((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm())
-				&& Main.getBool("Sleep.explosive")) {
+				&& Config.getBool("Sleep.explosive")) {
 			event.setCancelled(true);
 			player.setStatistic(Statistic.TIME_SINCE_REST, 0);
 			Location playerbed = player.getBedSpawnLocation();
-			World world = Bukkit.getWorld(Main.getString("MainWorld"));
+			World world = Bukkit.getWorld(Config.getString("MainWorld"));
 			assert world != null;
 			assert playerbed != null;
 			world.playEffect(playerbed, Effect.GHAST_SHOOT, 100);

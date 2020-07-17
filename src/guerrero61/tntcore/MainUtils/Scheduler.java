@@ -11,12 +11,14 @@ public class Scheduler {
 	public void startMessageDelayScheduler(Main m) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(m,
 				() -> ReloadStatus.startStopToDiscord("https://imgur.com/uIcXfam.png", m.api,
-						Main.getString("Discord.start-msg"), new Color(125, 255, 100), "online"),
-				20L);
+						Config.getString("Messages.start-msg", Config.CONFIG.Discord), new Color(125, 255, 100),
+						"online"),
+				25L);
 	}
 
 	public void reloadStatusScheduler(Main m) {
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(m, () -> ReloadStatus.reloadStatus(m.api, "online"), 0L, 6000L);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(m, () -> ReloadStatus.reloadStatus(m.api, "online"), 12000L,
+				12000L);
 	}
 
 }

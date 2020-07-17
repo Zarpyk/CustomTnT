@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.tntcore.Main;
+import guerrero61.tntcore.MainUtils.Config;
 import guerrero61.tntcore.MainUtils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -40,10 +41,10 @@ public class MinecraftToDiscord implements Listener {
 	public void playerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		if (player.hasPlayedBefore()) {
-			jqMsg(player, "Discord.join-msg", new Color(125, 255, 100), !player.hasPermission("essentials.silentjoin"));
+			jqMsg(player, "Messages.join-msg", new Color(125, 255, 100),
+					!player.hasPermission("essentials.silentjoin"));
 		} else {
-			main.getConfig().set("Discord.unique-players", Main.getInt("Discord.unique-players") + 1);
-			jqMsg(player, "Discord.first-join-msg", new Color(255, 250, 90),
+			jqMsg(player, "Messages.first-join-msg", new Color(255, 250, 90),
 					!player.hasPermission("essentials.silentjoin"));
 		}
 	}
@@ -51,7 +52,7 @@ public class MinecraftToDiscord implements Listener {
 	@EventHandler
 	public void playerLeave(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		jqMsg(player, "Discord.quit-msg", new Color(255, 61, 61), !player.hasPermission("essentials.silentquit"));
+		jqMsg(player, "Messages.quit-msg", new Color(255, 61, 61), !player.hasPermission("essentials.silentquit"));
 	}
 
 	private void jqMsg(Player p, String s, Color c, Boolean b) {
@@ -59,11 +60,12 @@ public class MinecraftToDiscord implements Listener {
 		String urlSkin = getPlayerHeadUrl(p);
 
 		if (!Main.isVanish(p) && b) {
-			EmbedBuilder embed = new EmbedBuilder()
-					.setAuthor(Main.FTextNPrefix(Main.getString(s).replace("%player%", playerN)), urlSkin, urlSkin)
-					.setColor(c);
+			EmbedBuilder embed = new EmbedBuilder().setAuthor(
+					Main.FTextNPrefix(Config.getString(s, Config.CONFIG.Discord).replace("%player%", playerN)), urlSkin,
+					urlSkin).setColor(c);
 
-			textChannel = Objects.requireNonNull(api.getTextChannelById(Main.getString("Discord.send-msg-channel")));
+			textChannel = Objects.requireNonNull(
+					api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 			textChannel.sendMessage(embed.build()).queue();
 		}
 	}
@@ -73,11 +75,12 @@ public class MinecraftToDiscord implements Listener {
 		String message = event.getMessage();
 		Player player = event.getPlayer();
 		String playerN = event.getPlayer().getName();
-		String role = Main.capitalize(
-				Objects.requireNonNull(main.lpApi.getUserManager().getUser(player.getUniqueId())).getPrimaryGroup());
+		String role = Objects.requireNonNull(main.lpApi.getUserManager().getUser(player.getUniqueId()))
+				.getPrimaryGroup();
+		String roleC = role.equals("default") ? "" : "**" + Main.capitalize(role) + "**";
 
-		textChannel.sendMessage(Main.getString("Discord.minecraft-to-discord-chat-msg").replace("%role%", role)
-				.replace("%player%", playerN).replace("%msg%", message)).queue();
+		textChannel.sendMessage(Config.getString("Messages.minecraft-to-discord-chat-msg", Config.CONFIG.Discord)
+				.replace("%role%", roleC).replace("%player%", playerN).replace("%msg%", message)).queue();
 	}
 
 	@EventHandler
@@ -89,7 +92,8 @@ public class MinecraftToDiscord implements Listener {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
 			EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(deathMessage), urlSkin, urlSkin)
 					.addField("Horas de tormenta", (StormActionBar.stormTime), false).setColor(new Color(255, 10, 10));
-			textChannel = Objects.requireNonNull(api.getTextChannelById(Main.getString("Discord.send-msg-channel")));
+			textChannel = Objects.requireNonNull(
+					api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 			textChannel.sendMessage(embed.build()).queue();
 		}, 20L);
 
@@ -97,10 +101,11 @@ public class MinecraftToDiscord implements Listener {
 
 	@EventHandler
 	public void advancementMsg(PlayerAdvancementDoneEvent event) {
-		if (event.getAdvancement().getKey().getKey().contains("recipe/"))
-			return;
 		Advancement advancement = event.getAdvancement();
 		String rawAdvancementName = advancement.getKey().getKey();
+		if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")) {
+			return;
+		}
 		String advancementName = Arrays
 				.stream(rawAdvancementName.substring(rawAdvancementName.lastIndexOf("/") + 1).toLowerCase().split("_"))
 				.map(s -> s.substring(0, 1).toUpperCase() + s.substring(1)).collect(Collectors.joining(" "));
@@ -108,11 +113,13 @@ public class MinecraftToDiscord implements Listener {
 		String playerN = player.getName();
 		String urlSkin = getPlayerHeadUrl(player);
 
-		EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(
-				Main.getString("Discord.adv-msg").replace("%player%", playerN).replace("%adv%", advancementName)),
-				urlSkin, urlSkin).setColor(new Color(125, 255, 100));
+		EmbedBuilder embed = new EmbedBuilder()
+				.setAuthor(Main.FTextNPrefix(Config.getString("Messages.adv-msg", Config.CONFIG.Discord)
+						.replace("%player%", playerN).replace("%adv%", advancementName)), urlSkin, urlSkin)
+				.setColor(new Color(125, 255, 100));
 
-		textChannel = Objects.requireNonNull(api.getTextChannelById(Main.getString("Discord.send-msg-channel")));
+		textChannel = Objects.requireNonNull(
+				api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 		textChannel.sendMessage(embed.build()).queue();
 
 	}
