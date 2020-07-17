@@ -2,11 +2,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>TnTCore</groupId>
-    <artifactId>TnTCore</artifactId>
+    <groupId>CustomTnT</groupId>
+    <artifactId>CustomTnT</artifactId>
     <version>0.4.7</version>
 
-    <name>TnTCore</name>
+    <name>CustomTnT</name>
     <description>Plugin para el servidor de EspañolTNT</description>
     <url>https://discord.gg/espanoltnt</url>
 
@@ -22,7 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <author>GuerreroCraft61</author>
-        <mainClass>guerrero61.tntcore.Main</mainClass>
+        <mainClass>guerrero61.customtnt.Main</mainClass>
         <api-version>1.13</api-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -134,7 +134,7 @@
         <profile>
             <id>ServerDir</id>
             <build>
-                <directory>F:\Users\GuerreroCraft61\Desktop\TnTServer\TnTCore</directory>
+                <directory>F:\Users\GuerreroCraft61\Desktop\TnTServer\CustomTnT</directory>
             </build>
         </profile>
     </profiles>

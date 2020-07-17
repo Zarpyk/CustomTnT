@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="TnTCore" />
+        <module name="CustomTnT" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CustomTnT" target="1.8" />
       <module name="TnTCore" target="1.8" />
     </bytecodeTargetLevel>
   </component>
