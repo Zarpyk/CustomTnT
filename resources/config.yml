@@ -1,4 +1,5 @@
 Death:
+  msg-enable: true
   coords-enable: true
 Sleep:
   explosive: false #Esta bug
@@ -7,7 +8,7 @@ Storm:
   add-seconds: 720 #12 minutos
   sound-enable: true
   title-enable: true
-  actionbar-enable: true
+  actionbar-enable: false
   actionbar-delay: 60 #1 minuto
 Totem:
   fail-enable: true

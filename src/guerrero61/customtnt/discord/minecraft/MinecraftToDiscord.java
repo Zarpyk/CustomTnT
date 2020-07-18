@@ -95,8 +95,9 @@ public class MinecraftToDiscord implements Listener {
 			assert deathMessage != null;
 			EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(deathMessage), urlSkin, urlSkin);
 			if (Config.getBool("Storm.enable")) {
-				embed.addField("Horas de tormenta", (StormActionBar.stormTime), false).setColor(new Color(255, 10, 10));
+				embed.addField("Horas de tormenta", (StormActionBar.stormTime), false);
 			}
+			embed.setColor(new Color(255, 10, 10));
 			textChannel = Objects.requireNonNull(
 					api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 			textChannel.sendMessage(embed.build()).queue();
@@ -108,7 +109,8 @@ public class MinecraftToDiscord implements Listener {
 	public void advancementMsg(PlayerAdvancementDoneEvent event) {
 		Advancement advancement = event.getAdvancement();
 		String rawAdvancementName = advancement.getKey().getKey();
-		if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")) {
+		if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")
+				|| rawAdvancementName.equals("root")) {
 			return;
 		}
 		String advancementName = Arrays

@@ -6,7 +6,8 @@ Check:
   player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador"
   console: "&aEl plugin esta funcionando. Comando ejecutado des de la consola."
 Death:
-  msg: "&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!"
+  #msg: "&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!"
+  msg: "&c&lEl jugador &4&l%player% &c&lha muerto!"
   coords-enable: true
   coords-msg: "&7&oX:%x% || Y:%y% || Z:%z%"
   train: "&c¡Comienza el Death Train con duración de %time% horas!"

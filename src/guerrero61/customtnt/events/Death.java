@@ -32,20 +32,12 @@ public class Death implements Listener {
 		boolean stormEnable = Config.getBool("Storm.enable");
 		boolean soundEnable = Config.getBool("Storm.sound-enable");
 		boolean titleEnable = Config.getBool("Storm.title-enable");
+		boolean deathMsgEnable = Config.getBool("Death.msg-enable");
+		boolean deathCoordEnable = Config.getBool("Death.coords-enable");
 		String victim = Objects.requireNonNull(e.getEntity().getPlayer()).getName();
 		if (stormEnable) {
 			// Codigo modificado de PermadeathCore por vo1d & SebazCRC
 			boolean weather = Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm();
-			String DeathChatMessage = Config.getString("Death.msg", Config.CONFIG.Messages);
-			Bukkit.broadcastMessage(Main.FTextNPrefix(DeathChatMessage.replace("%player%", victim)));
-			if (Config.getBool("Death.coords-enable")) {
-				String CoordsMessage = Config.getString("Death.coords-msg", Config.CONFIG.Messages);
-				String Dx = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockX());
-				String Dy = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockY());
-				String Dz = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockZ());
-				Bukkit.broadcastMessage(
-						Main.FTextNPrefix(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz)));
-			}
 			int stormDuration = Objects.requireNonNull(Bukkit.getWorld(world)).getWeatherDuration();
 			int stormTicksToSeconds = stormDuration / 20;
 			int stormIncrement = Math.round(stormTicksToSeconds + this.addStormSeconds);
@@ -56,6 +48,18 @@ public class Death implements Listener {
 			} else {
 				Objects.requireNonNull(Bukkit.getWorld(world)).setWeatherDuration(addStormSeconds * 20);
 			}
+		}
+		if (deathMsgEnable) {
+			String DeathChatMessage = Config.getString("Death.msg", Config.CONFIG.Messages);
+			Bukkit.broadcastMessage(Main.FTextNPrefix(DeathChatMessage.replace("%player%", victim)));
+		}
+		if (deathCoordEnable) {
+			String CoordsMessage = Config.getString("Death.coords-msg", Config.CONFIG.Messages);
+			String Dx = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockX());
+			String Dy = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockY());
+			String Dz = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockZ());
+			Bukkit.broadcastMessage(
+					Main.FTextNPrefix(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz)));
 		}
 		BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
 		scheduler.scheduleSyncDelayedTask(main, () -> {

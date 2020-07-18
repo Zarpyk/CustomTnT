@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Config;
 import guerrero61.customtnt.MainUtils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -44,13 +45,14 @@ public class ServerInfo extends ListenerAdapter {
 								+ (Bukkit.getOnlineMode() ? "Premium" : "Premium/No Premium"),
 						true)
 				.addField(Main.getPlayerCount(),
-						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
-				.addBlankField(true)
-				.addField("Horas de tormenta",
-						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
-								: "No hay tormenta"),
-						true)
-				.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
+						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true);
+		if (Config.getBool("actionbar-enable")) {
+			embed.addBlankField(true).addField("Horas de tormenta",
+					(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
+							: "No hay tormenta"),
+					true);
+		}
+		embed.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
 				.addBlankField(true).setColor(new Color(255, 61, 61))
 				.setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png").setTimestamp(Instant.now());
 
