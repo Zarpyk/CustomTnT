@@ -26,7 +26,7 @@ public class ReloadStatus {
 				api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 
 		textChannel.getManager()
-				.setTopic(Config.getString("Messages.msg-channel-description", Config.CONFIG.Discord)
+				.setTopic(Config.getString("Messages.channel-description", Config.CONFIG.Discord)
 						.replace("%status%",
 								"Servidor " + status + (status.equals("online") ? (" | " + Main.getPlayerCount()) : ""))
 						.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)))

@@ -63,7 +63,9 @@ public class Main extends JavaPlugin {
 			registerEvents.registerEvents(this);
 			registerEvents.registerCommands(this);
 
-			new StormActionBar().StormAB(this);
+			if (Config.getBool("Storm.actionbar-enable")) {
+				new StormActionBar().StormAB(this);
+			}
 			Scheduler scheduler = new Scheduler();
 			scheduler.startMessageDelayScheduler(this);
 			scheduler.reloadStatusScheduler(this);
@@ -92,11 +94,11 @@ public class Main extends JavaPlugin {
 	}
 
 	public static String FText(String text) {
-		return ChatColor.translateAlternateColorCodes('&', prefix + text);
+		return ChatColor.translateAlternateColorCodes('&', prefix + text.replace("§", "&"));
 	}
 
 	public static String FTextNPrefix(String text) {
-		return ChatColor.translateAlternateColorCodes('&', text);
+		return ChatColor.translateAlternateColorCodes('&', text.replace("§", "&"));
 	}
 
 	public static String capitalize(String str) {

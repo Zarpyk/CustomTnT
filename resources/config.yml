@@ -1,4 +1,3 @@
-Prefix: "&a[&cTnTCore&a] &e"
 Death:
   coords-enable: true
 Sleep:
@@ -8,6 +7,8 @@ Storm:
   add-seconds: 720 #12 minutos
   sound-enable: true
   title-enable: true
+  actionbar-enable: true
+  actionbar-delay: 60 #1 minuto
 Totem:
   fail-enable: true
   probability: 5

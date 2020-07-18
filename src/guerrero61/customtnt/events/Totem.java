@@ -55,10 +55,10 @@ public class Totem implements Listener {
 	}
 
 	private void message(Player player, String playerN, int random, int resta, String symbol, boolean fail) {
-		String totemMessage = Objects.requireNonNull(Config.getString("Totem.msg-used-totem", Config.CONFIG.Messages))
+		String totemMessage = Objects.requireNonNull(Config.getString("Totem.use-msg", Config.CONFIG.Messages))
 				.replace("%player%", playerN).replace("%porcent%", symbol)
 				.replace("%totem_fail%", String.valueOf(random)).replace("%number%", String.valueOf(resta));
-		String totemFail = Objects.requireNonNull(Config.getString("Totem.msg-fail", Config.CONFIG.Messages))
+		String totemFail = Objects.requireNonNull(Config.getString("Totem.fail-msg", Config.CONFIG.Messages))
 				.replace("%player%", playerN);
 
 		if (!fail) {

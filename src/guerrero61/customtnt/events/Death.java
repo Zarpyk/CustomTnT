@@ -72,7 +72,7 @@ public class Death implements Listener {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (titleEnable) {
 				String ServerMessageTitle = Config.getString("Death.title", Config.CONFIG.Messages);
-				String ServerMessageSubtitle = Config.getString("Messages.Death.subtitle", Config.CONFIG.Messages);
+				String ServerMessageSubtitle = Config.getString("Death.subtitle", Config.CONFIG.Messages);
 				player.sendTitle(Main.FTextNPrefix(ServerMessageTitle),
 						Main.FTextNPrefix(ServerMessageSubtitle.replace("%player%", victim)), 10, 70, 20);
 			}

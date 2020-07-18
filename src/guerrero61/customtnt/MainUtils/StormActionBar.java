@@ -25,7 +25,7 @@ public class StormActionBar {
 					player.sendActionBar(Main.FTextNPrefix(Message.replace("%time%", stormTime)));
 				});
 			}
-		}, 0L, 20L);
+		}, 0L, (Config.getInt("Storm.actionbar-dalay") * 20));
 	}
 
 }

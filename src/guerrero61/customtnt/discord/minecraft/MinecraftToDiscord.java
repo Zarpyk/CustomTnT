@@ -92,8 +92,11 @@ public class MinecraftToDiscord implements Listener {
 		String urlSkin = getPlayerHeadUrl(player);
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-			EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(deathMessage), urlSkin, urlSkin)
-					.addField("Horas de tormenta", (StormActionBar.stormTime), false).setColor(new Color(255, 10, 10));
+			assert deathMessage != null;
+			EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(deathMessage), urlSkin, urlSkin);
+			if (Config.getBool("Storm.enable")) {
+				embed.addField("Horas de tormenta", (StormActionBar.stormTime), false).setColor(new Color(255, 10, 10));
+			}
 			textChannel = Objects.requireNonNull(
 					api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
 			textChannel.sendMessage(embed.build()).queue();

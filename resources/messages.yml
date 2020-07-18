@@ -1,4 +1,4 @@
-Prefix: "&a[&cTnTCore&a] &e"
+Prefix: "&a[&cCustomTnT&a] &e"
 Errors:
   no-exist: "&cEste comando no existe."
   no-console: "&cEste comando no esta disponible para consola."
@@ -21,5 +21,5 @@ Sleep:
 Storm:
   end-msg: "&aLa tormenta ha llegado a su fin."
 Totem:
-  msg-fail: "&7¡El totem de &c%player% &7ha fallado!"
-  msg-used-totem: "&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
+  fail-msg: "&7¡El totem de &c%player% &7ha fallado!"
+  use-msg: "&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
