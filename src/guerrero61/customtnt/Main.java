@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;
@@ -15,10 +14,14 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import guerrero61.customtnt.MainUtils.*;
+import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
+import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.luckperms.api.LuckPerms;
+import net.md_5.bungee.api.ChatColor;
 
 public class Main extends JavaPlugin {
 
@@ -57,11 +60,10 @@ public class Main extends JavaPlugin {
 			registerEvents.registerDiscordConfig(this);
 			configMap.put(Config.CONFIG.Discord,
 					discordConfig == null ? DiscordConfig.getDiscordConfig(this) : discordConfig);
-			consoleMsg(discordConfig.toString());
 			if (api == null) {
 				registerEvents.registerDiscord(this);
 			}
-			lpApi = registerEvents.registerLuckPerms();
+			registerEvents.registerDependencies(this);
 			registerEvents.registerEvents(this);
 			registerEvents.registerCommands(this);
 
@@ -71,6 +73,7 @@ public class Main extends JavaPlugin {
 			Scheduler scheduler = new Scheduler();
 			scheduler.startMessageDelayScheduler(this);
 			scheduler.reloadStatusScheduler(this);
+			//scheduler.registerDependencies(this);
 		} else {
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
@@ -80,8 +83,11 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api,
 				Config.getString(Config.Options.MessagesStop), new Color(255, 10, 10), "offline");
-		DisableBot.Disable(this, api);
-		api = null;
+		try {
+			DisableBot.Disable(this);
+		} catch (NoClassDefFoundError e) {
+			e.printStackTrace();
+		}
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
 	}
 
@@ -95,40 +101,8 @@ public class Main extends JavaPlugin {
 		return false;
 	}
 
-	public static String FText(String text) {
-		return ChatColor.translateAlternateColorCodes('&', prefix + text.replace("§", "&"));
-	}
-
-	public static String FTextNPrefix(String text) {
-		return ChatColor.translateAlternateColorCodes('&', text.replace("§", "&"));
-	}
-
-	public static String capitalize(String str) {
-		if (str == null || str.isEmpty()) {
-			return str;
-		}
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
-	}
-
-	public static String removeFormatter(String text) {
-		String t = text.replace("§", "&");
-		return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "")
-				.replace("&f", "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "")
-				.replace("&5", "").replace("&6", "").replace("&7", "").replace("&8", "").replace("&9", "")
-				.replace("&0", "").replace("&k", "").replace("&l", "").replace("&m", "").replace("&n", "")
-				.replace("&o", "").replace("&r", "");
-	}
-
 	public static void consoleMsg(String text) {
-		Bukkit.getConsoleSender().sendMessage(FText(text));
-	}
-
-	public static void consoleMsg(String text, Boolean nPrefix) {
-		if (nPrefix) {
-			Bukkit.getConsoleSender().sendMessage(FTextNPrefix(text));
-		} else {
-			consoleMsg(text);
-		}
+		Bukkit.getConsoleSender().sendMessage(text);
 	}
 
 	public static String getIp() {
@@ -149,7 +123,7 @@ public class Main extends JavaPlugin {
 	}
 
 	public static Boolean checkCommand(String command, Message msg, MessageChannel mChannel) {
-		if (!msg.getContentDisplay().equalsIgnoreCase("/" + command)) {
+		if (!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase())) {
 			return true;
 		}
 
@@ -163,8 +137,8 @@ public class Main extends JavaPlugin {
 	}
 
 	public static Boolean checkCommand(String command, String command2, Message msg, MessageChannel mChannel) {
-		if (!msg.getContentDisplay().equalsIgnoreCase("/" + command)
-				&& !msg.getContentDisplay().equalsIgnoreCase("/" + command2)) {
+		if (!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase())
+				&& !msg.getContentDisplay().toLowerCase().startsWith("/" + command2.toLowerCase())) {
 			return true;
 		}
 

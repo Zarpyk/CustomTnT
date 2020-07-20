@@ -1,16 +1,12 @@
 package guerrero61.customtnt.commands;
 
-import java.util.Objects;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
-import guerrero61.customtnt.MainUtils.RegisterEvents;
+import guerrero61.customtnt.MainUtils.Formatter;
 import net.dv8tion.jda.api.JDA;
 
 public class MainCommand implements CommandExecutor {
@@ -38,17 +34,7 @@ public class MainCommand implements CommandExecutor {
 				new Check(isPlayer, sender);
 				return true;
 			case "reload":
-				Bukkit.getPluginManager().disablePlugin(main);
-				Objects.requireNonNull(Bukkit.getPluginManager().getPlugin(main.name)).reloadConfig();
-				Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
-					Bukkit.getPluginManager().enablePlugin(main);
-					new RegisterEvents().registerDiscord(main);
-					if (isPlayer) {
-						player.sendMessage(Main.FText(Config.getString(Config.Options.Reload)));
-					} else {
-						Bukkit.getConsoleSender().sendMessage(Main.FText(Config.getString(Config.Options.Reload)));
-					}
-				}, 100L);
+				new Reload(isPlayer, sender, main);
 				return true;
 			default:
 				SendHelp();
@@ -61,18 +47,18 @@ public class MainCommand implements CommandExecutor {
 	}
 
 	private void SendHelp() {
-		String[] helpMsg = new String[] { Main.FTextNPrefix("&a-----------------&c&lTnTCore&a-----------------"),
-				Main.FTextNPrefix("&6/tnt check &7- Comprobación basica del funcionamiento."),
-				Main.FTextNPrefix("&6/tnt reload &7- Sirve para recargar la configuración."),
-				Main.FTextNPrefix("&a------------------------------------------"), };
+		String[] helpMsg = new String[] { "&a-----------------&c&lTnTCore&a-----------------",
+				"&6/tnt check &7- Comprobación basica del funcionamiento.",
+				"&6/tnt reload &7- Sirve para recargar la configuración.",
+				"&a------------------------------------------" };
 
 		if (isPlayer) {
 			for (String s : helpMsg) {
-				player.sendMessage(s);
+				player.sendMessage(Formatter.FText(s, true, player));
 			}
 		} else {
 			for (String s : helpMsg) {
-				Bukkit.getConsoleSender().sendMessage(Main.FText(Main.FText(s)));
+				Main.consoleMsg(Formatter.FText(s, true));
 			}
 		}
 	}

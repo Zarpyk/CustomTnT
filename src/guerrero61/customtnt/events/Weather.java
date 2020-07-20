@@ -8,8 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
+import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -27,9 +27,9 @@ public class Weather implements Listener {
 		boolean weather = event.getWorld().hasStorm();
 		if (weather) {
 			String StormMessage = Config.getString(Config.Options.StormEndMsg);
-			Bukkit.broadcastMessage(Main.FText(StormMessage));
+			Bukkit.broadcastMessage(Formatter.FText(StormMessage));
 
-			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Main.removeFormatter(StormMessage),
+			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.FText(StormMessage, true),
 					"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
 					.setColor(new Color(125, 255, 100));
 			TextChannel textChannel = Objects

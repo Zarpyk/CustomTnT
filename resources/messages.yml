@@ -7,19 +7,21 @@ Check:
   console: "&aEl plugin esta funcionando. Comando ejecutado des de la consola."
 Death:
   #msg: "&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!"
-  msg: "&c&lEl jugador &4&l%player% &c&lha muerto!"
+  msg: "&c&lEl jugador &4&l%player_name% &c&lha muerto!"
   coords-msg: "&7&oX:%x% || Y:%y% || Z:%z%"
-  train-msg: "&c¡Comienza el Death Train con duración de %time% horas!"
-  train-actionbar: "&7Quedan %time% de tormenta"
+  train-msg: "&c¡Se ha añadido al Death Train una duración de %customtnt_add_storm_time% horas!"
+  train-actionbar: "&7Quedan %customtnt_storm_time% de tormenta"
   title: "&c¡Boom!"
-  subtitle: "&e¡%player% &cexplotó!"
+  subtitle: "&e¡%player_name% &cexplotó!"
   players:
     GuerreroCraft61: ""
 Reload: "&a&lReload completado."
 Sleep:
-  msg: "&e%player% ha dormido."
+  msg: "&e%player_name% ha dormido."
 Storm:
   end-msg: "&aLa tormenta ha llegado a su fin."
 Totem:
-  fail-msg: "&7¡El totem de &c%player% &7ha fallado!"
-  use-msg: "&7El jugador %player% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
+  fail-msg: "&7¡El totem de &c%player_name%&7ha fallado!"
+  use-msg: "&7El jugador %player_name% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
+Chat:
+  format: "%vault_rankprefix% &c%essentials_nickname%&f: &a%msg%"

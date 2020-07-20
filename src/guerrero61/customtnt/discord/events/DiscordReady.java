@@ -1,8 +1,7 @@
 package guerrero61.customtnt.discord.events;
 
-import org.bukkit.Bukkit;
-
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Formatter;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
@@ -12,10 +11,10 @@ public class DiscordReady implements EventListener {
 	@Override
 	public void onEvent(GenericEvent event) {
 		if (event instanceof ReadyEvent) {
-			Bukkit.getConsoleSender().sendMessage(Main.FText("&aSe ha cargado el Java Discord API correctamente"));
+			Main.consoleMsg(Formatter.FText("&aSe ha cargado el Java Discord API correctamente"));
 		}
 		if (event instanceof ShutdownEvent) {
-			Bukkit.getConsoleSender().sendMessage(Main.FText("&cEl bot de Discord se ha desconectado"));
+			Main.consoleMsg(Formatter.FText("&cEl bot de Discord se ha desconectado"));
 		}
 	}
 }

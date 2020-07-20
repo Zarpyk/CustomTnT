@@ -12,7 +12,8 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
+import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.MainUtils.Config.Config;
 
 public class Sleep implements Listener {
 
@@ -40,7 +41,7 @@ public class Sleep implements Listener {
 					event.getPlayer().getWorld().setTime(0L);
 					executed = false;
 					String sleepMsg = Config.getString(Config.Options.SleepMsg);
-					Bukkit.broadcastMessage(Main.FText(sleepMsg.replace("%player%", player.getName())));
+					Bukkit.broadcastMessage(Formatter.FText(sleepMsg, player));
 					event.setCancelled(true);
 				}, 100L);
 			} else if ((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm())

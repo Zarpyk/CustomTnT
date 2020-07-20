@@ -9,8 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
 import guerrero61.customtnt.MainUtils.StormActionBar;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -53,8 +53,8 @@ public class ServerInfo extends ListenerAdapter {
 					true);
 		}
 		embed.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
-				.addBlankField(true).setColor(new Color(255, 61, 61))
-				.setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png").setTimestamp(Instant.now());
+				.setColor(new Color(255, 61, 61)).setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png")
+				.setTimestamp(Instant.now());
 
 		event.getChannel().sendMessage(embed.build()).queue();
 		event.getMessage().delete().queue();

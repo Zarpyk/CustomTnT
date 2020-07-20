@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.MainUtils.Config;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +51,8 @@ public class Config {
 		StormEndMsg("Storm.end-msg", CONFIG.Messages),
 		//Totem
 		TotemFailMsg("Totem.fail-msg", CONFIG.Messages), TotemUseMsg("Totem.use-msg", CONFIG.Messages),
+		//Chat
+		ChatFormat("Chat.format", CONFIG.Messages),
 		/*------------------
 		 * Discord Config
 		 ------------------*/

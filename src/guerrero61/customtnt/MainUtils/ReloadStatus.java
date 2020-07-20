@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.bukkit.Bukkit;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -26,10 +27,13 @@ public class ReloadStatus {
 				.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 
 		textChannel.getManager()
-				.setTopic(Config.getString(Config.Options.ChannelDescription)
-						.replace("%status%",
-								"Servidor " + status + (status.equals("online") ? (" | " + Main.getPlayerCount()) : ""))
-						.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)))
+				.setTopic(Formatter.FText(
+						Config.getString(Config.Options.ChannelDescription)
+								.replace("%status%",
+										"Servidor " + status
+												+ (status.equals("online") ? (" | " + Main.getPlayerCount()) : ""))
+								.replace("%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)),
+						true))
 				.queue();
 
 	}

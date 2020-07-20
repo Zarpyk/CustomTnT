@@ -5,6 +5,7 @@ import java.awt.*;
 import org.bukkit.Bukkit;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Config.Config;
 
 public class Scheduler {
 
@@ -21,4 +22,8 @@ public class Scheduler {
 				12000L);
 	}
 
+	@Deprecated
+	public void registerDependencies(Main m) {
+		Bukkit.getScheduler().scheduleSyncDelayedTask(m, () -> new RegisterEvents().registerDependencies(m), 25L);
+	}
 }

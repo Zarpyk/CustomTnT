@@ -5,7 +5,7 @@ import java.awt.*;
 import org.bukkit.Bukkit;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

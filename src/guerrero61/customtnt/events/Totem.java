@@ -10,8 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
-import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
+import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import guerrero61.customtnt.discord.minecraft.MinecraftToDiscord;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -46,34 +46,34 @@ public class Totem implements Listener {
 			int random = (int) (Math.random() * 100) + 1;
 			int resta = 100 - failProb;
 			if (random >= resta) {
-				message(player, playerN, random, resta, "=>", true);
+				message(player, random, resta, "=>", true);
 				event.setCancelled(true);
 			} else {
-				message(player, playerN, random, resta, "!=", false);
+				message(player, random, resta, "!=", false);
 			}
 		}
 	}
 
-	private void message(Player player, String playerN, int random, int resta, String symbol, boolean fail) {
-		String totemMessage = Objects.requireNonNull(Config.getString(Config.Options.TotemUseMsg))
-				.replace("%player%", playerN).replace("%porcent%", symbol)
-				.replace("%totem_fail%", String.valueOf(random)).replace("%number%", String.valueOf(resta));
-		String totemFail = Objects.requireNonNull(Config.getString(Config.Options.TotemFailMsg)).replace("%player%",
-				playerN);
+	private void message(Player player, int random, int resta, String symbol, boolean fail) {
+		String totemMessage = Formatter.FText(
+				Config.getString(Config.Options.TotemUseMsg).replace("%porcent%", symbol)
+						.replace("%totem_fail%", String.valueOf(random)).replace("%number%", String.valueOf(resta)),
+				true, player);
+		String totemFail = Formatter.FText(Config.getString(Config.Options.TotemFailMsg), true, player);
 
 		if (!fail) {
-			Bukkit.broadcastMessage(Main.FText(totemMessage));
+			Bukkit.broadcastMessage(Formatter.FText(totemMessage));
 			sendDiscordMsg(player, totemMessage, new Color(255, 250, 90));
 		} else {
-			Bukkit.broadcastMessage(Main.FText(totemMessage));
-			Bukkit.broadcastMessage(Main.FText(totemFail));
+			Bukkit.broadcastMessage(Formatter.FText(totemMessage));
+			Bukkit.broadcastMessage(Formatter.FText(totemFail));
 			sendDiscordMsg(player, totemMessage + " " + totemFail, new Color(255, 10, 10));
 		}
 	}
 
 	private void sendDiscordMsg(Player player, String msg, Color color) {
 		String urlSkin = MinecraftToDiscord.getPlayerHeadUrl(player);
-		EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.removeFormatter(msg), urlSkin, urlSkin).setColor(color);
+		EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.FText(msg, true), urlSkin, urlSkin).setColor(color);
 		TextChannel textChannel = Objects
 				.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 		textChannel.sendMessage(embed.build()).queue();

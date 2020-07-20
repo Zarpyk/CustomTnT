@@ -16,8 +16,8 @@ public class DisableBot {
 
 	private static JDA api;
 
-	public static void Disable(Main main, JDA a) {
-		api = a;
+	public static void Disable(Main main) {
+		api = main.api;
 		if (api != null) {
 			api.getEventManager().getRegisteredListeners()
 					.forEach(listener -> api.getEventManager().unregister(listener));
@@ -28,7 +28,9 @@ public class DisableBot {
 					shutdownTask.complete(null);
 				}
 			});
+			api.cancelRequests();
 			api.shutdownNow();
+			main.api = null;
 			api = null;
 			try {
 				shutdownTask.get(5, TimeUnit.SECONDS);

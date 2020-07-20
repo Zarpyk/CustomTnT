@@ -5,8 +5,24 @@ api-version: ${api-version}
 author: ${author}
 description: ${description}
 website: ${url}
+depend: [MMOLib, PlaceholderAPI, Vault]
+softdepend: [LuckPerms]
 
 commands:
   tnt:
-    description: comando principal
+    description: Main command
+    aliases: [customtnt, ctnt]
     usage: /tnt <subcomando>
+permissions:
+  ctnt.*:
+    description: Gives access to all commands
+    default: false
+    children:
+      ctnt.check: true
+      ctnt.reload: true
+  ctnt.check:
+    description: Give access to /tnt check command
+    default: true
+  ctnt.reload:
+    description: Give access to /tnt reload command
+    default: false

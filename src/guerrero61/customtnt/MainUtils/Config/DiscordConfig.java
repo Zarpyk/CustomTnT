@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.MainUtils.Config;
 
 import java.io.File;
 import java.io.IOException;

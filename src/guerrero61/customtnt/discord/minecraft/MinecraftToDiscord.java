@@ -17,8 +17,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config;
+import guerrero61.customtnt.MainUtils.Formatter;
 import guerrero61.customtnt.MainUtils.StormActionBar;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -62,8 +63,7 @@ public class MinecraftToDiscord implements Listener {
 
 		if (!Main.isVanish(p) && b) {
 			EmbedBuilder embed = new EmbedBuilder()
-					.setAuthor(Main.FTextNPrefix(Config.getString(co).replace("%player%", playerN)), urlSkin, urlSkin)
-					.setColor(c);
+					.setAuthor(Formatter.FText(Config.getString(co), true, p), urlSkin, urlSkin).setColor(c);
 
 			textChannel = Objects
 					.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
@@ -74,15 +74,12 @@ public class MinecraftToDiscord implements Listener {
 	@EventHandler
 	public void playerChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
-			String message = event.getMessage();
+			String message = Formatter.FText(event.getMessage(), true);
 			Player player = event.getPlayer();
-			String playerN = event.getPlayer().getName();
-			String role = Objects.requireNonNull(main.lpApi.getUserManager().getUser(player.getUniqueId()))
-					.getPrimaryGroup();
-			String roleC = role.equals("default") ? "" : "**" + Main.capitalize(role) + "**";
 
-			textChannel.sendMessage(Config.getString(Config.Options.MessagesMinecraftToDiscordChat)
-					.replace("%role%", roleC).replace("%player%", playerN).replace("%msg%", message)).queue();
+			textChannel.sendMessage(Formatter.RemoveFormat(Formatter.FText(
+					Config.getString(Config.Options.MessagesMinecraftToDiscordChat).replace("%msg%", message), true,
+					player))).queue();
 		}
 	}
 
@@ -94,7 +91,7 @@ public class MinecraftToDiscord implements Listener {
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
 			assert deathMessage != null;
-			EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.FTextNPrefix(deathMessage), urlSkin, urlSkin);
+			EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.FText(deathMessage, true), urlSkin, urlSkin);
 			if (Config.getBool(Config.Options.StormEnable)) {
 				embed.addField("Horas de tormenta", (StormActionBar.stormTime), false);
 			}
@@ -121,10 +118,10 @@ public class MinecraftToDiscord implements Listener {
 		String playerN = player.getName();
 		String urlSkin = getPlayerHeadUrl(player);
 
-		EmbedBuilder embed = new EmbedBuilder()
-				.setAuthor(Main.FTextNPrefix(Config.getString(Config.Options.MessagesAdvancement)
-						.replace("%player%", playerN).replace("%adv%", advancementName)), urlSkin, urlSkin)
-				.setColor(new Color(125, 255, 100));
+		EmbedBuilder embed = new EmbedBuilder().setAuthor(
+				Formatter.FText(Config.getString(Config.Options.MessagesAdvancement).replace("%adv%", advancementName),
+						true, player),
+				urlSkin, urlSkin).setColor(new Color(125, 255, 100));
 
 		textChannel = Objects.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 		textChannel.sendMessage(embed.build()).queue();
