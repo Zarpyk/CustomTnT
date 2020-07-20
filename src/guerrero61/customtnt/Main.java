@@ -47,6 +47,11 @@ public class Main extends JavaPlugin {
 	public JDA api;
 	public LuckPerms lpApi;
 
+	@Override
+	public void onLoad() {
+		super.onLoad();
+	}
+
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin()) {
