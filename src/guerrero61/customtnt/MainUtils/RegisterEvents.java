@@ -68,7 +68,7 @@ public class RegisterEvents {
 	 * Sirve para iniciar el bot de Discord
 	 */
 	public void registerDiscord(Main m) {
-		JDABuilder builder = JDABuilder.createDefault(Config.getString("Token", Config.CONFIG.Discord));
+		JDABuilder builder = JDABuilder.createDefault(Config.getString(Config.Options.Token));
 
 		builder.setActivity(Activity.playing("/help para ayuda"));
 
@@ -97,6 +97,7 @@ public class RegisterEvents {
 		pm.registerEvents(new Weather(m.api), m);
 		pm.registerEvents(new Totem(m.api), m);
 		pm.registerEvents(new DisableCustomRepair(), m);
+		pm.registerEvents(new DisableTrident(), m);
 		pm.registerEvents(new MinecraftToDiscord(m, m.api), m);
 	}
 

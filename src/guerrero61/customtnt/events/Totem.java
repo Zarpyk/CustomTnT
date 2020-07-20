@@ -32,11 +32,11 @@ public class Totem implements Listener {
 		if (((Player) event.getEntity()).getInventory().getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING
 				|| ((Player) event.getEntity()).getInventory().getItemInOffHand()
 						.getType() == Material.TOTEM_OF_UNDYING) {
-			if (!Config.getBool("Totem.fail-enable"))
+			if (!Config.getBool(Config.Options.TotemFailEnable))
 				return;
 			Player player = (Player) event.getEntity();
 			String playerN = player.getName();
-			int failProb = Config.getInt("Totem.probability");
+			int failProb = Config.getInt(Config.Options.TotemProbability);
 
 			if (failProb >= 101) {
 				failProb = 100;
@@ -55,11 +55,11 @@ public class Totem implements Listener {
 	}
 
 	private void message(Player player, String playerN, int random, int resta, String symbol, boolean fail) {
-		String totemMessage = Objects.requireNonNull(Config.getString("Totem.use-msg", Config.CONFIG.Messages))
+		String totemMessage = Objects.requireNonNull(Config.getString(Config.Options.TotemUseMsg))
 				.replace("%player%", playerN).replace("%porcent%", symbol)
 				.replace("%totem_fail%", String.valueOf(random)).replace("%number%", String.valueOf(resta));
-		String totemFail = Objects.requireNonNull(Config.getString("Totem.fail-msg", Config.CONFIG.Messages))
-				.replace("%player%", playerN);
+		String totemFail = Objects.requireNonNull(Config.getString(Config.Options.TotemFailMsg)).replace("%player%",
+				playerN);
 
 		if (!fail) {
 			Bukkit.broadcastMessage(Main.FText(totemMessage));
@@ -74,8 +74,8 @@ public class Totem implements Listener {
 	private void sendDiscordMsg(Player player, String msg, Color color) {
 		String urlSkin = MinecraftToDiscord.getPlayerHeadUrl(player);
 		EmbedBuilder embed = new EmbedBuilder().setAuthor(Main.removeFormatter(msg), urlSkin, urlSkin).setColor(color);
-		TextChannel textChannel = Objects.requireNonNull(
-				api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
+		TextChannel textChannel = Objects
+				.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 		textChannel.sendMessage(embed.build()).queue();
 	}
 }

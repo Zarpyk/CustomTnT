@@ -1,26 +1,26 @@
 Token: "***REMOVED***"
 Channels:
-  send-msg-channel: "712066417150787657"
-  command-channel:
+  send-msg: "712066417150787657"
+  commands:
     - "712066417150787657"
     - "314143351848960001"
     - "718800103384547378"
     - "320953655178035202"
     - "381919405988380672"
     - "314143304201535488"
+Channel-description: "%status% | Ha entrado %unique-players% jugadores únicos | **/info** para mas info"
 Messages:
-  channel-description: "%status% | Ha entrado %unique-players% jugadores únicos | **/info** para mas info"
-  start-msg: "¡El servidor se ha iniciado!"
-  stop-msg: "¡El servidor se ha parado!"
+  start: "¡El servidor se ha iniciado!"
+  stop: "¡El servidor se ha parado!"
 
-  join-msg: "%player% ha entrado al servidor"
-  first-join-msg: "¡%player% ha entrado por primera vez al servidor!"
+  join: "%player% ha entrado al servidor"
+  first-join: "¡%player% ha entrado por primera vez al servidor!"
 
-  quit-msg: "%player% se ha salido del servidor"
+  quit: "%player% se ha salido del servidor"
 
-  minecraft-to-discord-chat-msg: "%role% %player% » %msg%"
-  discord-to-minecraft-chat-msg: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
-  adv-msg: "%player% ha conseguido el logro de: %adv%"
+  minecraft-to-discord-chat: "%role% %player% » %msg%"
+  discord-to-minecraft-chat: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
+  advancement: "%player% ha conseguido el logro de: %adv%"
 
   command-list:
     - "/help"
@@ -28,3 +28,4 @@ Messages:
     - "/suggest"
     - "/report"
     - "/summon"
+    - "/ip"

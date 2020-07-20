@@ -46,7 +46,7 @@ public class ServerInfo extends ListenerAdapter {
 						true)
 				.addField(Main.getPlayerCount(),
 						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true);
-		if (Config.getBool("actionbar-enable")) {
+		if (Config.getBool(Config.Options.StormActionBarEnable)) {
 			embed.addBlankField(true).addField("Horas de tormenta",
 					(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
 							: "No hay tormenta"),

@@ -58,12 +58,14 @@ public class Main extends JavaPlugin {
 			configMap.put(Config.CONFIG.Discord,
 					discordConfig == null ? DiscordConfig.getDiscordConfig(this) : discordConfig);
 			consoleMsg(discordConfig.toString());
-			registerEvents.registerDiscord(this);
+			if (api == null) {
+				registerEvents.registerDiscord(this);
+			}
 			lpApi = registerEvents.registerLuckPerms();
 			registerEvents.registerEvents(this);
 			registerEvents.registerCommands(this);
 
-			if (Config.getBool("Storm.actionbar-enable")) {
+			if (Config.getBool(Config.Options.StormActionBarEnable)) {
 				new StormActionBar().StormAB(this);
 			}
 			Scheduler scheduler = new Scheduler();
@@ -72,12 +74,12 @@ public class Main extends JavaPlugin {
 		} else {
 			Bukkit.getPluginManager().disablePlugin(this);
 		}
-		Main.prefix = Config.getString("Prefix", Config.CONFIG.Messages);
+		Main.prefix = Config.getString(Config.Options.Prefix);
 	}
 
 	public void onDisable() {
 		ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api,
-				Config.getString("Messages.stop-msg", Config.CONFIG.Discord), new Color(255, 10, 10), "offline");
+				Config.getString(Config.Options.MessagesStop), new Color(255, 10, 10), "offline");
 		DisableBot.Disable(this, api);
 		api = null;
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
@@ -151,7 +153,7 @@ public class Main extends JavaPlugin {
 			return true;
 		}
 
-		List<String> channels = Config.getStringList("Channels.command-channel", Config.CONFIG.Discord);
+		List<String> channels = Config.getStringList(Config.Options.ChannelsCommands);
 		for (String channel : channels) {
 			if (mChannel.getId().equals(channel)) {
 				return false;
@@ -166,7 +168,7 @@ public class Main extends JavaPlugin {
 			return true;
 		}
 
-		List<String> channels = Config.getStringList("Channels.command-channel", Config.CONFIG.Discord);
+		List<String> channels = Config.getStringList(Config.Options.ChannelsCommands);
 		for (String channel : channels) {
 			if (mChannel.getId().equals(channel)) {
 				return false;

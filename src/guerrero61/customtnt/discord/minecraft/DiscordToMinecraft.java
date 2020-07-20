@@ -18,17 +18,16 @@ public class DiscordToMinecraft extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (!event.getChannel().getId().equals(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord))
+		if (!event.getChannel().getId().equals(Config.getString(Config.Options.ChannelsSendMsg))
 				|| event.getAuthor().getId().equals(api.getSelfUser().getId()))
 			return;
-		for (String commandList : Config.getStringList("Messages.command-list", Config.CONFIG.Discord)) {
-			if (event.getMessage().getContentDisplay().equals(commandList)) {
+		for (String commandList : Config.getStringList(Config.Options.MessagesCommandList)) {
+			if (event.getMessage().getContentDisplay().equalsIgnoreCase(commandList)) {
 				return;
 			}
 		}
-		Bukkit.broadcastMessage(
-				Main.FTextNPrefix(Config.getString("Messages.discord-to-minecraft-chat-msg", Config.CONFIG.Discord))
-						.replace("%nick%", event.getAuthor().getName())
-						.replace("%msg%", event.getMessage().getContentDisplay()));
+		Bukkit.broadcastMessage(Main.FTextNPrefix(Config.getString(Config.Options.MessagesDiscordToMinecraftChat))
+				.replace("%nick%", event.getAuthor().getName())
+				.replace("%msg%", event.getMessage().getContentDisplay()));
 	}
 }

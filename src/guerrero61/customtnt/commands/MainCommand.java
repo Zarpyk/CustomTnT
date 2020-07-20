@@ -44,10 +44,9 @@ public class MainCommand implements CommandExecutor {
 					Bukkit.getPluginManager().enablePlugin(main);
 					new RegisterEvents().registerDiscord(main);
 					if (isPlayer) {
-						player.sendMessage(Main.FText(Config.getString("Reload", Config.CONFIG.Messages)));
+						player.sendMessage(Main.FText(Config.getString(Config.Options.Reload)));
 					} else {
-						Bukkit.getConsoleSender()
-								.sendMessage(Main.FText(Config.getString("Reload", Config.CONFIG.Messages)));
+						Bukkit.getConsoleSender().sendMessage(Main.FText(Config.getString(Config.Options.Reload)));
 					}
 				}, 100L);
 				return true;

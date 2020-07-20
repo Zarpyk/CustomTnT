@@ -26,14 +26,14 @@ public class Weather implements Listener {
 	public void onWeatherStorm(WeatherChangeEvent event) {
 		boolean weather = event.getWorld().hasStorm();
 		if (weather) {
-			String StormMessage = Config.getString("Storm.end-msg", Config.CONFIG.Messages);
+			String StormMessage = Config.getString(Config.Options.StormEndMsg);
 			Bukkit.broadcastMessage(Main.FText(StormMessage));
 
 			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Main.removeFormatter(StormMessage),
 					"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
 					.setColor(new Color(125, 255, 100));
-			TextChannel textChannel = Objects.requireNonNull(
-					api.getTextChannelById(Config.getString("Channels.send-msg-channel", Config.CONFIG.Discord)));
+			TextChannel textChannel = Objects
+					.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 			textChannel.sendMessage(startEmbed.build()).queue();
 		}
 	}

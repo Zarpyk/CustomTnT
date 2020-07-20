@@ -22,18 +22,18 @@ public class Death implements Listener {
 
 	public Death(Main m) {
 		main = m;
-		addStormSeconds = Config.getInt("Storm.add-seconds");
+		addStormSeconds = Config.getInt(Config.Options.StormAddSeconds);
 		stormHours = addStormSeconds / 60f / 60f;
-		world = Config.getString("MainWorld");
+		world = Config.getString(Config.Options.MainWorld);
 	}
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
-		boolean stormEnable = Config.getBool("Storm.enable");
-		boolean soundEnable = Config.getBool("Storm.sound-enable");
-		boolean titleEnable = Config.getBool("Storm.title-enable");
-		boolean deathMsgEnable = Config.getBool("Death.msg-enable");
-		boolean deathCoordEnable = Config.getBool("Death.coords-enable");
+		boolean stormEnable = Config.getBool(Config.Options.StormEnable);
+		boolean soundEnable = Config.getBool(Config.Options.StormSoundEnable);
+		boolean titleEnable = Config.getBool(Config.Options.StormTitleEnable);
+		boolean deathMsgEnable = Config.getBool(Config.Options.DeathMsgEnable);
+		boolean deathCoordEnable = Config.getBool(Config.Options.DeathCoordsEnable);
 		String victim = Objects.requireNonNull(e.getEntity().getPlayer()).getName();
 		if (stormEnable) {
 			// Codigo modificado de PermadeathCore por vo1d & SebazCRC
@@ -50,11 +50,11 @@ public class Death implements Listener {
 			}
 		}
 		if (deathMsgEnable) {
-			String DeathChatMessage = Config.getString("Death.msg", Config.CONFIG.Messages);
+			String DeathChatMessage = Config.getString(Config.Options.DeathMsg);
 			Bukkit.broadcastMessage(Main.FTextNPrefix(DeathChatMessage.replace("%player%", victim)));
 		}
 		if (deathCoordEnable) {
-			String CoordsMessage = Config.getString("Death.coords-msg", Config.CONFIG.Messages);
+			String CoordsMessage = Config.getString(Config.Options.DeathCoordsMsg);
 			String Dx = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockX());
 			String Dy = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockY());
 			String Dz = Integer.toString(e.getEntity().getPlayer().getLocation().getBlockZ());
@@ -64,7 +64,7 @@ public class Death implements Listener {
 		BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
 		scheduler.scheduleSyncDelayedTask(main, () -> {
 			if (stormEnable) {
-				String DeathTrainMessage = Config.getString("Death.train", Config.CONFIG.Messages);
+				String DeathTrainMessage = Config.getString(Config.Options.DeathTrainMsg);
 				Bukkit.broadcastMessage(
 						Main.FTextNPrefix(DeathTrainMessage.replace("%time%", Float.toString(stormHours))));
 			}
@@ -75,8 +75,8 @@ public class Death implements Listener {
 		}, 75L);
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (titleEnable) {
-				String ServerMessageTitle = Config.getString("Death.title", Config.CONFIG.Messages);
-				String ServerMessageSubtitle = Config.getString("Death.subtitle", Config.CONFIG.Messages);
+				String ServerMessageTitle = Config.getString(Config.Options.DeathTitle);
+				String ServerMessageSubtitle = Config.getString(Config.Options.DeathSubtitle);
 				player.sendTitle(Main.FTextNPrefix(ServerMessageTitle),
 						Main.FTextNPrefix(ServerMessageSubtitle.replace("%player%", victim)), 10, 70, 20);
 			}

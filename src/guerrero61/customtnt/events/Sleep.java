@@ -24,38 +24,40 @@ public class Sleep implements Listener {
 
 	public Sleep(Main m) {
 		main = m;
-		world = Config.getString("MainWorld");
+		world = Config.getString(Config.Options.MainWorld);
 	}
 
 	@EventHandler
 	public void playerSleep(final PlayerBedEnterEvent event) {
 		Player player = event.getPlayer();
+		boolean playerIsInMainWorld = player.getWorld().equals(Bukkit.getWorld(world));
 		Server server = Bukkit.getServer();
 		long time = Objects.requireNonNull(Bukkit.getWorld(world)).getTime();
-		if (time > 13000L && !executed && !Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) {
-			executed = true;
-			Bukkit.getServer().getScheduler().runTaskLater(main, () -> {
-				event.getPlayer().getWorld().setTime(0L);
-				executed = false;
-				String sleepMsg = Config.getString("Sleep.msg", Config.CONFIG.Messages);
-				Bukkit.broadcastMessage(Main.FText(sleepMsg.replace("%player%", player.getName())));
+		if (playerIsInMainWorld) {
+			if (time > 13000L && !executed && !Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) {
+				executed = true;
+				Bukkit.getServer().getScheduler().runTaskLater(main, () -> {
+					event.getPlayer().getWorld().setTime(0L);
+					executed = false;
+					String sleepMsg = Config.getString(Config.Options.SleepMsg);
+					Bukkit.broadcastMessage(Main.FText(sleepMsg.replace("%player%", player.getName())));
+					event.setCancelled(true);
+				}, 100L);
+			} else if ((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm())
+					&& Config.getBool(Config.Options.SleepExplosive)) {
 				event.setCancelled(true);
-			}, 100L);
-		} else if ((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm())
-				&& Config.getBool("Sleep.explosive")) {
-			event.setCancelled(true);
-			player.setStatistic(Statistic.TIME_SINCE_REST, 0);
-			Location playerbed = player.getBedSpawnLocation();
-			World world = Bukkit.getWorld(Config.getString("MainWorld"));
-			assert world != null;
-			assert playerbed != null;
-			world.playEffect(playerbed, Effect.GHAST_SHOOT, 100);
-			world.spawnParticle(Particle.EXPLOSION_HUGE, playerbed, 1);
-			world.createExplosion(playerbed, 0.0F);
-		} else {
-			event.setCancelled(true);
+				player.setStatistic(Statistic.TIME_SINCE_REST, 0);
+				Location playerbed = player.getBedSpawnLocation();
+				World world = Bukkit.getWorld(Config.getString(Config.Options.MainWorld));
+				assert world != null;
+				assert playerbed != null;
+				world.playEffect(playerbed, Effect.GHAST_SHOOT, 100);
+				world.spawnParticle(Particle.EXPLOSION_HUGE, playerbed, 1);
+				world.createExplosion(playerbed, 0.0F);
+			} else {
+				event.setCancelled(true);
+			}
 		}
-
 	}
 
 	@EventHandler

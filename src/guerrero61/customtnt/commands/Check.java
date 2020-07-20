@@ -12,10 +12,10 @@ public class Check {
 	public Check(boolean isPlayer, CommandSender sender) {
 		if (isPlayer) {
 			Player player = (Player) sender;
-			String playerMsg = Config.getString("Check.player", Config.CONFIG.Messages);
+			String playerMsg = Config.getString(Config.Options.CheckPlayer);
 			player.sendMessage(Main.FText(playerMsg));
 		} else {
-			String consoleMsg = Config.getString("Check.console", Config.CONFIG.Messages);
+			String consoleMsg = Config.getString(Config.Options.CheckConsole);
 			Bukkit.getConsoleSender().sendMessage(Main.FText(consoleMsg));
 		}
 	}

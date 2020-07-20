@@ -21,7 +21,8 @@ public class IP extends ListenerAdapter {
 		String autorAvatar = event.getAuthor().getAvatarUrl();
 
 		EmbedBuilder embed = new EmbedBuilder().setAuthor(
-				"IP: " + (Config.getBool("CustomIP.enable") ? Config.getString("CustomIP.IP") : Main.getIp())
+				"IP: " + (Config.getBool(Config.Options.CustomIPEnable) ? Config.getString(Config.Options.CustomIPIP)
+						: Main.getIp())
 						+ (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort()),
 				autorAvatar, autorAvatar).setColor(new Color(125, 255, 100));
 		event.getChannel().sendMessage(embed.build()).queue();
