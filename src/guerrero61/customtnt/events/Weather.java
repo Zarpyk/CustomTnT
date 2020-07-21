@@ -29,7 +29,7 @@ public class Weather implements Listener {
 			String StormMessage = Config.getString(Config.Options.StormEndMsg);
 			Bukkit.broadcastMessage(Formatter.FText(StormMessage, null));
 
-			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.FText(StormMessage, true),
+			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(StormMessage, null),
 					"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
 					.setColor(new Color(125, 255, 100));
 			TextChannel textChannel = Objects

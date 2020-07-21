@@ -121,6 +121,13 @@ public class MinecraftToDiscord implements Listener {
 		String advancementName = Arrays
 				.stream(rawAdvancementName.substring(rawAdvancementName.lastIndexOf("/") + 1).toLowerCase().split("_"))
 				.map(s -> s.substring(0, 1).toUpperCase() + s.substring(1)).collect(Collectors.joining(" "));
+		if (advancementName.equalsIgnoreCase("A Wizards Breakfast Fail")
+				|| advancementName.equalsIgnoreCase("Castaway Fail")
+				|| advancementName.equalsIgnoreCase("Just Keeps Going Fail")
+				|| advancementName.equalsIgnoreCase("Root")) {
+			return;
+		}
+
 		Player player = event.getPlayer();
 		String playerN = player.getName();
 		String urlSkin = getPlayerHeadUrl(player);
