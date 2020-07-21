@@ -19,6 +19,8 @@ Messages:
   quit: "%player_name% se ha salido del servidor"
 
   minecraft-to-discord-chat: "**%vault_rank_capital%** %player_name% » %msg%"
+  remove-rank: #case-sensitive
+    - "**Default** "
   discord-to-minecraft-chat: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
   advancement: "%player_name% ha conseguido el logro de: %adv%"
 
@@ -30,3 +32,6 @@ Messages:
     - "/summon"
     - "/ip"
     - "/busca"
+CustomIP:
+  enable: true #Show custom ip in /ip [Default: true]
+  IP: "***REMOVED***" #The custom ip [Default: ***REMOVED***]

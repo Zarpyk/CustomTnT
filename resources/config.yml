@@ -1,19 +1,16 @@
 Death:
-  msg-enable: true
-  coords-enable: true
+  msg-enable: true #Enable custom Death Message [Default: true]
+  coords-enable: true #Enable show Death Coords [Default: true]
 Sleep:
-  explosive: false #Esta bug
+  explosive: false #Enable explosive bed if player can't sleep **BUG** [Default: false]
 Storm:
-  enable: false
-  add-seconds: 720 #12 minutos
-  sound-enable: true
-  title-enable: true
-  actionbar-enable: false
-  actionbar-delay: 60 #1 minuto
+  enable: false #Enable Death Train [Default: false]
+  add-seconds: 720 #Seconds added per death [Default: 720 (12 minute)]
+  sound-enable: true #Enable sound when player death [Default: true]
+  title-enable: true #Enable title when player death [Default: true]
+  actionbar-enable: false #Enable show storm time in actionbar [Default: false]
+  actionbar-delay: 60 #Time between show actionbar [Default: 60 (1 minute)]
 Totem:
-  fail-enable: true
-  probability: 5
-MainWorld: "world"
-CustomIP:
-  enable: true
-  IP: "***REMOVED***"
+  fail-enable: true #Enable totem can fail [Default: true]
+  probability: 5 #Probability that the totem may fail [Default: 5%]
+MainWorld: "world" #MainWorld Name [Default: world]

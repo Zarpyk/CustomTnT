@@ -28,8 +28,6 @@ public class Config {
 		TotemFailEnable("Totem.fail-enable", CONFIG.Main), TotemProbability("Totem.probability", CONFIG.Main),
 		//MainWorld
 		MainWorld("MainWorld", CONFIG.Main),
-		//CustomIP
-		CustomIPEnable("CustomIP.enable", CONFIG.Main), CustomIPIP("CustomIP.IP", CONFIG.Main),
 		/*------------------
 		 * Messages Config
 		 ------------------*/
@@ -67,9 +65,12 @@ public class Config {
 		MessagesJoin("Messages.join", CONFIG.Discord), MessagesFirstJoin("Messages.first-join", CONFIG.Discord),
 		MessagesQuit("Messages.quit", CONFIG.Discord),
 		MessagesMinecraftToDiscordChat("Messages.minecraft-to-discord-chat", CONFIG.Discord),
+		MessagesRemoveRank("Messages.remove-rank", CONFIG.Discord),
 		MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
 		MessagesAdvancement("Messages.advancement", CONFIG.Discord),
-		MessagesCommandList("Messages.command-list", CONFIG.Discord);
+		MessagesCommandList("Messages.command-list", CONFIG.Discord),
+		//CustomIP
+		CustomIPEnable("CustomIP.enable", CONFIG.Main), CustomIPIP("CustomIP.IP", CONFIG.Main);
 
 		private final String string;
 		private final CONFIG type;

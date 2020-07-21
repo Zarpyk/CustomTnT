@@ -63,7 +63,7 @@ public class MinecraftToDiscord implements Listener {
 
 		if (!Main.isVanish(p) && b) {
 			EmbedBuilder embed = new EmbedBuilder()
-					.setAuthor(Formatter.FText(Config.getString(co), true, p), urlSkin, urlSkin).setColor(c);
+					.setAuthor(Formatter.RemoveFormat(Config.getString(co), p), urlSkin, urlSkin).setColor(c);
 
 			textChannel = Objects
 					.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
@@ -76,10 +76,16 @@ public class MinecraftToDiscord implements Listener {
 		if (!event.isCancelled()) {
 			String message = Formatter.FText(event.getMessage(), true);
 			Player player = event.getPlayer();
+			String sendMessage = Formatter.RemoveFormat(Config.getString(Config.Options.MessagesMinecraftToDiscordChat),
+					player);
+			for (String rank : Config.getStringList(Config.Options.MessagesRemoveRank)) {
+				if (sendMessage.contains(rank)) {
+					sendMessage = sendMessage.replaceFirst(rank, "");
+				}
+			}
+			sendMessage = sendMessage.replace("%msg%", message);
 
-			textChannel.sendMessage(Formatter.RemoveFormat(Formatter.FText(
-					Config.getString(Config.Options.MessagesMinecraftToDiscordChat).replace("%msg%", message), true,
-					player))).queue();
+			textChannel.sendMessage(sendMessage).queue();
 		}
 	}
 

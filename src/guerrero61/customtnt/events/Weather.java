@@ -27,7 +27,7 @@ public class Weather implements Listener {
 		boolean weather = event.getWorld().hasStorm();
 		if (weather) {
 			String StormMessage = Config.getString(Config.Options.StormEndMsg);
-			Bukkit.broadcastMessage(Formatter.FText(StormMessage));
+			Bukkit.broadcastMessage(Formatter.FText(StormMessage, null));
 
 			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.FText(StormMessage, true),
 					"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
