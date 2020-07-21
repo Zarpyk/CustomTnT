@@ -80,11 +80,12 @@ public class MinecraftToDiscord implements Listener {
 					player);
 			for (String rank : Config.getStringList(Config.Options.MessagesRemoveRank)) {
 				if (sendMessage.contains(rank)) {
-					sendMessage = sendMessage.replaceFirst(rank, "");
+					sendMessage = sendMessage.replace(rank, "");
 				}
 			}
 			sendMessage = sendMessage.replace("%msg%", message);
-
+			textChannel = Objects
+					.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 			textChannel.sendMessage(sendMessage).queue();
 		}
 	}

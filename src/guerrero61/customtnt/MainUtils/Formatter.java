@@ -89,7 +89,7 @@ public class Formatter {
 	}
 
 	public static String RemoveFormat(String text, Player player) {
-		FText(text, true, player);
+		text = FText(text, true, player);
 
 		Matcher matcher = pattern.matcher(text);
 		while (matcher.find()) {
