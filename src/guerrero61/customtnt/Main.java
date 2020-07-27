@@ -2,6 +2,8 @@ package guerrero61.customtnt;
 
 import java.awt.*;
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,5 +163,14 @@ public class Main extends JavaPlugin {
 
 	public static int random(int a, int b) {
 		return new SplittableRandom().nextInt(a, b + 1);
+	}
+
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(Double.toString(value));
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 }

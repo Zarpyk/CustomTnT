@@ -1,7 +1,6 @@
 package guerrero61.customtnt.discord.commands;
 
 import java.awt.*;
-import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,6 +36,9 @@ public class ServerInfo extends ListenerAdapter {
 
 		String autorAvatar = event.getAuthor().getAvatarUrl();
 
+		double TPS = Main.round(Bukkit.getServer().getTPS()[0], 2);
+		String StringTPS = TPS >= 20 ? "20" : Double.toString(TPS);
+
 		EmbedBuilder embed = new EmbedBuilder()
 				.setAuthor("Información del server | TnTServer", autorAvatar, autorAvatar)
 				.setThumbnail(api.getSelfUser().getAvatarUrl())
@@ -48,8 +50,7 @@ public class ServerInfo extends ListenerAdapter {
 						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
 				.addBlankField(true)
 				.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
-				.addField("TPS", new DecimalFormat("##.##").format(Bukkit.getServer().getTPS()[0]), true)
-				.addBlankField(true)
+				.addField("TPS", StringTPS, true).addBlankField(true)
 				.addField("Horas de tormenta",
 						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
 								: "No hay tormenta"),
