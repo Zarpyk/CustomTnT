@@ -28,6 +28,6 @@ public class DiscordToMinecraft extends ListenerAdapter {
 		}
 		Bukkit.broadcastMessage(Formatter.FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
 				.replace("%nick%", event.getAuthor().getName())
-				.replace("%msg%", event.getMessage().getContentDisplay()), true));
+				.replace("%msg%", Formatter.FText(event.getMessage().getContentDisplay(), true)), true));
 	}
 }
