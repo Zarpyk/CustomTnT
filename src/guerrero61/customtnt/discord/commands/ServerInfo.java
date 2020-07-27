@@ -1,6 +1,7 @@
 package guerrero61.customtnt.discord.commands;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.MainUtils.StormActionBar;
-import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -45,14 +45,15 @@ public class ServerInfo extends ListenerAdapter {
 								+ (Bukkit.getOnlineMode() ? "Premium" : "Premium/No Premium"),
 						true)
 				.addField(Main.getPlayerCount(),
-						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true);
-		if (Config.getBool(Config.Options.StormActionBarEnable)) {
-			embed.addBlankField(true).addField("Horas de tormenta",
-					(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
-							: "No hay tormenta"),
-					true);
-		}
-		embed.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
+						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
+				.addBlankField(true)
+				.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
+				.addField("TPS", new DecimalFormat("##.##").format(Bukkit.getServer().getTPS()[0]), true)
+				.addBlankField(true)
+				.addField("Horas de tormenta",
+						(Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm() ? StormActionBar.stormTime
+								: "No hay tormenta"),
+						true)
 				.setColor(new Color(255, 61, 61)).setFooter(Main.getIp(), "https://imgur.com/jrz2u0a.png")
 				.setTimestamp(Instant.now());
 
