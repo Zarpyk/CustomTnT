@@ -74,7 +74,7 @@ public class MinecraftToDiscord implements Listener {
 	@EventHandler
 	public void playerChat(AsyncPlayerChatEvent event) {
 		if (!event.isCancelled()) {
-			String message = Formatter.FText(event.getMessage(), true);
+			String message = Formatter.RemoveFormat(event.getMessage());
 			Player player = event.getPlayer();
 			String sendMessage = Formatter.RemoveFormat(Config.getString(Config.Options.MessagesMinecraftToDiscordChat),
 					player);

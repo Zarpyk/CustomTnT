@@ -73,7 +73,8 @@ public class Totem implements Listener {
 
 	private void sendDiscordMsg(Player player, String msg, Color color) {
 		String urlSkin = MinecraftToDiscord.getPlayerHeadUrl(player);
-		EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.FText(msg, true), urlSkin, urlSkin).setColor(color);
+		EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(msg), urlSkin, urlSkin)
+				.setColor(color);
 		TextChannel textChannel = Objects
 				.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 		textChannel.sendMessage(embed.build()).queue();
