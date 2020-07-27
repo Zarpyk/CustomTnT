@@ -2,6 +2,8 @@ Prefix: "&a[&cCustomTnT&a] &e"
 Errors:
   no-exist: "&cEste comando no existe."
   no-console: "&cEste comando no esta disponible para consola."
+  args-miss: "&cFalta o sobra algun argumento para este comando."
+  no-perm: "&cNo tienes permiso para ejecutar este comando."
 Check:
   player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador"
   console: "&aEl plugin esta funcionando. Comando ejecutado des de la consola."

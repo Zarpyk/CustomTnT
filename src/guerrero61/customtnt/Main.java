@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SplittableRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -42,15 +43,11 @@ public class Main extends JavaPlugin {
 
 	public static String prefix;
 
-	private static final String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0" };
+	private static final String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0", "192.168.0.173",
+			"***REMOVED***" };
 
 	public JDA api;
 	public LuckPerms lpApi;
-
-	@Override
-	public void onLoad() {
-		super.onLoad();
-	}
 
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
@@ -110,6 +107,12 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(text);
 	}
 
+	public static void debug(String text) {
+		if (Config.getBool(Config.Options.DebugMode)) {
+			consoleMsg(Formatter.FText("&5[&bDEBUG&5] &e" + text));
+		}
+	}
+
 	public static String getIp() {
 		return Bukkit.getServer().getIp()
 				+ (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort());
@@ -154,5 +157,9 @@ public class Main extends JavaPlugin {
 			}
 		}
 		return true;
+	}
+
+	public static int random(int a, int b) {
+		return new SplittableRandom().nextInt(a, b + 1);
 	}
 }

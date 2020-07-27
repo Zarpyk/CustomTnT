@@ -20,6 +20,7 @@ import guerrero61.customtnt.discord.events.DiscordReady;
 import guerrero61.customtnt.discord.minecraft.DiscordToMinecraft;
 import guerrero61.customtnt.discord.minecraft.MinecraftToDiscord;
 import guerrero61.customtnt.events.*;
+import guerrero61.customtnt.mobs.TnTDragon;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -107,6 +108,7 @@ public class RegisterEvents {
 		pm.registerEvents(new DisableCustomRepair(), m);
 		pm.registerEvents(new DisableTrident(), m);
 		pm.registerEvents(new MinecraftToDiscord(m, m.api), m);
+		pm.registerEvents(new TnTDragon(m), m);
 		//pm.registerEvents(new ColorChat(), m);
 	}
 

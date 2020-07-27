@@ -1,9 +1,9 @@
 package guerrero61.customtnt.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import guerrero61.customtnt.Main;
 import guerrero61.customtnt.MainUtils.Formatter;
 import guerrero61.customtnt.MainUtils.Config.Config;
 
@@ -16,7 +16,7 @@ public class Check {
 			player.sendMessage(Formatter.FText(playerMsg));
 		} else {
 			String consoleMsg = Config.getString(Config.Options.CheckConsole);
-			Bukkit.getConsoleSender().sendMessage(Formatter.FText(consoleMsg));
+			Main.consoleMsg(Formatter.FText(consoleMsg));
 		}
 	}
 }

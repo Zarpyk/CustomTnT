@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.JDA;
 
 public class MainCommand implements CommandExecutor {
@@ -21,14 +22,20 @@ public class MainCommand implements CommandExecutor {
 		api = a;
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			isPlayer = true;
 			player = (Player) sender;
+			if (!player.hasPermission("ctnt.*")) {
+				player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsNoPerm), player));
+				return true;
+			}
 		} else
 			isPlayer = false;
 
 		if (args.length > 0) {
+			Main.debug(args[0]);
 			switch (args[0].toLowerCase()) {
 			case "check":
 				new Check(isPlayer, sender);
@@ -36,6 +43,17 @@ public class MainCommand implements CommandExecutor {
 			case "reload":
 				new Reload(isPlayer, sender, main);
 				return true;
+			case "debug":
+				if (Config.getBool(Config.Options.DebugMode)) {
+					Config.set(Config.Options.DebugMode, false);
+					player.sendMessage(Formatter.FText("&c&lDebug Mode Off", true, player));
+				} else {
+					Config.set(Config.Options.DebugMode, true);
+					player.sendMessage(Formatter.FText("&a&lDebug Mode On", true, player));
+				}
+				return true;
+			case "skills":
+				return new DragonSkills(main).onCommand(sender, command, label, args);
 			default:
 				SendHelp();
 				return true;
@@ -47,7 +65,7 @@ public class MainCommand implements CommandExecutor {
 	}
 
 	private void SendHelp() {
-		String[] helpMsg = new String[] { "&a-----------------&c&lTnTCore&a-----------------",
+		String[] helpMsg = new String[] { "&a-----------------&c&lCustomTnT&a-----------------",
 				"&6/tnt check &7- Comprobación basica del funcionamiento.",
 				"&6/tnt reload &7- Sirve para recargar la configuración.",
 				"&a------------------------------------------" };

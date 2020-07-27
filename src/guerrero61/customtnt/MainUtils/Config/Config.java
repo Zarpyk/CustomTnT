@@ -28,12 +28,15 @@ public class Config {
 		TotemFailEnable("Totem.fail-enable", CONFIG.Main), TotemProbability("Totem.probability", CONFIG.Main),
 		//MainWorld
 		MainWorld("MainWorld", CONFIG.Main),
+		//Debug Mode
+		DebugMode("Debug-mode", CONFIG.Main),
 		/*------------------
 		 * Messages Config
 		 ------------------*/
 		Prefix("Prefix", CONFIG.Messages),
 		//Errors
 		ErrorsNoExist("Errors.no-exist", CONFIG.Messages), ErrorsNoConsole("Errors.no-console", CONFIG.Messages),
+		ErrorsArgsMiss("Errors.args-miss", CONFIG.Messages), ErrorsNoPerm("Errors.no-perm", CONFIG.Messages),
 		//Check
 		CheckPlayer("Check.player", CONFIG.Messages), CheckConsole("Check.console", CONFIG.Messages),
 		//Death
@@ -108,6 +111,27 @@ public class Config {
 
 	public static Boolean getBool(Options configOptions) {
 		return Main.configMap.get(configOptions.getType()).getBoolean(configOptions.getValue());
+	}
+
+	public static void set(Options configOptions, String value) {
+		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+
+	}
+
+	public static void set(Options configOptions, List<String> value) {
+		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+	}
+
+	public static void set(Options configOptions, Integer value) {
+		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+	}
+
+	public static void set(Options configOptions, Float value) {
+		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+	}
+
+	public static void set(Options configOptions, Boolean value) {
+		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
 	}
 
 	/*public static String getString(String configOption) {

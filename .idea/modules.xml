@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CustomTnT.iml" filepath="$PROJECT_DIR$/CustomTnT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TnTCore.iml" filepath="$PROJECT_DIR$/TnTCore.iml" />
     </modules>
   </component>
 </project>

@@ -2,11 +2,9 @@ package guerrero61.customtnt.commands;
 
 import java.util.HashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.DisableBot;
 import guerrero61.customtnt.MainUtils.Formatter;
 import guerrero61.customtnt.MainUtils.RegisterEvents;
 import guerrero61.customtnt.MainUtils.Config.Config;
@@ -16,7 +14,7 @@ import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
 public class Reload {
 
 	public Reload(boolean isPlayer, CommandSender sender, Main main) {
-		DisableBot.Disable(main);
+		//DisableBot.Disable(main);
 		Main.configMap = null;
 		Main.config = null;
 		main.configPath = null;
@@ -43,7 +41,7 @@ public class Reload {
 		if (isPlayer) {
 			sender.sendMessage(Formatter.FText(Config.getString(Config.Options.Reload)));
 		} else {
-			Bukkit.getConsoleSender().sendMessage(Formatter.FText(Config.getString(Config.Options.Reload)));
+			Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.Reload)));
 		}
 	}
 }

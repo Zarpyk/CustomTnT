@@ -14,3 +14,4 @@ Totem:
   fail-enable: true #Enable totem can fail [Default: true]
   probability: 5 #Probability that the totem may fail [Default: 5%]
 MainWorld: "world" #MainWorld Name [Default: world]
+Debug-mode: false
