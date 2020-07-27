@@ -1,11 +1,11 @@
-package guerrero61.customtnt.MainUtils.Registers;
+package guerrero61.customtnt.mainutils.registers;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.StormActionBar;
 import guerrero61.customtnt.events.Death;
+import guerrero61.customtnt.mainutils.StormActionBar;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
 public class RegisterPlaceholderAPI extends PlaceholderExpansion {
@@ -55,18 +55,13 @@ public class RegisterPlaceholderAPI extends PlaceholderExpansion {
 		Main.consoleMsg(params);
 		switch (params.toLowerCase()) {
 		case "storm_time":
-			Main.consoleMsg("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1");
 			return StormActionBar.stormTime;
 		case "add_storm_time":
-			Main.consoleMsg("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2");
 			return Float.toString(Death.stormHours);
 		default:
-			Main.consoleMsg("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3");
 			if (player == null) {
-				Main.consoleMsg("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4");
 				return null;
 			}
-			Main.consoleMsg("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5");
 			return null;
 		}
 	}

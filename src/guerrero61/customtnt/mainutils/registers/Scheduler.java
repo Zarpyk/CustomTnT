@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils.Registers;
+package guerrero61.customtnt.mainutils.registers;
 
 import java.awt.*;
 
@@ -7,9 +7,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config.Config;
 import guerrero61.customtnt.discord.events.ReloadStatus;
 import guerrero61.customtnt.events.formats.TabList;
+import guerrero61.customtnt.mainutils.config.Config;
 
 public class Scheduler {
 
@@ -41,6 +41,6 @@ public class Scheduler {
 
 	@Deprecated
 	public void registerDependencies(Main main) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> new RegisterEvents().registerDependencies(main), 25L);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> new Registers().registerDependencies(main), 25L);
 	}
 }

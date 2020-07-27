@@ -1,11 +1,11 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.mainutils;
 
 import java.util.Objects;
 
 import org.bukkit.Bukkit;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.mainutils.config.Config;
 
 public class StormActionBar {
 

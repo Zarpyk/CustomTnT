@@ -16,15 +16,13 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.StormActionBar;
-import guerrero61.customtnt.MainUtils.Config.Config;
-import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
-import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
-import guerrero61.customtnt.MainUtils.Registers.RegisterEvents;
-import guerrero61.customtnt.MainUtils.Registers.Scheduler;
 import guerrero61.customtnt.discord.events.DisableBot;
 import guerrero61.customtnt.discord.events.ReloadStatus;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.StormActionBar;
+import guerrero61.customtnt.mainutils.config.Config;
+import guerrero61.customtnt.mainutils.registers.Registers;
+import guerrero61.customtnt.mainutils.registers.Scheduler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -42,8 +40,8 @@ public class Main extends JavaPlugin {
 
 	public String configPath;
 	public static FileConfiguration config;
-	public FileConfiguration messagesConfig;
-	public FileConfiguration discordConfig;
+	public static FileConfiguration messagesConfig;
+	public static FileConfiguration discordConfig;
 	public File messagesConfigFile;
 	public File discordConfigFile;
 	public static Map<Config.CONFIG, FileConfiguration> configMap;
@@ -60,21 +58,14 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
 		if (CheckDisablePlugin()) {
 			configMap = new HashMap<>();
-			RegisterEvents registerEvents = new RegisterEvents();
-			registerEvents.registerConfig(this);
-			configMap.put(Config.CONFIG.Main, config);
-			registerEvents.registerMessagesConfig(this);
-			configMap.put(Config.CONFIG.Messages,
-					messagesConfig == null ? MessagesConfig.getMessagesConfig(this) : messagesConfig);
-			registerEvents.registerDiscordConfig(this);
-			configMap.put(Config.CONFIG.Discord,
-					discordConfig == null ? DiscordConfig.getDiscordConfig(this) : discordConfig);
+			Registers registers = new Registers();
+			registers.registerConfig(this);
 			if (api == null) {
-				registerEvents.registerDiscord(this);
+				registers.registerDiscord(this);
 			}
-			registerEvents.registerDependencies(this);
-			registerEvents.registerEvents(this);
-			registerEvents.registerCommands(this);
+			registers.registerDependencies(this);
+			registers.registerEvents(this);
+			registers.registerCommands(this);
 
 			if (Config.getBool(Config.Options.StormActionBarEnable)) {
 				new StormActionBar().StormAB(this);

@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
 import net.dv8tion.jda.api.JDA;
 
 public class MainCommand implements CommandExecutor {

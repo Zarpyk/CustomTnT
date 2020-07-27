@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.mainutils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
 
 public class Sleep implements Listener {
 

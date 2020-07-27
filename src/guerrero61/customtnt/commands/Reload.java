@@ -5,11 +5,9 @@ import java.util.HashMap;
 import org.bukkit.command.CommandSender;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.Config.Config;
-import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
-import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
-import guerrero61.customtnt.MainUtils.Registers.RegisterEvents;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
+import guerrero61.customtnt.mainutils.registers.Registers;
 
 public class Reload {
 
@@ -18,24 +16,17 @@ public class Reload {
 		Main.configMap = null;
 		Main.config = null;
 		main.configPath = null;
-		main.messagesConfig = null;
+		Main.messagesConfig = null;
 		main.messagesConfigFile = null;
-		main.discordConfig = null;
+		Main.discordConfig = null;
 		main.discordConfigFile = null;
 
 		Main.configMap = new HashMap<>();
-		RegisterEvents registerEvents = new RegisterEvents();
-		registerEvents.registerConfig(main);
-		Main.configMap.put(Config.CONFIG.Main, Main.config);
-		registerEvents.registerMessagesConfig(main);
-		Main.configMap.put(Config.CONFIG.Messages,
-				main.messagesConfig == null ? MessagesConfig.getMessagesConfig(main) : main.messagesConfig);
-		registerEvents.registerDiscordConfig(main);
-		Main.configMap.put(Config.CONFIG.Discord,
-				main.discordConfig == null ? DiscordConfig.getDiscordConfig(main) : main.discordConfig);
+		Registers registers = new Registers();
+		registers.registerConfig(main);
 
 		if (main.api == null) {
-			registerEvents.registerDiscord(main);
+			registers.registerDiscord(main);
 			main.api.cancelRequests();
 		}
 		if (isPlayer) {

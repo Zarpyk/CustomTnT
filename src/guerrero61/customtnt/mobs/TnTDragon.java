@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mobs.dragonskills.*;
 import guerrerocraft61.particleapi.VectorMath;
 

@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils.Config;
+package guerrero61.customtnt.mainutils.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,27 +15,27 @@ import guerrero61.customtnt.Main;
 public class MessagesConfig {
 
 	public static FileConfiguration getMessagesConfig(Main m) {
-		if (m.messagesConfig == null) {
+		if (Main.messagesConfig == null) {
 			reloadMessagesConfig(m);
 		}
-		return m.messagesConfig;
+		return Main.messagesConfig;
 	}
 
 	private static void reloadMessagesConfig(Main m) {
-		if (m.messagesConfig == null) {
+		if (Main.messagesConfig == null) {
 			m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
 		}
-		m.messagesConfig = YamlConfiguration.loadConfiguration(m.messagesConfigFile);
+		Main.messagesConfig = YamlConfiguration.loadConfiguration(m.messagesConfigFile);
 		Reader defConfigStream;
 		defConfigStream = new InputStreamReader(Objects.requireNonNull(m.getResource("messages.yml")),
 				StandardCharsets.UTF_8);
 		YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-		m.messagesConfig.setDefaults(defConfig);
+		Main.messagesConfig.setDefaults(defConfig);
 	}
 
 	public void saveMessagesConfig(Main m) {
 		try {
-			m.messagesConfig.save(m.messagesConfigFile);
+			Main.messagesConfig.save(m.messagesConfigFile);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

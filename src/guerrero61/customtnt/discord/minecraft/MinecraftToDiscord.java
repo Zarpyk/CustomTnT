@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.StormActionBar;
-import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.StormActionBar;
+import guerrero61.customtnt.mainutils.config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;

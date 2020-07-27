@@ -8,7 +8,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.mainutils.Formatter;
 
 public class TabList implements Listener {
 

@@ -9,8 +9,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.Config.Config;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
 import guerrero61.customtnt.mobs.dragonskills.DragonSkill1;
 import guerrero61.customtnt.mobs.dragonskills.DragonSkill2;
 import guerrero61.customtnt.mobs.dragonskills.DragonSkill3;
@@ -61,7 +61,7 @@ public class DragonSkills {
 			}
 			return true;
 		case "3":
-			EnderDragon enderDragon = null;
+			EnderDragon enderDragon;
 			if (args.length == 2) {
 				enderDragon = (EnderDragon) playerLocation.getWorld().spawnEntity(playerLocation,
 						EntityType.ENDER_DRAGON);

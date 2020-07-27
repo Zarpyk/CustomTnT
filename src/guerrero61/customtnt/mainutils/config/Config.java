@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils.Config;
+package guerrero61.customtnt.mainutils.config;
 
 import java.util.List;
 import java.util.Objects;

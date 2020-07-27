@@ -1,7 +1,7 @@
 package guerrero61.customtnt.discord.events;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.mainutils.Formatter;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ShutdownEvent;
