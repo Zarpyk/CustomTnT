@@ -1,9 +1,10 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.MainUtils.Registers;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.StormActionBar;
 import guerrero61.customtnt.events.Death;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 

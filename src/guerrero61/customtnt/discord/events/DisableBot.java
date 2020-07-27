@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.discord.events;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;

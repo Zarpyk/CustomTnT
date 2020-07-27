@@ -6,10 +6,10 @@ import org.bukkit.command.CommandSender;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.MainUtils.Formatter;
-import guerrero61.customtnt.MainUtils.RegisterEvents;
 import guerrero61.customtnt.MainUtils.Config.Config;
 import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
 import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
+import guerrero61.customtnt.MainUtils.Registers.RegisterEvents;
 
 public class Reload {
 

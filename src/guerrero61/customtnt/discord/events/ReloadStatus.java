@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.discord.events;
 
 import java.awt.*;
 import java.util.Objects;
@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.bukkit.Bukkit;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Formatter;
 import guerrero61.customtnt.MainUtils.Config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;

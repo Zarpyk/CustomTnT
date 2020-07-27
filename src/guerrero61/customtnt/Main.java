@@ -16,10 +16,15 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import guerrero61.customtnt.MainUtils.*;
+import guerrero61.customtnt.MainUtils.Formatter;
+import guerrero61.customtnt.MainUtils.StormActionBar;
 import guerrero61.customtnt.MainUtils.Config.Config;
 import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
 import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
+import guerrero61.customtnt.MainUtils.Registers.RegisterEvents;
+import guerrero61.customtnt.MainUtils.Registers.Scheduler;
+import guerrero61.customtnt.discord.events.DisableBot;
+import guerrero61.customtnt.discord.events.ReloadStatus;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -77,6 +82,7 @@ public class Main extends JavaPlugin {
 			Scheduler scheduler = new Scheduler();
 			scheduler.startMessageDelayScheduler(this);
 			scheduler.reloadStatusScheduler(this);
+			scheduler.registerScoreboard(this);
 			//scheduler.registerDependencies(this);
 		} else {
 			Bukkit.getPluginManager().disablePlugin(this);

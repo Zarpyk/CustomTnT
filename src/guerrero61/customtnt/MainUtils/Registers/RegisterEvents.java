@@ -1,4 +1,4 @@
-package guerrero61.customtnt.MainUtils;
+package guerrero61.customtnt.MainUtils.Registers;
 
 import java.io.File;
 import java.util.Objects;
@@ -10,6 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.MainUtils.Formatter;
 import guerrero61.customtnt.MainUtils.Config.Config;
 import guerrero61.customtnt.MainUtils.Config.DiscordConfig;
 import guerrero61.customtnt.MainUtils.Config.MessagesConfig;
@@ -20,6 +21,7 @@ import guerrero61.customtnt.discord.events.DiscordReady;
 import guerrero61.customtnt.discord.minecraft.DiscordToMinecraft;
 import guerrero61.customtnt.discord.minecraft.MinecraftToDiscord;
 import guerrero61.customtnt.events.*;
+import guerrero61.customtnt.events.formats.TabList;
 import guerrero61.customtnt.mobs.TnTDragon;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
@@ -109,6 +111,7 @@ public class RegisterEvents {
 		pm.registerEvents(new DisableTrident(), m);
 		pm.registerEvents(new MinecraftToDiscord(m, m.api), m);
 		pm.registerEvents(new TnTDragon(m), m);
+		pm.registerEvents(new TabList(m), m);
 		//pm.registerEvents(new ColorChat(), m);
 	}
 

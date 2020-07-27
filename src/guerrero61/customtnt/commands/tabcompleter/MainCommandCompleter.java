@@ -40,7 +40,8 @@ public class MainCommandCompleter implements TabCompleter {
 						}
 						return count;
 					}
-					if (args[1].equals("1")) {
+					switch (args[1]) {
+					case "1": {
 						Player player = (Player) sender;
 						Block targ = player.getTargetBlock(null, 5);
 						switch (args.length) {
@@ -54,7 +55,9 @@ public class MainCommandCompleter implements TabCompleter {
 						case 8:
 							return Collections.singletonList(targ.getZ() + "");
 						}
-					} else if (args[1].equals("2")) {
+						break;
+					}
+					case "2": {
 						Player player = (Player) sender;
 						Block targ = player.getTargetBlock(null, 5);
 						switch (args.length) {
@@ -65,6 +68,21 @@ public class MainCommandCompleter implements TabCompleter {
 						case 5:
 							return Collections.singletonList(targ.getZ() + "");
 						}
+						break;
+					}
+					case "3": {
+						Player player = (Player) sender;
+						Block targ = player.getTargetBlock(null, 5);
+						switch (args.length) {
+						case 3:
+							return Collections.singletonList(targ.getX() + "");
+						case 4:
+							return Collections.singletonList(targ.getY() + "");
+						case 5:
+							return Collections.singletonList(targ.getZ() + "");
+						}
+						break;
+					}
 					}
 				}
 			}
