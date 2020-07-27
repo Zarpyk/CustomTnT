@@ -76,5 +76,4 @@ public class DragonSkill3 {
 		Bukkit.getScheduler().runTaskLater(main, () -> enderDragon.setInvulnerable(false),
 				(timeBetweenTnT * tntCount) + tntFuseTick);
 	}
-
 }

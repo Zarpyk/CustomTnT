@@ -13,5 +13,4 @@ public class DragonSkill8 {
 	public void Skill8() {
 		Main.debug("Skill 8");
 	}
-
 }

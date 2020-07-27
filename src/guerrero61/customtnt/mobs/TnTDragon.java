@@ -79,7 +79,7 @@ public class TnTDragon implements Listener {
 					} else if (autoHabilityCooldown == 0) {
 						Player[] playerList = Bukkit.getOnlinePlayers().toArray(new Player[0]);
 						Player selectedTarget = playerList[(int) ((Math.random() * playerList.length) + 1)];
-						Arrow arrow = (Arrow) ((Player) selectedTarget).getWorld()
+						Arrow arrow = (Arrow) selectedTarget.getWorld()
 								.spawnEntity(new Location(selectedTarget.getWorld(), 0, 500, 0), EntityType.ARROW);
 						arrow.setShooter(selectedTarget);
 						onDamage(new EntityDamageByEntityEvent(arrow, enderDragon, EntityDamageEvent.DamageCause.CUSTOM,
@@ -270,5 +270,4 @@ public class TnTDragon implements Listener {
 			return skillCooldown;
 		}
 	}
-
 }

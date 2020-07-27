@@ -37,6 +37,6 @@ public class DragonSkill1 {
 					}
 				}
 			}
-		}.runTaskTimer(main, 0, 1);
+		}.runTaskTimer(main, 0, 0);
 	}
 }
