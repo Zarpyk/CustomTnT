@@ -3,12 +3,12 @@ package guerrero61.customtnt.discord.commands;
 import java.awt.*;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.StormActionBar;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -30,14 +30,17 @@ public class ServerInfo extends ListenerAdapter {
 		if (Main.checkCommand("info", event.getMessage(), event.getChannel())) {
 			return;
 		}
-
-		String onlinePlayers = Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.joining(","))
-				.replace(",", "\n");
+		StringBuilder onlinePlayer = new StringBuilder();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			onlinePlayer.append(Formatter.FText(Formatter.FText("%essentials_afk%", true, player).equals("yes")
+					? Formatter.FText("[AFK] ", true, player)
+					: "", true, player)).append(player.getName()).append("\n");
+		}
 
 		String autorAvatar = event.getAuthor().getAvatarUrl();
 
 		double TPS = Main.round(Bukkit.getServer().getTPS()[0], 2);
-		String StringTPS = TPS >= 20 ? "20" : Double.toString(TPS);
+		String StringTPS = TPS >= 20 ? "20.0" : Double.toString(TPS);
 
 		EmbedBuilder embed = new EmbedBuilder()
 				.setAuthor("Información del server | TnTServer", autorAvatar, autorAvatar)
@@ -47,7 +50,8 @@ public class ServerInfo extends ListenerAdapter {
 								+ (Bukkit.getOnlineMode() ? "Premium" : "Premium/No Premium"),
 						true)
 				.addField(Main.getPlayerCount(),
-						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayers, true)
+						(Bukkit.getOnlinePlayers().size() == 0) ? "No hay nadie jugando" : onlinePlayer.toString(),
+						true)
 				.addBlankField(true)
 				.addField("Jugadores unicos", Integer.toString(Bukkit.getOfflinePlayers().length), true)
 				.addField("TPS", StringTPS, true).addBlankField(true)

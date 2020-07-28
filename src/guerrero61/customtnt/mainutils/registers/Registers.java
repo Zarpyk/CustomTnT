@@ -9,6 +9,7 @@ import guerrero61.customtnt.Main;
 import guerrero61.customtnt.commands.MainCommand;
 import guerrero61.customtnt.commands.tabcompleter.MainCommandCompleter;
 import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -24,7 +25,9 @@ public class Registers {
 		RegisterConfigs registerConfigs = new RegisterConfigs();
 		registerConfigs.registerConfig(m);
 		registerConfigs.registerMessagesConfig(m);
-		registerConfigs.registerDiscordConfig(m);
+		if (Config.getBool(Config.Options.DiscordEnable)) {
+			registerConfigs.registerDiscordConfig(m);
+		}
 	}
 
 	/**
@@ -36,12 +39,28 @@ public class Registers {
 	}
 
 	public void registerDependencies(Main m) {
-		if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
-			m.lpApi = registerLuckPerms();
-		}
 		if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
 			PlaceholderAPI.registerPlaceholderHook("customtnt", new RegisterPlaceholderAPI(m));
 			//registerPAPI(m);
+		} else {
+			Main.consoleMsg(Formatter.FText("&c&lPlaceholderAPI is not in the plugin folder"));
+			Bukkit.getPluginManager().disablePlugin(m);
+		}
+		if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
+			Main.consoleMsg(Formatter.FText("&c&lVault is not in the plugin folder"));
+			Bukkit.getPluginManager().disablePlugin(m);
+		}
+		if (Bukkit.getPluginManager().getPlugin("SkinsRestorer") == null) {
+			Config.set(Config.Options.SkinsRestorerEnable, false);
+		}
+		if (Bukkit.getPluginManager().getPlugin("MMOLib") == null
+				|| Bukkit.getPluginManager().getPlugin("MMOItems") == null) {
+			Config.set(Config.Options.MMOItemsEnable, false);
+		}
+		if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
+			m.lpApi = registerLuckPerms();
+		} else {
+			Config.set(Config.Options.LuckPermsEnable, false);
 		}
 	}
 
@@ -76,7 +95,7 @@ public class Registers {
 
 	@Deprecated
 	private void autoRegisterPAPI(Main m) {
-		String[] expansionList = new String[] { "Vault", "Player", "Server" };
+		String[] expansionList = new String[] { "Vault", "Player", "Server", "Essentials" };
 		PlaceholderAPIPlugin papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
 		assert papi != null;
 		for (String expansionName : expansionList) {

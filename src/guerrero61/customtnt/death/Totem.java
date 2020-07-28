@@ -1,4 +1,4 @@
-package guerrero61.customtnt.events;
+package guerrero61.customtnt.death;
 
 import java.awt.*;
 import java.util.Objects;
@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
+import guerrero61.customtnt.Main;
 import guerrero61.customtnt.discord.minecraft.MinecraftToDiscord;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
@@ -38,15 +39,15 @@ public class Totem implements Listener {
 			String playerN = player.getName();
 			int failProb = Config.getInt(Config.Options.TotemProbability);
 
-			if (failProb >= 101) {
+			if (failProb > 100) {
 				failProb = 100;
-			} else if (failProb < 1) {
-				failProb = 1;
+			} else if (failProb < 0) {
+				failProb = 0;
 			}
-			int random = (int) (Math.random() * 100) + 1;
+			int random = Main.random(1, 99);
 			int resta = 100 - failProb;
 			if (random >= resta) {
-				message(player, random, resta, "=>", true);
+				message(player, random, resta, ">=", true);
 				event.setCancelled(true);
 			} else {
 				message(player, random, resta, "!=", false);
@@ -57,7 +58,7 @@ public class Totem implements Listener {
 	private void message(Player player, int random, int resta, String symbol, boolean fail) {
 		String totemMessage = Formatter.FText(
 				Config.getString(Config.Options.TotemUseMsg).replace("%porcent%", symbol)
-						.replace("%totem_fail%", String.valueOf(random)).replace("%number%", String.valueOf(resta)),
+						.replace("%totem_fail%", Integer.toString(random)).replace("%number%", Integer.toString(resta)),
 				true, player);
 		String totemFail = Formatter.FText(Config.getString(Config.Options.TotemFailMsg), true, player);
 

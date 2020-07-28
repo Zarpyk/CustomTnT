@@ -32,6 +32,8 @@ Messages:
     - "/summon"
     - "/ip"
     - "/busca"
+Verify:
+  prefix: "ⓥ 🆅 🅅 『v』"
 CustomIP:
   enable: true #Show custom ip in /ip [Default: true]
   IP: "***REMOVED***" #The custom ip [Default: ***REMOVED***]

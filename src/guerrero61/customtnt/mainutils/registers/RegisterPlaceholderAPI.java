@@ -4,7 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.events.Death;
+import guerrero61.customtnt.death.Death;
 import guerrero61.customtnt.mainutils.StormActionBar;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 

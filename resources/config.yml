@@ -1,17 +1,55 @@
+Features: #Requires restart
+  Death: true #Enable death module [Default: true]
+  Disable: true #Enable disable module [Default: true]
+  Discord: true #Enable discord module [Default: true]
+  Formatter: true #Enable formatter module [Default: true]
+  CustomDragon: true #Enable custom ender dragon module [Default: true]
+  #Plugin Hooks
+  SkinsRestorer: true #Enable SkinsRestorer module [Default: true]
+  MMOItems: true #Enable MMOItems module [Default: true]
+  LuckPerms: true #Enable LuckPerms module [Default: true]
 Death:
-  msg-enable: true #Enable custom Death Message [Default: true]
-  coords-enable: true #Enable show Death Coords [Default: true]
-Sleep:
-  explosive: false #Enable explosive bed if player can't sleep **BUG** [Default: false]
-Storm:
-  enable: false #Enable Death Train [Default: false]
-  add-seconds: 720 #Seconds added per death [Default: 720 (12 minute)]
-  sound-enable: true #Enable sound when player death [Default: true]
-  title-enable: true #Enable title when player death [Default: true]
-  actionbar-enable: false #Enable show storm time in actionbar [Default: false]
-  actionbar-delay: 60 #Time between show actionbar [Default: 60 (1 minute)]
-Totem:
-  fail-enable: true #Enable totem can fail [Default: true]
-  probability: 5 #Probability that the totem may fail [Default: 5%]
-MainWorld: "world" #MainWorld Name [Default: world]
+  #Enable custom Death Message [Default: true]
+  msg-enable: true
+  #Enable show Death Coords [Default: true]
+  coords-enable: true
+  Sleep:
+    #Enable explosive bed if player can't sleep **BUG** [Default: false]
+    explosive: false
+  Storm:
+    #Enable Death Train [Default: false]
+    enable: false
+    #Seconds added per death [Default: 720 (12 minute)]
+    add-seconds: 720
+    #Enable sound when player death [Default: true]
+    sound-enable: true
+    #Enable title when player death [Default: true]
+    title-enable: true
+    #Enable show storm time in actionbar [Default: false]
+    actionbar-enable: false
+    #Time between show actionbar [Default: 60 (1 minute)]
+    actionbar-delay: 60
+  Totem:
+    #Enable totem can fail [Default: true]
+    fail-enable: true
+    #Probability that the totem may fail [Default: 5%]
+    probability: 5
+Disable:
+  #Disable trident drop [Default: true]
+  trident: true
+Formatter:
+  #Enable custom tab-list (teams, this include death msg,
+  #advancements, scoreboards...) [Default: true]
+  tab-list: true
+  #Enable custom chat format [Default: true]
+  custom-chat: true
+CustomDragon:
+  name: "&cTnT Dragon"
+MMOItems:
+  #Disable MMOItem use normal material to repair custom item [Default: true]
+  disable-custom-repair: true
+
+#MainWorld Name [Default: world]
+MainWorld: "world"
+#Debug mode [Default: false]
 Debug-mode: false

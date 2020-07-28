@@ -33,7 +33,7 @@ public class MessagesConfig {
 		Main.messagesConfig.setDefaults(defConfig);
 	}
 
-	public void saveMessagesConfig(Main m) {
+	public static void saveMessagesConfig(Main m) {
 		try {
 			Main.messagesConfig.save(m.messagesConfigFile);
 		} catch (IOException e) {

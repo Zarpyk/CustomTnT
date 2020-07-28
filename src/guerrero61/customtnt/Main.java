@@ -34,6 +34,7 @@ public class Main extends JavaPlugin {
 	PluginDescriptionFile pInfo = getDescription();
 	public String name = pInfo.getName();
 	public String version = pInfo.getVersion();
+	private static Main plugin = null;
 
 	public String startMessage = ChatColor.GREEN + name + " " + version + ": Se ha activado.";
 	public String stopMessage = ChatColor.RED + name + " " + version + ": Se ha desactivado.";
@@ -48,11 +49,15 @@ public class Main extends JavaPlugin {
 
 	public static String prefix;
 
-	private static final String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0", "192.168.0.173",
-			"***REMOVED***" };
+	private static final String[] allowIP = new String[] { "***REMOVED***", "0.0.0.0", "***REMOVED***" };
 
 	public JDA api;
 	public LuckPerms lpApi;
+
+	@Override
+	public void onLoad() {
+		plugin = this;
+	}
 
 	public void onEnable() {
 		Bukkit.getConsoleSender().sendMessage(startMessage);
@@ -60,16 +65,14 @@ public class Main extends JavaPlugin {
 			configMap = new HashMap<>();
 			Registers registers = new Registers();
 			registers.registerConfig(this);
-			if (api == null) {
+			if (api == null && Config.getBool(Config.Options.DiscordEnable)) {
 				registers.registerDiscord(this);
 			}
 			registers.registerDependencies(this);
 			registers.registerEvents(this);
 			registers.registerCommands(this);
 
-			if (Config.getBool(Config.Options.StormActionBarEnable)) {
-				new StormActionBar().StormAB(this);
-			}
+			new StormActionBar().StormAB(this);
 			Scheduler scheduler = new Scheduler();
 			scheduler.startMessageDelayScheduler(this);
 			scheduler.reloadStatusScheduler(this);
@@ -90,6 +93,10 @@ public class Main extends JavaPlugin {
 			e.printStackTrace();
 		}
 		Bukkit.getConsoleSender().sendMessage(stopMessage);
+	}
+
+	public static Main getPlugin() {
+		return plugin;
 	}
 
 	public static boolean CheckDisablePlugin() {

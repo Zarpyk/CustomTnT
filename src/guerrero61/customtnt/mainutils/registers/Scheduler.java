@@ -4,11 +4,10 @@ import java.awt.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Team;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.discord.events.ReloadStatus;
-import guerrero61.customtnt.events.formats.TabList;
+import guerrero61.customtnt.formatters.tablist.TabList;
 import guerrero61.customtnt.mainutils.config.Config;
 
 public class Scheduler {
@@ -27,10 +26,6 @@ public class Scheduler {
 	}
 
 	public void registerScoreboard(Main main) {
-		for (Team team : main.getServer().getScoreboardManager().getMainScoreboard().getTeams()) {
-			team.unregister();
-		}
-
 		TabList tabList = new TabList(main);
 		new BukkitRunnable() {
 			public void run() {

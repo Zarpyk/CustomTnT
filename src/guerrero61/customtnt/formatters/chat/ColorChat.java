@@ -1,4 +1,4 @@
-package guerrero61.customtnt.events.formats;
+package guerrero61.customtnt.formatters.chat;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

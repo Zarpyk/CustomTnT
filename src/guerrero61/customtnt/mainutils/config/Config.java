@@ -3,6 +3,8 @@ package guerrero61.customtnt.mainutils.config;
 import java.util.List;
 import java.util.Objects;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 import guerrero61.customtnt.Main;
 
 public class Config {
@@ -15,17 +17,34 @@ public class Config {
 		/*------------------
 		 * Main Config
 		 ------------------*/
+		//Features
+		DeathEnable("Features.Death", CONFIG.Main), DisableEnable("Features.Disable", CONFIG.Main),
+		DiscordEnable("Features.Discord", CONFIG.Main), FormatterEnable("Features.Formatter", CONFIG.Main),
+		CustomDragonEnable("Features.CustomDragon", CONFIG.Main),
+		//Features Plugin Hooks
+		SkinsRestorerEnable("Features.SkinsRestorer", CONFIG.Main), MMOItemsEnable("Features.MMOItems", CONFIG.Main),
+		LuckPermsEnable("Features.LuckPerms", CONFIG.Main),
 		//Death
 		DeathMsgEnable("Death.msg-enable", CONFIG.Main), DeathCoordsEnable("Death.coords-enable", CONFIG.Main),
-		//Sleep
-		SleepExplosive("Sleep.explosive", CONFIG.Main),
-		//Storm
-		StormEnable("Storm.enable", CONFIG.Main), StormAddSeconds("Storm.add-seconds", CONFIG.Main),
-		StormSoundEnable("Storm.sound-enable", CONFIG.Main), StormTitleEnable("Storm.title-enable", CONFIG.Main),
-		StormActionBarEnable("Storm.actionbar-enable", CONFIG.Main),
-		StormActionBarDelay("Storm.actionbar-delay", CONFIG.Main),
-		//Totem
-		TotemFailEnable("Totem.fail-enable", CONFIG.Main), TotemProbability("Totem.probability", CONFIG.Main),
+		//Death.Sleep
+		SleepExplosive("Death.Sleep.explosive", CONFIG.Main),
+		//Death.Storm
+		StormEnable("Death.Storm.enable", CONFIG.Main), StormAddSeconds("Death.Storm.add-seconds", CONFIG.Main),
+		StormSoundEnable("Death.Storm.sound-enable", CONFIG.Main),
+		StormTitleEnable("Death.Storm.title-enable", CONFIG.Main),
+		StormActionBarEnable("Death.Storm.actionbar-enable", CONFIG.Main),
+		StormActionBarDelay("Death.Storm.actionbar-delay", CONFIG.Main),
+		//Death.Totem
+		TotemFailEnable("Death.Totem.fail-enable", CONFIG.Main),
+		TotemProbability("Death.Totem.probability", CONFIG.Main),
+		//Disable
+		DisableTrident("Disable.trident", CONFIG.Main),
+		//Formatter
+		FormatterTabList("Formatter.tab-list", CONFIG.Main), FormatterCustomChat("Formatter.custom-chat", CONFIG.Main),
+		//CustomDragon
+		CustomDragonName("CustomDragon.name", CONFIG.Main),
+		//MMOItems
+		MMOItemsDisableCutomsRepair("MMOItems.disable-custom-repair", CONFIG.Main),
 		//MainWorld
 		MainWorld("MainWorld", CONFIG.Main),
 		//Debug Mode
@@ -115,23 +134,37 @@ public class Config {
 
 	public static void set(Options configOptions, String value) {
 		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
-
+		save(Main.configMap.get(configOptions.getType()));
 	}
 
 	public static void set(Options configOptions, List<String> value) {
 		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+		save(Main.configMap.get(configOptions.getType()));
 	}
 
 	public static void set(Options configOptions, Integer value) {
 		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+		save(Main.configMap.get(configOptions.getType()));
 	}
 
 	public static void set(Options configOptions, Float value) {
 		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+		save(Main.configMap.get(configOptions.getType()));
 	}
 
 	public static void set(Options configOptions, Boolean value) {
 		Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+		save(Main.configMap.get(configOptions.getType()));
+	}
+
+	private static void save(FileConfiguration file) {
+		if (file == Main.configMap.get(CONFIG.Main)) {
+			Main.getPlugin().saveConfig();
+		} else if (file == Main.configMap.get(CONFIG.Messages)) {
+			MessagesConfig.saveMessagesConfig(Main.getPlugin());
+		} else if (file == Main.configMap.get(CONFIG.Discord)) {
+			DiscordConfig.saveDiscordConfig(Main.getPlugin());
+		}
 	}
 
 	/*public static String getString(String configOption) {

@@ -18,17 +18,20 @@ public class Reload {
 		main.configPath = null;
 		Main.messagesConfig = null;
 		main.messagesConfigFile = null;
-		Main.discordConfig = null;
-		main.discordConfigFile = null;
+		if (Config.getBool(Config.Options.DiscordEnable)) {
+			Main.discordConfig = null;
+			main.discordConfigFile = null;
+		}
 
 		Main.configMap = new HashMap<>();
 		Registers registers = new Registers();
 		registers.registerConfig(main);
 
-		if (main.api == null) {
+		if (main.api == null && Config.getBool(Config.Options.DiscordEnable)) {
 			registers.registerDiscord(main);
 			main.api.cancelRequests();
 		}
+
 		if (isPlayer) {
 			sender.sendMessage(Formatter.FText(Config.getString(Config.Options.Reload)));
 		} else {

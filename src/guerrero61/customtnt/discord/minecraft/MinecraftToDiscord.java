@@ -115,7 +115,7 @@ public class MinecraftToDiscord implements Listener {
 		Advancement advancement = event.getAdvancement();
 		String rawAdvancementName = advancement.getKey().getKey();
 		if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")
-				|| rawAdvancementName.equals("root")) {
+				|| rawAdvancementName.equals("root") || rawAdvancementName.contains("branch")) {
 			return;
 		}
 		String advancementName = Arrays
@@ -144,7 +144,12 @@ public class MinecraftToDiscord implements Listener {
 
 	public static String getPlayerHeadUrl(Player player) {
 		String playerN = player.getName();
-		String skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+		String skin;
+		if (Config.getBool(Config.Options.SkinsRestorerEnable)) {
+			skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+		} else {
+			skin = playerN;
+		}
 
 		if (skin != null) {
 			return "https://www.mc-heads.net/avatar/" + skin.replaceAll("\\s", "") + ".png";

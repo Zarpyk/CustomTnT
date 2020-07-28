@@ -1,6 +1,7 @@
-package guerrero61.customtnt.events;
+package guerrero61.customtnt.items.disable;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -10,10 +11,8 @@ public class DisableTrident implements Listener {
 
 	@EventHandler
 	public void onDeath(EntityDeathEvent e) {
-		for (ItemStack drop : e.getDrops()) {
-			if (drop.equals(new ItemStack(Material.TRIDENT))) {
-				e.setCancelled(true);
-			}
+		if (e.getEntity().getType() == EntityType.DROWNED) {
+			e.getDrops().removeIf(drop -> drop.equals(new ItemStack(Material.TRIDENT)));
 		}
 	}
 

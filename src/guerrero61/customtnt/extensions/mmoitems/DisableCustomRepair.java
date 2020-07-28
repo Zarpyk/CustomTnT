@@ -1,4 +1,4 @@
-package guerrero61.customtnt.events;
+package guerrero61.customtnt.extensions.mmoitems;
 
 import java.util.Objects;
 
@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
+import guerrero61.customtnt.mainutils.config.Config;
 import net.Indyuce.mmoitems.stat.type.ItemStat;
 import net.mmogroup.mmolib.api.item.NBTItem;
 
@@ -17,17 +18,18 @@ public class DisableCustomRepair implements Listener {
 
 	@EventHandler
 	public void getResult(InventoryClickEvent event) {
-		if (event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
-			ItemStack item1 = event.getInventory().getItem(0);
-			ItemStack item2 = event.getInventory().getItem(1);
-			ItemStack result = event.getInventory().getItem(2);
-			if (item1 == null || result == null)
-				return;
-			if (NBTItem.get(item1).hasType() && ((Objects.requireNonNull(item2).getType() != Material.ENCHANTED_BOOK
-					|| NBTItem.get(item1).getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D))) {
-				event.setResult(Event.Result.DENY);
+		if (Config.getBool(Config.Options.MMOItemsDisableCutomsRepair))
+			if (event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
+				ItemStack item1 = event.getInventory().getItem(0);
+				ItemStack item2 = event.getInventory().getItem(1);
+				ItemStack result = event.getInventory().getItem(2);
+				if (item1 == null || result == null)
+					return;
+				if (NBTItem.get(item1).hasType() && ((Objects.requireNonNull(item2).getType() != Material.ENCHANTED_BOOK
+						|| NBTItem.get(item1).getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D))) {
+					event.setResult(Event.Result.DENY);
+				}
 			}
-		}
 
 		/*if (event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
 			ItemStack item1 = event.getInventory().getItem(0);

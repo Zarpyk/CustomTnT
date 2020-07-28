@@ -1,4 +1,4 @@
-package guerrero61.customtnt.events;
+package guerrero61.customtnt.death;
 
 import java.util.ArrayList;
 import java.util.Objects;

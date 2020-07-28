@@ -33,7 +33,7 @@ public class DiscordConfig {
 		Main.discordConfig.setDefaults(defConfig);
 	}
 
-	public void saveDiscordConfig(Main m) {
+	public static void saveDiscordConfig(Main m) {
 		try {
 			Main.discordConfig.save(m.discordConfigFile);
 		} catch (IOException e) {

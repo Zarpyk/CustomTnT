@@ -5,8 +5,8 @@ api-version: ${api-version}
 author: ${author}
 description: ${description}
 website: ${url}
-depend: [MMOLib, PlaceholderAPI, Vault]
-softdepend: [LuckPerms]
+depend: [PlaceholderAPI, Vault]
+softdepend: [SkinsRestorer, MMOLib, LuckPerms]
 
 commands:
   tnt:

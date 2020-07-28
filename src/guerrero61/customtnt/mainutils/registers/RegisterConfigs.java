@@ -25,9 +25,8 @@ public class RegisterConfigs {
 	public void registerMessagesConfig(Main m) {
 		m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
 		if (!m.messagesConfigFile.exists()) {
-			MessagesConfig mc = new MessagesConfig();
 			MessagesConfig.getMessagesConfig(m).options().copyDefaults(true);
-			mc.saveMessagesConfig(m);
+			MessagesConfig.saveMessagesConfig(m);
 		}
 		Main.configMap.put(Config.CONFIG.Messages,
 				Main.messagesConfig == null ? MessagesConfig.getMessagesConfig(m) : Main.messagesConfig);
@@ -36,9 +35,8 @@ public class RegisterConfigs {
 	public void registerDiscordConfig(Main m) {
 		m.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
 		if (!m.discordConfigFile.exists()) {
-			DiscordConfig dc = new DiscordConfig();
 			DiscordConfig.getDiscordConfig(m).options().copyDefaults(true);
-			dc.saveDiscordConfig(m);
+			DiscordConfig.saveDiscordConfig(m);
 		}
 		Main.configMap.put(Config.CONFIG.Discord,
 				Main.discordConfig == null ? DiscordConfig.getDiscordConfig(m) : Main.discordConfig);
