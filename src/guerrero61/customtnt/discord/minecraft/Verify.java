@@ -82,7 +82,8 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 			Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.ErrorsNoConsole)));
 			return true;
 		}
-		if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0].endsWith("#")) {
+		if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0].endsWith("#")
+				&& !args[0].startsWith("#")) {
 			if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4
 					&& Main.isNumeric(args[0].split("#")[1])) {
 				for (String key : Objects.requireNonNull(verifyConfig.getConfigurationSection("")).getKeys(false)) {
@@ -123,21 +124,29 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 		}
 
 		String[] args = event.getMessage().getContentDisplay().split(" ");
+		if (args.length < 1) {
+			return;
+		}
 		String autorAvatar = event.getAuthor().getAvatarUrl();
 		EmbedBuilder embed;
 
-		if (args[1].equals(getString(event.getAuthor().getAsTag() + ".nick"))) {
-			Player player = Bukkit.getPlayer(getString(event.getAuthor().getAsTag() + ".nick"));
+		if (args[1].equals(getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"))) {
+			Player player = Bukkit.getPlayer(getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"));
 			if (player == null) {
 				embed = new EmbedBuilder()
 						.setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyNoOnline)), autorAvatar,
 								autorAvatar)
 						.setColor(new Color(255, 61, 61));
 			} else {
-				if (!getBool(event.getAuthor().getAsTag() + ".verified")) {
+				if (!getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
 					main.perms.playerAdd(player, "suffix.20."
 							+ Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
-					set(event.getAuthor().getAsTag() + ".verified", true);
+					set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
+					Objects.requireNonNull(event.getMember()).modifyNickname(player.getName()).queue();
+					event.getGuild()
+							.addRoleToMember(event.getMember(), Objects.requireNonNull(
+									event.getGuild().getRoleById(Config.getString(Config.Options.VerifyRoleID))))
+							.queue();
 					embed = new EmbedBuilder()
 							.setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifySuccess)),
 									autorAvatar, autorAvatar)
@@ -149,11 +158,10 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 							.setColor(new Color(255, 61, 61));
 				}
 			}
-		} else if (getString(event.getAuthor().getAsTag() + ".nick") == null) {
-			embed = new EmbedBuilder()
-					.setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyError)
-							.replace("%discord_tag%", event.getAuthor().getAsTag())), autorAvatar, autorAvatar)
-					.setColor(new Color(255, 61, 61));
+		} else if (getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick") == null) {
+			embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyError)
+					.replace("%discord_tag%", event.getAuthor().getAsTag().replace(" ", "_"))), autorAvatar,
+					autorAvatar).setColor(new Color(255, 61, 61));
 		} else {
 			embed = new EmbedBuilder()
 					.setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyErrorNick)), autorAvatar,

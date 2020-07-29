@@ -19,10 +19,10 @@ public class DiscordToMinecraft extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		if (!event.getChannel().getId().equals(Config.getString(Config.Options.ChannelsSendMsg))
-				|| event.getAuthor().getId().equals(api.getSelfUser().getId()))
+				|| event.getAuthor().getId().equals(api.getSelfUser().getId()) || event.getAuthor().isBot())
 			return;
 		for (String commandList : Config.getStringList(Config.Options.MessagesCommandList)) {
-			if (event.getMessage().getContentDisplay().equalsIgnoreCase(commandList)) {
+			if (event.getMessage().getContentDisplay().startsWith(commandList)) {
 				return;
 			}
 		}

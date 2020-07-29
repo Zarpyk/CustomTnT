@@ -92,7 +92,8 @@ public class Config {
 		MessagesAdvancement("Messages.advancement", CONFIG.Discord),
 		MessagesCommandList("Messages.command-list", CONFIG.Discord),
 		//Verify
-		VerifyPrefix("Verify.prefix", CONFIG.Discord), VerifyDiscord("Verify.discord", CONFIG.Discord),
+		VerifyEnable("Verify.enable", CONFIG.Discord), VerifyPrefix("Verify.prefix", CONFIG.Discord),
+		VerifyRoleID("Verify.role-id", CONFIG.Discord), VerifyDiscord("Verify.discord", CONFIG.Discord),
 		VerifyCommandError("Verify.command-error", CONFIG.Discord),
 		VerifyYouVerified("Verify.you-verified", CONFIG.Discord),
 		VerifyUserAlredyVerified("Verify.user-alredy-verified", CONFIG.Discord),

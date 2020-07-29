@@ -18,7 +18,7 @@ Messages:
 
   quit: "%player_name% se ha salido del servidor"
 
-  minecraft-to-discord-chat: "**%vault_rank_capital%** %player_name% » %msg%"
+  minecraft-to-discord-chat: "**%vault_prefix%** %player_name% » %msg%"
   remove-rank: #case-sensitive
     - "**Default** "
   discord-to-minecraft-chat: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
@@ -32,14 +32,17 @@ Messages:
     - "/summon"
     - "/ip"
     - "/busca"
+    - "/verify"
 Verify:
+  enable: true
   prefix: "&eⓥ"
-  discord: "&aAhora verificate en discord con el comando /verify TuNickDeMinecraft"
+  role-id: "738021622958653471"
+  discord: "&aAhora verificate en discord con el comando /verify %player_name%"
   command-error: "&cRecuerda usar el siguiente formato: &b/verify TagDeDiscord#0000"
   you-verified: "&cYa estas verificado, no hace falta que te verifiques otra vez"
   user-alredy-verified: "&cEste usuario ya esta verificado, no uses tags de otros usuarios!"
   success: "Te has verificado con exito"
-  error: "No te has verificado todavia en minecraft, usa el comando **/verify %discord_tag%** dentro del juego"
+  error: "No te has verificado todavia en minecraft, usa el comando /verify %discord_tag% dentro del juego"
   error-nick: "El nick indicado no es correcto"
   no-online: "No estas conectado en el juego"
 CustomIP:

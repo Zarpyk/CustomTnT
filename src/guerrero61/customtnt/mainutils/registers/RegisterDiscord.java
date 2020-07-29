@@ -38,7 +38,9 @@ public class RegisterDiscord {
 		main.api.addEventListener(new ServerInfo(main.api, main));
 		main.api.addEventListener(new Summon(main));
 		main.api.addEventListener(new Busca());
-		main.api.addEventListener(new Verify(main));
+		if (Config.getBool(Config.Options.VerifyEnable)) {
+			main.api.addEventListener(new Verify(main));
+		}
 	}
 
 }

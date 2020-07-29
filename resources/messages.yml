@@ -26,4 +26,4 @@ Totem:
   fail-msg: "&7¡El totem de &c%player_name%&7ha fallado!"
   use-msg: "&7El jugador %player_name% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
 Chat:
-  format: "%vault_rankprefix% &c%essentials_nickname%&f: &a%msg%"
+  format: "%vault_prefix% &c%essentials_nickname%%vault_suffix%&f: &a%msg%"
