@@ -91,6 +91,13 @@ public class Config {
 		MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
 		MessagesAdvancement("Messages.advancement", CONFIG.Discord),
 		MessagesCommandList("Messages.command-list", CONFIG.Discord),
+		//Verify
+		VerifyPrefix("Verify.prefix", CONFIG.Discord), VerifyDiscord("Verify.discord", CONFIG.Discord),
+		VerifyCommandError("Verify.command-error", CONFIG.Discord),
+		VerifyYouVerified("Verify.you-verified", CONFIG.Discord),
+		VerifyUserAlredyVerified("Verify.user-alredy-verified", CONFIG.Discord),
+		VerifySuccess("Verify.success", CONFIG.Discord), VerifyError("Verify.error", CONFIG.Discord),
+		VerifyErrorNick("Verify.error-nick", CONFIG.Discord), VerifyNoOnline("Verify.no-online", CONFIG.Discord),
 		//CustomIP
 		CustomIPEnable("CustomIP.enable", CONFIG.Main), CustomIPIP("CustomIP.IP", CONFIG.Main);
 

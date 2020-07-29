@@ -8,6 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.commands.MainCommand;
 import guerrero61.customtnt.commands.tabcompleter.MainCommandCompleter;
+import guerrero61.customtnt.discord.minecraft.Verify;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -15,6 +16,7 @@ import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.clip.placeholderapi.expansion.cloud.CloudExpansion;
 import net.luckperms.api.LuckPerms;
+import net.milkbowl.vault.permission.Permission;
 
 public class Registers {
 
@@ -46,7 +48,12 @@ public class Registers {
 			Main.consoleMsg(Formatter.FText("&c&lPlaceholderAPI is not in the plugin folder"));
 			Bukkit.getPluginManager().disablePlugin(m);
 		}
-		if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
+		if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+			RegisteredServiceProvider<Permission> rsp = m.getServer().getServicesManager()
+					.getRegistration(Permission.class);
+			assert rsp != null;
+			m.perms = rsp.getProvider();
+		} else {
 			Main.consoleMsg(Formatter.FText("&c&lVault is not in the plugin folder"));
 			Bukkit.getPluginManager().disablePlugin(m);
 		}
@@ -75,12 +82,10 @@ public class Registers {
 	 * Sirve para registrar los comandos
 	 */
 	public void registerCommands(Main m) {
-		register("tnt", m);
-	}
-
-	private void register(String command, Main m) {
-		Objects.requireNonNull(m.getCommand(command)).setExecutor(new MainCommand(m, m.api));
-		Objects.requireNonNull(m.getCommand(command)).setTabCompleter(new MainCommandCompleter());
+		Objects.requireNonNull(m.getCommand("tnt")).setExecutor(new MainCommand(m, m.api));
+		Objects.requireNonNull(m.getCommand("tnt")).setTabCompleter(new MainCommandCompleter());
+		Objects.requireNonNull(m.getCommand("verify")).setExecutor(new Verify(m));
+		Objects.requireNonNull(m.getCommand("verify")).setTabCompleter(new Verify(m));
 	}
 
 	private LuckPerms registerLuckPerms() {

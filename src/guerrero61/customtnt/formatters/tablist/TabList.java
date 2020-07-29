@@ -22,7 +22,6 @@ public class TabList implements Listener {
 		Scoreboard scoreboard = main.getServer().getScoreboardManager().getMainScoreboard();
 
 		for (Player player : main.getServer().getOnlinePlayers()) {
-			Main.debug(Formatter.FText("%essentials_afk%", true, player));
 			if (!Formatter.FText("%vault_prefix%", true, player).equals("%vault_prefix%")
 					&& !Formatter.FText("%vault_suffix%", true, player).equals("%vault_suffix%")) {
 				Team team = scoreboard.getTeam(Formatter.FText(player.getName(), true, player));
@@ -40,7 +39,7 @@ public class TabList implements Listener {
 				team.setPrefix(Formatter.FText((Formatter.FText("%essentials_afk%", true, player).equals("yes")
 						? Formatter.FText("&8[&7AFK&8] ", true, player)
 						: "") + "%vault_prefix%", true, player));
-				team.setSuffix(Formatter.FText("%vault_suffix% ", true, player));
+				team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
 			}
 		}
 	}
@@ -65,7 +64,7 @@ public class TabList implements Listener {
 			team.setPrefix(Formatter.FText((Formatter.FText("%essentials_afk%", true, player).equals("yes")
 					? Formatter.FText("&8[&7AFK&8] ", true, player)
 					: "") + "%vault_prefix%", true, player));
-			team.setSuffix(Formatter.FText("%vault_suffix% ", true, player));
+			team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
 		}
 	}
 

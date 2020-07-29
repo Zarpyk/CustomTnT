@@ -28,6 +28,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.luckperms.api.LuckPerms;
 import net.md_5.bungee.api.ChatColor;
+import net.milkbowl.vault.permission.Permission;
 
 public class Main extends JavaPlugin {
 
@@ -53,6 +54,7 @@ public class Main extends JavaPlugin {
 
 	public JDA api;
 	public LuckPerms lpApi;
+	public Permission perms = null;
 
 	@Override
 	public void onLoad() {
@@ -176,5 +178,17 @@ public class Main extends JavaPlugin {
 		BigDecimal bd = new BigDecimal(Double.toString(value));
 		bd = bd.setScale(places, RoundingMode.HALF_UP);
 		return bd.doubleValue();
+	}
+
+	public static boolean isNumeric(String strNum) {
+		if (strNum == null) {
+			return false;
+		}
+		try {
+			double d = Double.parseDouble(strNum);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 }

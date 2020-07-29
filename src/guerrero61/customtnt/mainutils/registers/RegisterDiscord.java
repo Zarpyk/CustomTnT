@@ -6,6 +6,7 @@ import guerrero61.customtnt.Main;
 import guerrero61.customtnt.discord.commands.*;
 import guerrero61.customtnt.discord.events.DiscordReady;
 import guerrero61.customtnt.discord.minecraft.DiscordToMinecraft;
+import guerrero61.customtnt.discord.minecraft.Verify;
 import guerrero61.customtnt.mainutils.config.Config;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -37,6 +38,7 @@ public class RegisterDiscord {
 		main.api.addEventListener(new ServerInfo(main.api, main));
 		main.api.addEventListener(new Summon(main));
 		main.api.addEventListener(new Busca());
+		main.api.addEventListener(new Verify(main));
 	}
 
 }
