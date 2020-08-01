@@ -29,12 +29,14 @@ public class Weather implements Listener {
 			String StormMessage = Config.getString(Config.Options.StormEndMsg);
 			Bukkit.broadcastMessage(Formatter.FText(StormMessage, null));
 
-			EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(StormMessage, null),
-					"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
-					.setColor(new Color(125, 255, 100));
-			TextChannel textChannel = Objects
-					.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-			textChannel.sendMessage(startEmbed.build()).queue();
+			if (Config.getBool(Config.Options.DiscordEnable)) {
+				EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(StormMessage, null),
+						"https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
+						.setColor(new Color(125, 255, 100));
+				TextChannel textChannel = Objects
+						.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
+				textChannel.sendMessage(startEmbed.build()).queue();
+			}
 		}
 	}
 

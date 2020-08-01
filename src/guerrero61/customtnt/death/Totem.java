@@ -64,11 +64,15 @@ public class Totem implements Listener {
 
 		if (!fail) {
 			Bukkit.broadcastMessage(Formatter.FText(totemMessage));
-			sendDiscordMsg(player, totemMessage, new Color(255, 250, 90));
+			if (Config.getBool(Config.Options.DiscordEnable)) {
+				sendDiscordMsg(player, totemMessage, new Color(255, 250, 90));
+			}
 		} else {
 			Bukkit.broadcastMessage(Formatter.FText(totemMessage));
 			Bukkit.broadcastMessage(Formatter.FText(totemFail));
-			sendDiscordMsg(player, totemMessage + " " + totemFail, new Color(255, 10, 10));
+			if (Config.getBool(Config.Options.DiscordEnable)) {
+				sendDiscordMsg(player, totemMessage + " " + totemFail, new Color(255, 10, 10));
+			}
 		}
 	}
 

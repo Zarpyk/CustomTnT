@@ -76,8 +76,10 @@ public class Main extends JavaPlugin {
 
 			new StormActionBar().StormAB(this);
 			Scheduler scheduler = new Scheduler();
-			scheduler.startMessageDelayScheduler(this);
-			scheduler.reloadStatusScheduler(this);
+			if (Config.getBool(Config.Options.DiscordEnable)) {
+				scheduler.startMessageDelayScheduler(this);
+				scheduler.reloadStatusScheduler(this);
+			}
 			scheduler.registerScoreboard(this);
 			//scheduler.registerDependencies(this);
 		} else {
