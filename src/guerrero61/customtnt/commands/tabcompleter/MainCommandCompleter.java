@@ -22,12 +22,7 @@ public class MainCommandCompleter implements TabCompleter {
 		}
 
 		if (args.length == 1) {
-			List<String> subcommands = new ArrayList<>();
-			subcommands.add("check");
-			subcommands.add("reload");
-			subcommands.add("debug");
-			subcommands.add("skills");
-			return subcommands;
+			return sortList(new ArrayList<>(List.of("check", "reload", "debug", "skills")), args[0]);
 		}
 
 		if (args.length > 1) {
@@ -35,56 +30,66 @@ public class MainCommandCompleter implements TabCompleter {
 				if (args[0].equals("skills")) {
 					if (args.length == 2) {
 						List<String> count = new ArrayList<>();
-						for (int i = 1; i < 10; i++) {
+						for (int i = 1; i <= 10; i++) {
 							count.add(Integer.toString(i));
 						}
-						return count;
+						return sortList(count, args[1]);
 					}
 					switch (args[1]) {
 					case "1": {
 						Player player = (Player) sender;
-						Block targ = player.getTargetBlock(null, 5);
-						switch (args.length) {
-						case 3:
-						case 6:
-							return Collections.singletonList(targ.getX() + "");
-						case 4:
-						case 7:
-							return Collections.singletonList(targ.getY() + "");
-						case 5:
-						case 8:
-							return Collections.singletonList(targ.getZ() + "");
-						}
-						break;
+						return targetBlock(player, args, true);
 					}
-					case "2": {
+					case "2":
+					case "3":
+					case "7": {
 						Player player = (Player) sender;
-						Block targ = player.getTargetBlock(null, 5);
-						switch (args.length) {
-						case 3:
-							return Collections.singletonList(targ.getX() + "");
-						case 4:
-							return Collections.singletonList(targ.getY() + "");
-						case 5:
-							return Collections.singletonList(targ.getZ() + "");
-						}
-						break;
-					}
-					case "3": {
-						Player player = (Player) sender;
-						Block targ = player.getTargetBlock(null, 5);
-						switch (args.length) {
-						case 3:
-							return Collections.singletonList(targ.getX() + "");
-						case 4:
-							return Collections.singletonList(targ.getY() + "");
-						case 5:
-							return Collections.singletonList(targ.getZ() + "");
-						}
-						break;
+						return targetBlock(player, args);
 					}
 					}
 				}
+			}
+		}
+		return null;
+	}
+
+	private List<String> sortList(List<String> list, String args) {
+		List<String> numberListOld = new ArrayList<>(list); //in your case COMMANDS
+
+		list.clear();
+
+		for (String s : numberListOld)
+			if (s.toLowerCase().startsWith(args.toLowerCase()))
+				list.add(s);
+		return list;
+	}
+
+	private List<String> targetBlock(Player player, String[] args) {
+		return targetBlock(player, args, false);
+	}
+
+	private List<String> targetBlock(Player player, String[] args, boolean twoCoord) {
+		Block targ = player.getTargetBlock(null, 5);
+		if (twoCoord) {
+			switch (args.length) {
+			case 3:
+			case 6:
+				return Collections.singletonList(targ.getX() + "");
+			case 4:
+			case 7:
+				return Collections.singletonList(targ.getY() + "");
+			case 5:
+			case 8:
+				return Collections.singletonList(targ.getZ() + "");
+			}
+		} else {
+			switch (args.length) {
+			case 3:
+				return Collections.singletonList(targ.getX() + "");
+			case 4:
+				return Collections.singletonList(targ.getY() + "");
+			case 5:
+				return Collections.singletonList(targ.getZ() + "");
 			}
 		}
 		return null;
