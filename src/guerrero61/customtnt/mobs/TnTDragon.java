@@ -29,6 +29,7 @@ public class TnTDragon implements Listener {
 	private final Main main;
 	private boolean schedulerActivated = false;
 	private boolean autoHabilitySchedulerActivated = false;
+	private boolean algo = false;
 
 	private DragonPhase dragonPhase = DragonPhase.INITIAL;
 
@@ -72,33 +73,30 @@ public class TnTDragon implements Listener {
 		}
 		if (!autoHabilitySchedulerActivated) {
 			new BukkitRunnable() {
-				public void run() {
-					Main.debug(Integer.toString(autoHabilityCooldown));
-					if (autoHabilityCooldown > 0) {
-						autoHabilityCooldown--;
-					} else if (autoHabilityCooldown == 0) {
-						Player[] playerList = Bukkit.getOnlinePlayers().toArray(new Player[0]);
-						Player selectedTarget = playerList[(int) ((Math.random() * playerList.length) + 1)];
-						Arrow arrow = (Arrow) selectedTarget.getWorld()
-								.spawnEntity(new Location(selectedTarget.getWorld(), 0, 500, 0), EntityType.ARROW);
-						arrow.setShooter(selectedTarget);
-						onDamage(new EntityDamageByEntityEvent(arrow, enderDragon, EntityDamageEvent.DamageCause.CUSTOM,
-								0));
-						arrow.remove();
-					}
 
-					if (enderDragon.getHealth() <= 0) {
-						cancel();
-					}
-				}
-			}.runTaskTimer(main, 0, 20L);
-			autoHabilitySchedulerActivated = true;
+	public void run() {
+		Main.debug(Integer.toString(autoHabilityCooldown));
+		if (autoHabilityCooldown > 0) {
+			autoHabilityCooldown--;
+		} else if (autoHabilityCooldown == 0) {
+			Player[] playerList = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+			Player selectedTarget = playerList[(int) ((Math.random() * playerList.length) + 1)];
+			Arrow arrow = (Arrow) selectedTarget.getWorld()
+					.spawnEntity(new Location(selectedTarget.getWorld(), 0, 500, 0), EntityType.ARROW);
+			arrow.setShooter(selectedTarget);
+			onDamage(new EntityDamageByEntityEvent(arrow, enderDragon, EntityDamageEvent.DamageCause.CUSTOM, 0));
+			arrow.remove();
+		}
+
+		if (enderDragon.getHealth() <= 0) {
+			cancel();
 		}
 	}
 
+	}.runTaskTimer(main,0,20L);autoHabilitySchedulerActivated=true;}}
+
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent event) {
-		Main.debug("EntityDamageByEntityEvent");
 		Entity entity = event.getEntity();
 		if (!entity.getType().equals(EntityType.ENDER_DRAGON)) {
 			return;
@@ -137,6 +135,7 @@ public class TnTDragon implements Listener {
 		} else {
 			player = (Player) damager;
 		}
+		assert player != null;
 
 		EnderDragon enderDragon = (EnderDragon) entity;
 		Main.debug("Vida del dragon: " + enderDragon.getHealth());
@@ -173,7 +172,6 @@ public class TnTDragon implements Listener {
 			if (!damager.getType().equals(EntityType.PLAYER)) {
 				sethabilityCooldown = habilityCooldown;
 				Location dragonLocation = enderDragon.getLocation();
-				assert player != null;
 				Location playerLocation = player.getLocation();
 				Vector direction = VectorMath.directionVector(playerLocation, dragonLocation);
 				enderDragon.teleport(enderDragon.getLocation().setDirection(direction));
@@ -186,7 +184,6 @@ public class TnTDragon implements Listener {
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				assert player != null;
 				new DragonSkill2(main).Skill2(player.getLocation());
 			}
 			return;
@@ -194,7 +191,7 @@ public class TnTDragon implements Listener {
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill3(main).Skill3(enderDragon);
+				new DragonSkill3(main).Skill3();
 			}
 			return;
 		case 4:
@@ -222,7 +219,7 @@ public class TnTDragon implements Listener {
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill7(main).Skill7();
+				new DragonSkill7(main).Skill7(player);
 			}
 			return;
 		case 8:
@@ -236,14 +233,14 @@ public class TnTDragon implements Listener {
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill9(main).Skill9();
+				new DragonSkill9(main).Skill9(enderDragon);
 			}
 			return;
 		case 10:
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill10(main).Skill10();
+				new DragonSkill10(main).Skill10(player);
 			}
 			return;
 		default:
@@ -251,23 +248,23 @@ public class TnTDragon implements Listener {
 		}
 	}
 
-	public enum DragonPhase {
-		INITIAL(3500, 15), MID(2000, 10), END(1000, 5), FINAL(500, 0);
+	public enum DragonPhase{
+
+	INITIAL(3500, 15), MID(2000, 10), END(1000, 5), FINAL(500, 0);
 
 		int health;
 		int skillCooldown;
 
-		DragonPhase(int health, int skillCooldown) {
+	DragonPhase(int health, int skillCooldown) {
 			this.health = health;
 			this.skillCooldown = skillCooldown;
 		}
 
-		public int getHealth() {
-			return health;
-		}
-
-		public int getSkillCooldown() {
-			return skillCooldown;
-		}
+	public int getHealth() {
+		return health;
 	}
-}
+
+	public int getSkillCooldown() {
+		return skillCooldown;
+	}
+}}

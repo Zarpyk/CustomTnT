@@ -24,6 +24,7 @@ public class ReloadStatus {
 	}
 
 	public static void reloadStatus(JDA api, String status) {
+
 		TextChannel textChannel = Objects
 				.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
 

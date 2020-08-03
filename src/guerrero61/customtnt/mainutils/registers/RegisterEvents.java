@@ -13,6 +13,7 @@ import guerrero61.customtnt.formatters.tablist.TabList;
 import guerrero61.customtnt.items.disable.DisableTrident;
 import guerrero61.customtnt.mainutils.config.Config;
 import guerrero61.customtnt.mobs.TnTDragon;
+import guerrero61.customtnt.mobs.dragonskills.DragonSkill7;
 
 public class RegisterEvents {
 
@@ -45,6 +46,7 @@ public class RegisterEvents {
 		//CustomDragon
 		if (Config.getBool(Config.Options.CustomDragonEnable)) {
 			pm.registerEvents(new TnTDragon(m), m);
+			pm.registerEvents(new DragonSkill7(m), m);
 		}
 		//MMOItems
 		if (Config.getBool(Config.Options.MMOItemsEnable)) {

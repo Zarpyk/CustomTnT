@@ -1,5 +1,7 @@
 package guerrero61.customtnt.mobs.dragonskills;
 
+import org.bukkit.entity.Player;
+
 import guerrero61.customtnt.Main;
 
 public class DragonSkill10 {
@@ -10,7 +12,7 @@ public class DragonSkill10 {
 		main = m;
 	}
 
-	public void Skill10() {
-		Main.debug("Skill 10");
+	public void Skill10(Player player) {
+
 	}
 }

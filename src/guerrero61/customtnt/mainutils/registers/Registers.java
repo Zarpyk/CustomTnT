@@ -84,10 +84,9 @@ public class Registers {
 	public void registerCommands(Main m) {
 		Objects.requireNonNull(m.getCommand("tnt")).setExecutor(new MainCommand(m, m.api));
 		Objects.requireNonNull(m.getCommand("tnt")).setTabCompleter(new MainCommandCompleter());
-		if (Config.getBool(Config.Options.VerifyEnable)) {
-			Objects.requireNonNull(m.getCommand("verify")).setExecutor(new Verify(m));
-			Objects.requireNonNull(m.getCommand("verify")).setTabCompleter(new Verify(m));
-		}
+		Objects.requireNonNull(m.getCommand("verify")).setExecutor(new Verify(m));
+		Objects.requireNonNull(m.getCommand("verify")).setTabCompleter(new Verify(m));
+
 	}
 
 	private LuckPerms registerLuckPerms() {

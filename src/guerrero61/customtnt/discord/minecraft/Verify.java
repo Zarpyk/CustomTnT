@@ -74,45 +74,47 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (sender instanceof Player) {
-			isPlayer = true;
-			player = (Player) sender;
-		} else {
-			isPlayer = false;
-			Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.ErrorsNoConsole)));
-			return true;
-		}
-		if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0].endsWith("#")
-				&& !args[0].startsWith("#")) {
-			if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4
-					&& Main.isNumeric(args[0].split("#")[1])) {
-				for (String key : Objects.requireNonNull(verifyConfig.getConfigurationSection("")).getKeys(false)) {
-					Main.debug(key);
-					if (getString(key + ".nick") != null) {
-						if (getString(key + ".nick").equals(player.getName())) {
-							set(key + ".nick", (String) null);
-							set(key + ".verified", (String) null);
-							set(key, (String) null);
-							main.perms.playerRemove(player, "suffix.20."
-									+ Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
+		if (Config.getBool(Config.Options.DiscordEnable) && Config.getBool(Config.Options.VerifyEnable)) {
+			if (sender instanceof Player) {
+				isPlayer = true;
+				player = (Player) sender;
+			} else {
+				isPlayer = false;
+				Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.ErrorsNoConsole)));
+				return true;
+			}
+			if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0].endsWith("#")
+					&& !args[0].startsWith("#")) {
+				if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4
+						&& Main.isNumeric(args[0].split("#")[1])) {
+					for (String key : Objects.requireNonNull(verifyConfig.getConfigurationSection("")).getKeys(false)) {
+						Main.debug(key);
+						if (getString(key + ".nick") != null) {
+							if (getString(key + ".nick").equals(player.getName())) {
+								set(key + ".nick", (String) null);
+								set(key + ".verified", (String) null);
+								set(key, (String) null);
+								main.perms.playerRemove(player, "suffix.20."
+										+ Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
+							}
 						}
 					}
-				}
-				if (getString(args[0] + ".nick") == null || !getBool(args[0] + ".verified")) {
-					set(args[0] + ".nick", player.getName());
-					set(args[0] + ".verified", false);
-					player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyDiscord), player));
-				} else if (getString(args[0] + ".nick").equals(player.getName())) {
-					player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyYouVerified), player));
+					if (getString(args[0] + ".nick") == null || !getBool(args[0] + ".verified")) {
+						set(args[0] + ".nick", player.getName());
+						set(args[0] + ".verified", false);
+						player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyDiscord), player));
+					} else if (getString(args[0] + ".nick").equals(player.getName())) {
+						player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyYouVerified), player));
+					} else {
+						player.sendMessage(
+								Formatter.FText(Config.getString(Config.Options.VerifyUserAlredyVerified), player));
+					}
 				} else {
-					player.sendMessage(
-							Formatter.FText(Config.getString(Config.Options.VerifyUserAlredyVerified), player));
+					player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyCommandError), player));
 				}
 			} else {
 				player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyCommandError), player));
 			}
-		} else {
-			player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyCommandError), player));
 		}
 		return true;
 	}
@@ -139,7 +141,7 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 						.setColor(new Color(255, 61, 61));
 			} else {
 				if (!getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
-					main.perms.playerAdd(player, "suffix.20."
+					main.perms.playerAdd(null, player, "suffix.20."
 							+ Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
 					set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
 					Objects.requireNonNull(event.getMember()).modifyNickname(player.getName()).queue();
@@ -175,10 +177,12 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		if (args.length == 1) {
-			List<String> subcommands = new ArrayList<>();
-			subcommands.add("TuTagDeDiscord#0000");
-			return subcommands;
+		if (Config.getBool(Config.Options.DiscordEnable) && Config.getBool(Config.Options.VerifyEnable)) {
+			if (args.length == 1) {
+				List<String> subcommands = new ArrayList<>();
+				subcommands.add("TuTagDeDiscord#0000");
+				return subcommands;
+			}
 		}
 		return null;
 	}

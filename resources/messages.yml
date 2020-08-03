@@ -3,6 +3,7 @@ Errors:
   no-exist: "&cEste comando no existe."
   no-console: "&cEste comando no esta disponible para consola."
   args-miss: "&cFalta o sobra algun argumento para este comando."
+  args-error: "&cAlgun argumento no esta en el formato correcto"
   no-perm: "&cNo tienes permiso para ejecutar este comando."
 Check:
   player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador"
@@ -23,7 +24,7 @@ Sleep:
 Storm:
   end-msg: "&aLa tormenta ha llegado a su fin."
 Totem:
-  fail-msg: "&7¡El totem de &c%player_name%&7ha fallado!"
+  fail-msg: "&7¡El totem de &c%player_name%&7 ha fallado!"
   use-msg: "&7El jugador %player_name% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
 Chat:
   format: "%vault_prefix% &c%essentials_nickname%%vault_suffix%&f: &a%msg%"

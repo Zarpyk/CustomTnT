@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class MainCommandCompleter implements TabCompleter {
 		}
 
 		if (args.length == 1) {
-			return sortList(new ArrayList<>(List.of("check", "reload", "debug", "skills")), args[0]);
+			return sortList(new ArrayList<>(List.of("check", "reload", "debug", "skills", "sounds")), args[0]);
 		}
 
 		if (args.length > 1) {
@@ -36,6 +37,16 @@ public class MainCommandCompleter implements TabCompleter {
 						return sortList(count, args[1]);
 					}
 					switch (args[1]) {
+					case "sound": {
+						switch (args.length) {
+						case 3:
+							return sortList(new ArrayList<>(soundList()), args[2]);
+						case 4:
+							return sortList(new ArrayList<>(List.of("Volume")), args[3]);
+						case 5:
+							return sortList(new ArrayList<>(List.of("Pitch")), args[4]);
+						}
+					}
 					case "1": {
 						Player player = (Player) sender;
 						return targetBlock(player, args, true);
@@ -62,6 +73,14 @@ public class MainCommandCompleter implements TabCompleter {
 			if (s.toLowerCase().startsWith(args.toLowerCase()))
 				list.add(s);
 		return list;
+	}
+
+	private List<String> soundList() {
+		List<String> stringList = new ArrayList<>();
+		for (Object object : Sound.class.getEnumConstants()) {
+			stringList.add(object.toString());
+		}
+		return stringList;
 	}
 
 	private List<String> targetBlock(Player player, String[] args) {

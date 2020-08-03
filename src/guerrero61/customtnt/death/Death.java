@@ -73,7 +73,7 @@ public class Death implements Listener {
 			}
 			if (soundEnable) {
 				for (Player p : Bukkit.getOnlinePlayers())
-					p.playSound(p.getLocation(), Sound.ENTITY_SKELETON_HORSE_DEATH, 10.0F, 1.0F);
+					p.playSound(p.getLocation(), Sound.ENTITY_SKELETON_HORSE_DEATH, 1, 1);
 			}
 		}, 75L);
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -84,7 +84,7 @@ public class Death implements Listener {
 						Formatter.FText(ServerMessageSubtitle, true, player), 10, 70, 20);
 			}
 			if (soundEnable) {
-				p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_DEATH, 10.0F, -5.0F);
+				p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, 0);
 			}
 		}
 	}

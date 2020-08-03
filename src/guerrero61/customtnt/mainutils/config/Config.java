@@ -9,11 +9,13 @@ import guerrero61.customtnt.Main;
 
 public class Config {
 
-	public enum CONFIG {
+	public enum CONFIG
+	{
 		Main, Messages, Discord
 	}
 
-	public enum Options {
+	public enum Options
+	{
 		/*------------------
 		 * Main Config
 		 ------------------*/
@@ -55,7 +57,7 @@ public class Config {
 		Prefix("Prefix", CONFIG.Messages),
 		//Errors
 		ErrorsNoExist("Errors.no-exist", CONFIG.Messages), ErrorsNoConsole("Errors.no-console", CONFIG.Messages),
-		ErrorsArgsMiss("Errors.args-miss", CONFIG.Messages), ErrorsNoPerm("Errors.no-perm", CONFIG.Messages),
+		ErrorsArgsMiss("Errors.args-miss", CONFIG.Messages), ErrorsArgsError("Errors.args-error", CONFIG.Messages),ErrorsNoPerm("Errors.no-perm", CONFIG.Messages),
 		//Check
 		CheckPlayer("Check.player", CONFIG.Messages), CheckConsole("Check.console", CONFIG.Messages),
 		//Death
@@ -102,21 +104,22 @@ public class Config {
 		//CustomIP
 		CustomIPEnable("CustomIP.enable", CONFIG.Main), CustomIPIP("CustomIP.IP", CONFIG.Main);
 
-		private final String string;
-		private final CONFIG type;
+	private final String string;
+	private final CONFIG type;
 
-		Options(String string, CONFIG type) {
+	Options(String string, CONFIG type) {
 			this.string = string;
 			this.type = type;
 		}
 
-		public String getValue() {
-			return string;
-		}
+	public String getValue() {
+		return string;
+	}
 
-		public CONFIG getType() {
-			return type;
-		}
+	public CONFIG getType() {
+		return type;
+	}
+
 	}
 
 	public static String getString(Options configOptions) {

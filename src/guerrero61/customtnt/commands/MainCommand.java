@@ -1,5 +1,6 @@
 package guerrero61.customtnt.commands;
 
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -54,6 +55,18 @@ public class MainCommand implements CommandExecutor {
 				return true;
 			case "skills":
 				return new DragonSkills(main).onCommand(sender, command, label, args);
+			case "sounds":
+				if (args.length == 4) {
+					try {
+						player.playSound(player.getLocation(), Sound.valueOf(args[1]), Float.parseFloat(args[2]),
+								Float.parseFloat(args[3]));
+					} catch (Exception e) {
+						player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
+					}
+				} else {
+					player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
+				}
+				return true;
 			default:
 				SendHelp();
 				return true;
