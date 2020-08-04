@@ -11,10 +11,7 @@ import org.bukkit.entity.Player;
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
-import guerrero61.customtnt.mobs.dragonskills.DragonSkill1;
-import guerrero61.customtnt.mobs.dragonskills.DragonSkill2;
-import guerrero61.customtnt.mobs.dragonskills.DragonSkill7;
-import guerrero61.customtnt.mobs.dragonskills.DragonSkill9;
+import guerrero61.customtnt.mobs.dragonskills.*;
 
 public class DragonSkills {
 
@@ -46,7 +43,7 @@ public class DragonSkills {
 				Location startLocation1 = new Location(playerLocation.getWorld(), Double.parseDouble(args[2]),
 						Double.parseDouble(args[3]), Double.parseDouble(args[4]));
 				if (args.length == 5) {
-					new DragonSkill1(main).Skill1(startLocation1, playerLocation);
+					new DragonSkill1(main).Skill1(startLocation1, player);
 				} else {
 					Location secondLocation1 = new Location(playerLocation.getWorld(), Double.parseDouble(args[5]),
 							Double.parseDouble(args[6]), Double.parseDouble(args[7]));
@@ -59,7 +56,7 @@ public class DragonSkills {
 			return true;
 		case "2":
 			if (args.length == 2) {
-				new DragonSkill2(main).Skill2(playerLocation);
+				new DragonSkill2(main).Skill2(player);
 			} else if (args.length == 5) {
 				Location newLocation2;
 				try {
@@ -72,6 +69,11 @@ public class DragonSkills {
 				new DragonSkill2(main).Skill2(newLocation2);
 			} else {
 				player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
+			}
+			return true;
+		case "3":
+			if (args.length == 2) {
+				new DragonSkill3(main).Skill3(player);
 			}
 			return true;
 		case "7":

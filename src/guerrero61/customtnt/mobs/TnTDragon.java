@@ -177,21 +177,21 @@ public class TnTDragon implements Listener {
 				enderDragon.teleport(enderDragon.getLocation().setDirection(direction));
 				dragonLocation = enderDragon.getLocation();
 				Location finalDragonLocation = dragonLocation;
-				new DragonSkill1(main).Skill1(finalDragonLocation, playerLocation);
+				new DragonSkill1(main).Skill1(finalDragonLocation, player);
 			}
 			return;
 		case 2:
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill2(main).Skill2(player.getLocation());
+				new DragonSkill2(main).Skill2(player);
 			}
 			return;
 		case 3:
 			if (canUseSkill) {
 				canUseSkill = false;
 				sethabilityCooldown = habilityCooldown;
-				new DragonSkill3(main).Skill3();
+				new DragonSkill3(main).Skill3(player);
 			}
 			return;
 		case 4:

@@ -19,11 +19,14 @@ public class DragonSkill1 {
 		main = m;
 	}
 
-	public void Skill1(Location particleLocation, Location playerLocation) {
+	public void Skill1(Location particleLocation, Player player) {
+		Skill1(particleLocation, player.getLocation());
+	}
+
+	public void Skill1(Location particleLocation, Location location) {
 		Main.debug("Skill 1");
-		new LineParticle(particleLocation, playerLocation, Particle.DRAGON_BREATH, 100, 0.04, true);
-		LineParticle particle = new LineParticle(particleLocation, playerLocation, Particle.DRAGON_BREATH, 100, 0.04,
-				true);
+		new LineParticle(particleLocation, location, Particle.DRAGON_BREATH, 100, 0.04, true);
+		LineParticle particle = new LineParticle(particleLocation, location, Particle.DRAGON_BREATH, 100, 0.04, true);
 		new BukkitRunnable() {
 			public void run() {
 				if (particle.bukkitTask.isCancelled()) {
