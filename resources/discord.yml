@@ -14,7 +14,7 @@ Messages:
   stop: "¡El servidor se ha parado!"
 
   join: "%player_name% ha entrado al servidor"
-  first-join: "¡%player_name% ha entrado por primera vez al servidor!"
+  first-join: "%player_name% ha entrado por primera vez al servidor!"
 
   quit: "%player_name% se ha salido del servidor"
 

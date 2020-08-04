@@ -112,6 +112,10 @@ public class MinecraftToDiscord implements Listener {
 
 	@EventHandler
 	public void advancementMsg(PlayerAdvancementDoneEvent event) {
+		if (!Objects.requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld))) //TODO Test
+				.isGameRule("ANNOUNCE_ADVANCEMENTS")) {
+			return;
+		}
 		Advancement advancement = event.getAdvancement();
 		String rawAdvancementName = advancement.getKey().getKey();
 		if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")
