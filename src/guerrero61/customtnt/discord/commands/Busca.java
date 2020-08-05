@@ -6,15 +6,15 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Busca extends ListenerAdapter {
 
-	@Override
-	public void onMessageReceived(MessageReceivedEvent event) {
-		if (Main.checkCommand("busca", event.getMessage(), event.getChannel())) {
-			return;
-		}
-		boolean haveMention = event.getMessage().getMentionedUsers().size() != 0;
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
+        if (Main.checkCommand("busca", event.getMessage(), event.getChannel())) {
+            return;
+        }
+        boolean haveMention = event.getMessage().getMentionedUsers().size() != 0;
 
-		event.getChannel().sendMessage("<https://lmgtfy.com/?q=Como+buscar+en+google&iie=1> "
-				+ (haveMention ? event.getMessage().getMentionedUsers().get(0).getAsMention() : "")).queue();
-		event.getMessage().delete().queue();
-	}
+        event.getChannel().sendMessage("<https://lmgtfy.com/?q=Como+buscar+en+google&iie=1> "
+                + (haveMention ? event.getMessage().getMentionedUsers().get(0).getAsMention() : "")).queue();
+        event.getMessage().delete().queue();
+    }
 }

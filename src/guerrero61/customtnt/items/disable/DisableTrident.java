@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class DisableTrident implements Listener {
 
-	@EventHandler
-	public void onDeath(EntityDeathEvent e) {
-		if (e.getEntity().getType() == EntityType.DROWNED) {
-			e.getDrops().removeIf(drop -> drop.equals(new ItemStack(Material.TRIDENT)));
-		}
-	}
+    @EventHandler
+    public void onDeath(EntityDeathEvent e) {
+        if (e.getEntity().getType() == EntityType.DROWNED && e.getEntity().getCustomName() == null) {
+            e.getDrops().removeIf(drop -> drop.equals(new ItemStack(Material.TRIDENT)));
+        }
+    }
 
 }
