@@ -82,7 +82,7 @@ public class MinecraftToDiscord implements Listener {
                     sendMessage = sendMessage.replace(rank, "");
                 }
             }
-            sendMessage = sendMessage.replace("%msg%", message);
+            sendMessage = sendMessage.replace("%msg%", message).replace("@", "");
             textChannel = Objects
                     .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
             textChannel.sendMessage(sendMessage).queue();

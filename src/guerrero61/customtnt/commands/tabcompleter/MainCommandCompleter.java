@@ -1,5 +1,6 @@
 package guerrero61.customtnt.commands.tabcompleter;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -23,7 +24,7 @@ public class MainCommandCompleter implements TabCompleter {
         }
 
         if (args.length == 1) {
-            return sortList(new ArrayList<>(List.of("check", "reload", "debug", "skills", "sounds")), args[0]);
+            return sortList(new ArrayList<>(List.of("check", "reload", "debug", "skills", "sounds")), args);
         }
 
         if (args.length > 1) {
@@ -34,28 +35,43 @@ public class MainCommandCompleter implements TabCompleter {
                         for (int i = 1; i <= 10; i++) {
                             count.add(Integer.toString(i));
                         }
-                        return sortList(count, args[1]);
+                        return sortList(count, args);
                     }
                     switch (args[1]) {
-                        case "sound": {
-                            switch (args.length) {
-                                case 3:
-                                    return sortList(new ArrayList<>(soundList()), args[2]);
-                                case 4:
-                                    return sortList(new ArrayList<>(List.of("Volume")), args[3]);
-                                case 5:
-                                    return sortList(new ArrayList<>(List.of("Pitch")), args[4]);
-                            }
-                        }
+                        //tnt skills 1 <x1> <y2> <z3> <<x2>> <<y2>> <<z2>> OK
+                        //tnt skills 2 <player/x> <y> <z> OK
+                        //tnt skills 3 <player> OK
+                        //tnt skills 4 <player> OK
+                        //tnt skills 7 <player> OK
+                        //tnt skills 8 <player> OK
+                        //tnt skills 9 <player/x> <y> <z> OK
+                        //tnt skills 10 <player/x> <y> <z> OK
                         case "1": {
                             Player player = (Player) sender;
                             return targetBlock(player, args, true);
                         }
                         case "2":
-                        case "3":
-                        case "7": {
+                        case "6":
+                        case "9":
+                        case "10": {
                             Player player = (Player) sender;
-                            return targetBlock(player, args);
+                            List<String> list = targetBlock(player, args);
+                            if (args.length == 3) {
+                                list.addAll(playerList());
+                            }
+                            return sortList(list, args);
+                        }
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "7":
+                        case "8": {
+                            if (args.length == 3) {
+                                return sortList(playerList(), args);
+                            }
+                        }
+                        default: {
+                            return null;
                         }
                     }
                 }
@@ -64,13 +80,13 @@ public class MainCommandCompleter implements TabCompleter {
         return null;
     }
 
-    private List<String> sortList(List<String> list, String args) {
+    private List<String> sortList(List<String> list, String[] args) {
         List<String> numberListOld = new ArrayList<>(list); //in your case COMMANDS
 
         list.clear();
 
         for (String s : numberListOld)
-            if (s.toLowerCase().startsWith(args.toLowerCase()))
+            if (s.toLowerCase().startsWith(args[args.length - 1]))
                 list.add(s);
         return list;
     }
@@ -79,6 +95,14 @@ public class MainCommandCompleter implements TabCompleter {
         List<String> stringList = new ArrayList<>();
         for (Object object : Sound.class.getEnumConstants()) {
             stringList.add(object.toString());
+        }
+        return stringList;
+    }
+
+    private List<String> playerList() {
+        List<String> stringList = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            stringList.add(player.getName());
         }
         return stringList;
     }
@@ -93,22 +117,22 @@ public class MainCommandCompleter implements TabCompleter {
             switch (args.length) {
                 case 3:
                 case 6:
-                    return Collections.singletonList(targ.getX() + "");
+                    return sortList(Collections.singletonList(targ.getX() + ""), args);
                 case 4:
                 case 7:
-                    return Collections.singletonList(targ.getY() + "");
+                    return sortList(Collections.singletonList(targ.getY() + ""), args);
                 case 5:
                 case 8:
-                    return Collections.singletonList(targ.getZ() + "");
+                    return sortList(Collections.singletonList(targ.getZ() + ""), args);
             }
         } else {
             switch (args.length) {
                 case 3:
-                    return Collections.singletonList(targ.getX() + "");
+                    return sortList(Collections.singletonList(targ.getX() + ""), args);
                 case 4:
-                    return Collections.singletonList(targ.getY() + "");
+                    return sortList(Collections.singletonList(targ.getY() + ""), args);
                 case 5:
-                    return Collections.singletonList(targ.getZ() + "");
+                    return sortList(Collections.singletonList(targ.getZ() + ""), args);
             }
         }
         return null;

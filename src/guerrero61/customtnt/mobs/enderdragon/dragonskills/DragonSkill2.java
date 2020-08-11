@@ -1,6 +1,8 @@
 package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -18,6 +20,8 @@ public class DragonSkill2 {
 
     public void Skill2(Player player) {
         Skill2(player.getLocation());
+        player.sendMessage(Formatter
+                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
     }
 
     public void Skill2(Location location) {

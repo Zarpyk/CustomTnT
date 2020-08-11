@@ -8,6 +8,8 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class MainCommand implements CommandExecutor {
@@ -64,6 +66,13 @@ public class MainCommand implements CommandExecutor {
                         }
                     } else {
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
+                    }
+                    return true;
+                case "unbug":
+                    for (Entity entity : player.getNearbyEntities(100, 100, 100)) {
+                        if (entity.getType().equals(EntityType.ENDER_DRAGON)) {
+                            entity.setInvulnerable(false);
+                        }
                     }
                     return true;
                 default:

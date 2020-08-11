@@ -1,6 +1,7 @@
 package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import guerrerocraft61.particleapi.Formatter;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,9 +37,11 @@ public class DragonSkill7 implements Listener {
 
     public void Skill7(Player player) {
         Main.debug("Skill 7");
+        player.sendMessage(guerrero61.customtnt.mainutils.Formatter
+                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
         Vex vex = (Vex) player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.VEX);
-        Objects.requireNonNull(vex.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(75);
-        vex.setHealth(75);
+        Objects.requireNonNull(vex.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(65);
+        vex.setHealth(65);
         vex.setCanPickupItems(false);
         vex.setCharging(true);
         vex.setCustomName(Formatter.FText(vexName, true, player));
@@ -68,20 +71,19 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityAttack(EntityDamageByEntityEvent event) {
         Entity entity = event.getDamager();
-        if (entity.getType() != EntityType.VEX && entity.getCustomName() == null) {
+        if (entity.getType() != EntityType.VEX && !Objects.equals(entity.getCustomName(), vexName)) {
             return;
         }
         Entity attackedEntity = event.getEntity();
         entity.setInvulnerable(true);
-        attackedEntity.getWorld().createExplosion(attackedEntity.getLocation().getX(),
-                attackedEntity.getLocation().getY(), attackedEntity.getLocation().getZ(), 1.5f, false, false);
+        attackedEntity.getWorld().createExplosion(attackedEntity.getLocation(), 1f, false, false);
         entity.setInvulnerable(false);
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() != EntityType.VEX && entity.getCustomName() == null) {
+        if (entity.getType() != EntityType.VEX && !Objects.equals(entity.getCustomName(), vexName)) {
             return;
         }
         if (event.getEntity().getKiller() == null) {

@@ -1,6 +1,8 @@
 package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
@@ -24,6 +26,8 @@ public class DragonSkill9 {
 
     public void Skill9(EnderDragon enderDragon) {
         Main.debug("Skill 9");
+        Bukkit.broadcastMessage(Formatter
+                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName));
         enderDragon.setInvulnerable(true);
         Location dragonLocation = enderDragon.getLocation();
         final double radius = 5;

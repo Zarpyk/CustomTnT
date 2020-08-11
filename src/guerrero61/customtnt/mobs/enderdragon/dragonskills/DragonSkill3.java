@@ -1,6 +1,8 @@
 package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -24,6 +26,8 @@ public class DragonSkill3 {
     }
 
     public void Skill3(Player player) {
+        player.sendMessage(Formatter
+                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, effectDuration, 2));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, effectDuration, 1));
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, effectDuration, 1));
