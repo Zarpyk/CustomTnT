@@ -28,15 +28,15 @@ public class DragonSkill9 {
         Main.debug("Skill 9");
         Bukkit.broadcastMessage(Formatter
                 .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName));
-        enderDragon.setInvulnerable(true);
         Location dragonLocation = enderDragon.getLocation();
         final double radius = 5;
         final double addAngle = 36;
         boolean noPlayerInRadius = true;
         for (Player target : Bukkit.getOnlinePlayers()) {
-            Main.debug("Player distance: " + target.getLocation().distance(dragonLocation));
-            if (target.getLocation().distance(dragonLocation) < radius * 2) {
-                noPlayerInRadius = false;
+            if (target.getWorld().equals(enderDragon.getWorld())) {
+                if (target.getLocation().distance(dragonLocation) < radius * 2) {
+                    noPlayerInRadius = false;
+                }
             }
         }
         boolean finalNoPlayerInRadius = noPlayerInRadius;
@@ -78,7 +78,5 @@ public class DragonSkill9 {
             }
         }.runTaskTimer(main, 0, timeBetweenTnT);
         Bukkit.getScheduler().runTaskLater(main, task::cancel, timeBetweenTnT * tntCount);
-        Bukkit.getScheduler().runTaskLater(main, () -> enderDragon.setInvulnerable(false),
-                (timeBetweenTnT * tntCount) + tntFuseTick);
     }
 }

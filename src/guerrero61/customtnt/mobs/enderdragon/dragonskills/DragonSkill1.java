@@ -6,6 +6,7 @@ import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import guerrerocraft61.particleapi.particletypes.LineParticle;
 import net.minecraft.server.v1_16_R1.DamageSource;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
@@ -38,9 +39,13 @@ public class DragonSkill1 {
                     Bukkit.getScheduler().runTaskLater(main, this::cancel, 40L);
                 }
                 for (Player target : Bukkit.getOnlinePlayers()) {
-                    if (target.getLocation().distance(particle.a) < 2) {
-                        Main.debug("Damage");
-                        ((CraftPlayer) target).getHandle().damageEntity(DamageSource.DRAGON_BREATH, 15);
+                    if (target.getWorld().equals(particle.a.getWorld())) {
+                        if (target.getLocation().distance(particle.a) < 2) {
+                            Main.debug("Damage");
+                            if (target.getGameMode().equals(GameMode.SURVIVAL) || target.getGameMode()
+                                    .equals(GameMode.ADVENTURE))
+                                ((CraftPlayer) target).getHandle().damageEntity(DamageSource.DRAGON_BREATH, 15);
+                        }
                     }
                 }
             }

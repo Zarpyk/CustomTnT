@@ -12,6 +12,7 @@ import guerrero61.customtnt.items.disable.DisableTrident;
 import guerrero61.customtnt.mainutils.config.Config;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import guerrero61.customtnt.mobs.enderdragon.dragonskills.DragonSkill5;
+import guerrero61.customtnt.mobs.enderdragon.dragonskills.DragonSkill6;
 import guerrero61.customtnt.mobs.enderdragon.dragonskills.DragonSkill7;
 import org.bukkit.plugin.PluginManager;
 
@@ -47,6 +48,7 @@ public class RegisterEvents {
         if (Config.getBool(Config.Options.CustomDragonEnable)) {
             pm.registerEvents(new TnTDragon(m), m);
             pm.registerEvents(new DragonSkill5(m), m);
+            pm.registerEvents(new DragonSkill6(m), m);
             pm.registerEvents(new DragonSkill7(m), m);
         }
         //MMOItems

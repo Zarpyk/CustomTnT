@@ -2,11 +2,13 @@ package guerrero61.customtnt.mobs.enderdragon;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.Config;
 import guerrero61.customtnt.mobs.enderdragon.dragonskills.*;
 import guerrerocraft61.particleapi.VectorMath;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -21,6 +23,7 @@ import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class TnTDragon implements Listener {
@@ -30,9 +33,7 @@ public class TnTDragon implements Listener {
     public static FileConfiguration dragonDataConfig;
 
     public static String dragonName = "&cTnT Dragon";
-    private static final int maxHealth = 5000;
-    private static final boolean playerScaling = false;
-    private static final int perPlayerHealth = 300;
+    private double maxHealth = 0;
 
     private int habilityCooldown = 15;
     private final int getAutoHabilityCooldown = 30;
@@ -43,6 +44,11 @@ public class TnTDragon implements Listener {
     private boolean autoHabilitySchedulerActivated = false;
 
     private DragonPhase dragonPhase = DragonPhase.INITIAL;
+
+    private final int perPlayerScales = 6;
+    private final int perPlayerXP = 3097;
+    private int totalScaleAmount = 0;
+    private int totalXPAmount = 0;
 
     public TnTDragon(Main m) {
         main = m;
@@ -59,24 +65,36 @@ public class TnTDragon implements Listener {
             return;
         }
         EnderDragon enderDragon = (EnderDragon) entity;
-        enderDragon.setCustomName(Formatter.FText(dragonName, true));
-        enderDragon.setCustomNameVisible(true);
-        enderDragon.setGlowing(true);
-
-        if (!playerScaling) {
-            Objects.requireNonNull(enderDragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHealth);
-            enderDragon.setHealth(maxHealth);
+        if (Config.getBool(Config.Options.CustomDragonFirstTime)) {
+            maxHealth = Config.getDouble(Config.Options.CustomDragonFirstTimeHealth);
+            totalScaleAmount = 64;
+            totalXPAmount = 30970;
+        } else if (!Config.getBool(Config.Options.CustomDragonPerPlayerDificultyScalingMode)) {
+            maxHealth = Config.getDouble(Config.Options.CustomDragonStaticHealth);
+            totalScaleAmount = 64;
+            totalXPAmount = 30970;
         } else {
-            int finalHealth = 0;
             for (Player player : Bukkit.getOnlinePlayers()) {
-                finalHealth += perPlayerHealth;
-                set("participate." + player.getName(), true);
+                if (player.getWorld().equals(enderDragon.getWorld())) {
+                    maxHealth += Config.getDouble(Config.Options.CustomDragonPerPlayerHealth);
+                    totalScaleAmount += perPlayerScales;
+                    totalXPAmount += perPlayerXP;
+                    set("participate." + player.getName(), true);
+                }
             }
-            Objects.requireNonNull(enderDragon.getAttribute(Attribute.GENERIC_MAX_HEALTH))
-                    .setBaseValue(finalHealth);
-            enderDragon.setHealth(finalHealth);
         }
 
+        if (getDouble("dragonHealth") == 0) {
+            Objects.requireNonNull(enderDragon.getAttribute(Attribute.GENERIC_MAX_HEALTH))
+                    .setBaseValue(maxHealth);
+            enderDragon.setHealth(maxHealth);
+        } else {
+            Objects.requireNonNull(enderDragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHealth);
+            enderDragon.setHealth(getDouble("dragonHealth"));
+        }
+        setDragonPhase(enderDragon);
+        enderDragon.setCustomNameVisible(true);
+        enderDragon.setGlowing(true);
         enderDragon.setMaximumNoDamageTicks(0);
         enderDragon.setNoDamageTicks(0);
         enderDragon.clearLootTable();
@@ -114,7 +132,8 @@ public class TnTDragon implements Listener {
                                 }
                             }
                         }
-                        Player selectedTarget = playerList.get(Main.random(0, playerList.size() - 1));
+                        Player selectedTarget = playerList
+                                .get(playerList.size() > 0 ? Main.random(0, playerList.size() - 1) : 0);
                         Arrow arrow = (Arrow) selectedTarget.getWorld()
                                 .spawnEntity(new Location(selectedTarget.getWorld(), 0, 500, 0), EntityType.ARROW);
                         arrow.setShooter(selectedTarget);
@@ -138,6 +157,11 @@ public class TnTDragon implements Listener {
         Entity entity = event.getEntity();
         if (!entity.getType().equals(EntityType.ENDER_DRAGON)) {
             return;
+        }
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) || event.getCause()
+                .equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {
+            event.setDamage(0);
+            event.setCancelled(true);
         }
 
         if (!schedulerActivated) {
@@ -179,27 +203,18 @@ public class TnTDragon implements Listener {
 
         if (!damager.getType().equals(EntityType.ARROW) || (damager.getType()
                 .equals(EntityType.ARROW) && !damager.isSilent())) {
-            Bukkit.broadcastMessage(Formatter
-                    .FText("&e&lVida del dragon: &c&l" + Main.round(enderDragon.getHealth(), 2) + "/" + Objects
-                            .requireNonNull(enderDragon
-                                    .getAttribute(Attribute.GENERIC_MAX_HEALTH))
-                            .getValue())); //TODO AutoSkill don't trigger this
+            Bukkit.broadcastMessage((enderDragon.getHealth() - event.getDamage()) <= 0 ? "0" : (Formatter
+                    .FText("&e&lVida del dragon: &c&l" + Main
+                            .round(enderDragon.getHealth() - event.getDamage(), 2)) + "/" + Objects
+                    .requireNonNull(enderDragon.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue()));
+            set("dragonHealth", enderDragon.getHealth());
             set("damage." + player.getName(), Main
                     .round(getDouble("damage." + player.getName()) + event.getDamage(), 2));
+            set("totalDamage", Main
+                    .round(getDouble("totalDamage") + event.getDamage(), 2));
         }
-        if (enderDragon.getHealth() > DragonPhase.INITIAL.getHealth()) {
-            dragonPhase = DragonPhase.INITIAL;
-        } else if (enderDragon.getHealth() < DragonPhase.INITIAL.getHealth()
-                && enderDragon.getHealth() > DragonPhase.MID.getHealth()) {
-            dragonPhase = DragonPhase.MID;
-        } else if (enderDragon.getHealth() < DragonPhase.MID.getHealth()
-                && enderDragon.getHealth() > DragonPhase.END.getHealth()) {
-            dragonPhase = DragonPhase.END;
-        } else if (enderDragon.getHealth() < DragonPhase.FINAL.getHealth()) {
-            dragonPhase = DragonPhase.FINAL;
-        }
-        enderDragon
-                .setCustomName(Formatter.FText(dragonName + " - Fase " + dragonPhase.getPhaseName(), true));
+
+        setDragonPhase(enderDragon);
 
         int skillNumber = 0;
         if (dragonPhase == DragonPhase.INITIAL) {
@@ -224,11 +239,13 @@ public class TnTDragon implements Listener {
                     resetHability();
                     Location dragonLocation = enderDragon.getLocation();
                     Location playerLocation = player.getLocation();
-                    Vector direction = VectorMath.directionVector(playerLocation, dragonLocation);
-                    enderDragon.teleport(enderDragon.getLocation().setDirection(direction));
-                    dragonLocation = enderDragon.getLocation();
-                    Location finalDragonLocation = dragonLocation;
-                    new DragonSkill1(main).Skill1(finalDragonLocation, player);
+                    if (dragonLocation.getWorld().equals(playerLocation.getWorld())) {
+                        Vector direction = VectorMath.directionVector(playerLocation, dragonLocation);
+                        enderDragon.teleport(enderDragon.getLocation().setDirection(direction));
+                        dragonLocation = enderDragon.getLocation();
+                        Location finalDragonLocation = dragonLocation;
+                        new DragonSkill1(main).Skill1(finalDragonLocation, player);
+                    }
                 }
                 return;
             case 2:
@@ -293,10 +310,11 @@ public class TnTDragon implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity().getType() == EntityType.ENDER_DRAGON
-                && Objects.equals(e.getEntity().getCustomName(), Formatter.FText(TnTDragon.dragonName, true))) {
+                && Objects.requireNonNull(e.getEntity().getCustomName())
+                .contains(Formatter.FText(TnTDragon.dragonName, true))) {
             e.getDrops().clear();
             SortedSet<PlayerData> topList =
-                    new TreeSet<>(Comparator.comparingDouble(toplist -> toplist.playerDamage));
+                    new TreeSet<>(Comparator.comparingDouble(toplist -> -toplist.playerDamage));
             for (String key : Objects.requireNonNull(dragonDataConfig.getConfigurationSection("damage"))
                     .getKeys(false)) {
                 Main.debug(key);
@@ -304,17 +322,41 @@ public class TnTDragon implements Listener {
                     PlayerData playerData = new PlayerData();
                     playerData.playerName = key;
                     playerData.playerDamage = Main.round(getDouble("damage." + key), 2);
+                    playerData.damagePercent = (playerData.playerDamage / getDouble("totalDamage")) * 100;
                     topList.add(playerData);
                 }
             }
+            Bukkit.broadcastMessage(Formatter.FText("&a-----------------&c&lTop Damge&a-----------------", true));
+            int i = 1;
             for (PlayerData data : topList) {
-                Bukkit.broadcastMessage(Formatter
-                        .FText("&a" + data.playerName + " hizo &5" + data.playerDamage + "&a de daño", true));
+                RoundingMode roundingMode = RoundingMode.HALF_DOWN;
+                int scaleAmount = (int) Main.round((totalScaleAmount * (data.damagePercent / 100)), 0, roundingMode);
+                int xpAmount = (int) Main.round((totalXPAmount * (data.damagePercent / 100)), 0, roundingMode);
+                if (scaleAmount != 0) {
+                    Bukkit.broadcastMessage(Formatter
+                            .FText("&c" + i + ".&6" + data.playerName + " hizo &c" + data.playerDamage + "&6 de daño (" + Main
+                                    .round(data.damagePercent, 2, roundingMode) + "%)", true, Bukkit
+                                    .getPlayer(data.playerName))
+                    );
+                    i++;
+                    Bukkit.broadcastMessage(Formatter
+                            .FText("&c➢ &6Consiguio " + scaleAmount + " &5&lEscamas &6y " + xpAmount + " de XP", true, Bukkit
+                                    .getPlayer(data.playerName))
+                    );
+                    ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+                    String command = "mi MATERIAL DRAGON_SCALE " + data.playerName + " " + scaleAmount;
+                    Main.debug(command);
+                    Bukkit.dispatchCommand(console, command);
+                    String command2 = "xp add " + data.playerName + " " + xpAmount;
+                    Main.debug(command2);
+                    Bukkit.dispatchCommand(console, command2);
+                }
             }
-            /*//noinspection ResultOfMethodCallIgnored
-            dragonDataFile.delete();
+            Bukkit.broadcastMessage(Formatter.FText("&a------------------------------------------", true));
+            //noinspection ResultOfMethodCallIgnored
+            dragonDataFile.renameTo(new File(main.getDataFolder(), "dragon-data-backup.yml"));
             dragonDataFile = null;
-            dragonDataConfig = null;*/
+            dragonDataConfig = null;
         }
     }
 
@@ -323,16 +365,32 @@ public class TnTDragon implements Listener {
         sethabilityCooldown = habilityCooldown;
     }
 
+    private void setDragonPhase(EnderDragon enderDragon) {
+        if (enderDragon.getHealth() > maxHealth * (DragonPhase.INITIAL.getPercent() / 100)) {
+            dragonPhase = DragonPhase.INITIAL;
+        } else if (enderDragon.getHealth() < maxHealth * (DragonPhase.INITIAL.getPercent() / 100)
+                && enderDragon.getHealth() > maxHealth * (DragonPhase.MID.getPercent() / 100)) {
+            dragonPhase = DragonPhase.MID;
+        } else if (enderDragon.getHealth() < maxHealth * (DragonPhase.MID.getPercent() / 100)
+                && enderDragon.getHealth() > maxHealth * (DragonPhase.END.getPercent() / 100)) {
+            dragonPhase = DragonPhase.END;
+        } else if (enderDragon.getHealth() < maxHealth * (DragonPhase.FINAL.getPercent() / 100)) {
+            dragonPhase = DragonPhase.FINAL;
+        }
+        enderDragon
+                .setCustomName(Formatter.FText(dragonName + " - Fase " + dragonPhase.getPhaseName(), true));
+    }
+
     public enum DragonPhase {
-        INITIAL("&a&lInicial", 3500, 15), MID("&e&lMedio", 2000, 10), END("&c&lFinal", 1000, 5), FINAL("&4&lEnrabiado", 500, 0);
+        INITIAL("&a&lInicial", 75, 15), MID("&e&lMedio", 50, 10), END("&c&lFinal", 25, 5), FINAL("&4&lEnrabiado", 10, 0);
 
         String phaseName;
-        int health;
+        double percent;
         int skillCooldown;
 
-        DragonPhase(String phaseName, int health, int skillCooldown) {
+        DragonPhase(String phaseName, int percent, int skillCooldown) {
             this.phaseName = phaseName;
-            this.health = health;
+            this.percent = percent;
             this.skillCooldown = skillCooldown;
         }
 
@@ -340,8 +398,8 @@ public class TnTDragon implements Listener {
             return phaseName;
         }
 
-        public int getHealth() {
-            return health;
+        public double getPercent() {
+            return percent;
         }
 
         public int getSkillCooldown() {
@@ -352,6 +410,7 @@ public class TnTDragon implements Listener {
     public static class PlayerData {
         public String playerName;
         public Double playerDamage;
+        public double damagePercent;
     }
 
     private void DragonData() {

@@ -41,7 +41,11 @@ public class Config {
         //Formatter
         FormatterTabList("Formatter.tab-list", CONFIG.Main), FormatterCustomChat("Formatter.custom-chat", CONFIG.Main),
         //CustomDragon
-        CustomDragonName("CustomDragon.name", CONFIG.Main),
+        CustomDragonName("CustomDragon.name", CONFIG.Main), CustomDragonFirstTime("CustomDragon.first-time", CONFIG.Main),
+        CustomDragonFirstTimeHealth("CustomDragon.first-time-health", CONFIG.Main),
+        CustomDragonPerPlayerDificultyScalingMode("CustomDragon.per-player-scaling-dificulty-mode", CONFIG.Main),
+        CustomDragonPerPlayerHealth("CustomDragon.per-player-health", CONFIG.Main),
+        CustomDragonStaticHealth("CustomDragon.static-health", CONFIG.Main),
         //MMOItems
         MMOItemsDisableCutomsRepair("MMOItems.disable-custom-repair", CONFIG.Main),
         //MainWorld
@@ -88,6 +92,7 @@ public class Config {
         MessagesMinecraftToDiscordChat("Messages.minecraft-to-discord-chat", CONFIG.Discord),
         MessagesRemoveRank("Messages.remove-rank", CONFIG.Discord),
         MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
+        MessagesHaveImageText("Message.have-image-text", CONFIG.Discord),
         MessagesAdvancement("Messages.advancement", CONFIG.Discord),
         MessagesCommandList("Messages.command-list", CONFIG.Discord),
         //Verify
@@ -136,6 +141,10 @@ public class Config {
                 .requireNonNull(Main.configMap.get(configOptions.getType()).getString(configOptions.getValue())));
     }
 
+    public static Double getDouble(Options configOptions) {
+        return Main.configMap.get(configOptions.getType()).getDouble(configOptions.getValue());
+    }
+
     public static Boolean getBool(Options configOptions) {
         return Main.configMap.get(configOptions.getType()).getBoolean(configOptions.getValue());
     }
@@ -156,6 +165,11 @@ public class Config {
     }
 
     public static void set(Options configOptions, Float value) {
+        Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
+        save(Main.configMap.get(configOptions.getType()));
+    }
+
+    public static void set(Options configOptions, Double value) {
         Main.configMap.get(configOptions.getType()).set(configOptions.getValue(), value);
         save(Main.configMap.get(configOptions.getType()));
     }

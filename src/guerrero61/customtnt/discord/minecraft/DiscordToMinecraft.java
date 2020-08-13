@@ -25,8 +25,11 @@ public class DiscordToMinecraft extends ListenerAdapter {
                 return;
             }
         }
-        Bukkit.broadcastMessage(Formatter.FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
-                .replace("%nick%", event.getAuthor().getName())
-                .replace("%msg%", Formatter.FText(event.getMessage().getContentDisplay(), true)), true));
+        Bukkit.broadcastMessage(Formatter
+                .FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
+                        .replace("%nick%", event.getAuthor().getName())
+                        .replace("%have_image%", (event.getMessage().getAttachments().size() > 0 ? Config
+                                .getString(Config.Options.MessagesHaveImageText) : ""))
+                        .replace("%msg%", Formatter.FText(event.getMessage().getContentDisplay(), true)), true));
     }
 }

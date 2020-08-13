@@ -71,35 +71,33 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityAttack(EntityDamageByEntityEvent event) {
         Entity entity = event.getDamager();
-        if (entity.getType() != EntityType.VEX && !Objects.equals(entity.getCustomName(), vexName)) {
-            return;
+        if (entity.getType() == EntityType.VEX && Objects.equals(entity.getCustomName(), vexName)) {
+            Entity attackedEntity = event.getEntity();
+            entity.setInvulnerable(true);
+            attackedEntity.getWorld().createExplosion(attackedEntity.getLocation(), 1f, false, false);
+            entity.setInvulnerable(false);
         }
-        Entity attackedEntity = event.getEntity();
-        entity.setInvulnerable(true);
-        attackedEntity.getWorld().createExplosion(attackedEntity.getLocation(), 1f, false, false);
-        entity.setInvulnerable(false);
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() != EntityType.VEX && !Objects.equals(entity.getCustomName(), vexName)) {
-            return;
-        }
-        if (event.getEntity().getKiller() == null) {
-            for (Player player : entity.getLocation().getNearbyPlayers(10)) {
-                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
+        if (entity.getType() == EntityType.VEX && Objects.equals(entity.getCustomName(), vexName)) {
+            if (event.getEntity().getKiller() == null) {
+                for (Player player : entity.getLocation().getNearbyPlayers(10)) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
+                }
+                return;
             }
-            return;
-        }
-        Player killer = event.getEntity().getKiller();
-        if (Objects.equals(entity.getCustomName(), Formatter.FText(vexName, true, killer))) {
-            killer.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20, 10));
-            for (Player player : entity.getLocation().getNearbyPlayers(10)) {
-                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
-            }
-            if (task != null) {
-                task.cancel();
+            Player killer = event.getEntity().getKiller();
+            if (Objects.equals(entity.getCustomName(), Formatter.FText(vexName, true, killer))) {
+                killer.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20, 10));
+                for (Player player : entity.getLocation().getNearbyPlayers(10)) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
+                }
+                if (task != null) {
+                    task.cancel();
+                }
             }
         }
     }

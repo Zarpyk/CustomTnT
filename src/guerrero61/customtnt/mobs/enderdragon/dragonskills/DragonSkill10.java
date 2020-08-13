@@ -3,6 +3,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
@@ -18,7 +19,7 @@ public class DragonSkill10 {
     }
 
     public void Skill10(EnderDragon enderDragon, Player player) {
-        player.sendMessage(Formatter
+        Bukkit.broadcastMessage(Formatter
                 .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName));
         int random = Main.random(1, 3);
         for (int i = 0; i < random; i++) {

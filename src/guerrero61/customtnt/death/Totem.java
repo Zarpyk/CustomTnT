@@ -49,7 +49,7 @@ public class Totem implements Listener {
                 message(player, random, resta, ">=", true);
                 event.setCancelled(true);
             } else {
-                message(player, random, resta, "!=", false);
+                message(player, random, resta, "<", false);
             }
         }
     }

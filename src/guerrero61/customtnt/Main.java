@@ -173,11 +173,15 @@ public class Main extends JavaPlugin {
     }
 
     public static double round(double value, int places) {
+        return round(value, places, RoundingMode.HALF_UP);
+    }
+
+    public static double round(double value, int places, RoundingMode roundingMode) {
         if (places < 0)
             throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(Double.toString(value));
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        bd = bd.setScale(places, roundingMode);
         return bd.doubleValue();
     }
 

@@ -82,13 +82,12 @@ public class MainCommandCompleter implements TabCompleter {
 
     private List<String> sortList(List<String> list, String[] args) {
         List<String> numberListOld = new ArrayList<>(list); //in your case COMMANDS
-
-        list.clear();
+        List<String> newList = new ArrayList<>();
 
         for (String s : numberListOld)
             if (s.toLowerCase().startsWith(args[args.length - 1]))
-                list.add(s);
-        return list;
+                newList.add(s);
+        return newList;
     }
 
     private List<String> soundList() {

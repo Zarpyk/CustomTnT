@@ -35,9 +35,7 @@ public class TabList implements Listener {
                 }
                 if (!playerIsInTeam)
                     team.addEntry(player.getName());
-                team.setPrefix(Formatter.FText((Formatter.FText("%essentials_afk%", true, player).equals("yes")
-                        ? Formatter.FText("&8[&7AFK&8] ", true, player)
-                        : "") + "%vault_prefix%", true, player));
+                team.setPrefix(Formatter.FText("%vault_prefix%", true, player));
                 team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
             }
         }
@@ -60,9 +58,7 @@ public class TabList implements Listener {
             }
             if (!playerIsInTeam)
                 team.addEntry(player.getName());
-            team.setPrefix(Formatter.FText((Formatter.FText("%essentials_afk%", true, player).equals("yes")
-                    ? Formatter.FText("&8[&7AFK&8] ", true, player)
-                    : "") + "%vault_prefix%", true, player));
+            team.setPrefix(Formatter.FText("%vault_prefix%", true, player));
             team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
         }
     }

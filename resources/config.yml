@@ -45,6 +45,19 @@ Formatter:
   custom-chat: true
 CustomDragon:
   name: "&cTnT Dragon"
+  #Don't change this if you have a new world
+  #This option is changed automatically when you kill dragon
+  first-time: true
+  #First time dragon don't have scaling dificulty
+  first-time-health: 5000
+  #This only work when isn't first-time
+  per-player-scaling-dificulty-mode: true
+  #Dragon health = (per-player-health) * end-player-count
+  #Only if the player is on the end it will count as health
+  #The players in overworld or offline can't get any reward if they join later to the end
+  per-player-health: 500
+  #If you have per-player-scaling-dificulty-mode false, dragon health is set by this option
+  static-health: 5000
 MMOItems:
   #Disable MMOItem use normal material to repair custom item [Default: true]
   disable-custom-repair: true

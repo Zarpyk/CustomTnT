@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -111,8 +112,12 @@ public class MinecraftToDiscord implements Listener {
 
     @EventHandler
     public void advancementMsg(PlayerAdvancementDoneEvent event) {
-        if (!Objects.requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld))) //TODO Test
-                .isGameRule("ANNOUNCE_ADVANCEMENTS")) {
+        Main.debug(Boolean.toString(Objects.requireNonNull(Objects
+                .requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld)))
+                .getGameRuleValue(GameRule.ANNOUNCE_ADVANCEMENTS))));
+        if (!Objects.requireNonNull(Objects
+                .requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld)))
+                .getGameRuleValue(GameRule.ANNOUNCE_ADVANCEMENTS))) {
             return;
         }
         Advancement advancement = event.getAdvancement();

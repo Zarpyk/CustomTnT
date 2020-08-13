@@ -21,7 +21,8 @@ Messages:
   minecraft-to-discord-chat: "**%vault_prefix%** %player_name% » %msg%"
   remove-rank: #case-sensitive
     - "**Default** "
-  discord-to-minecraft-chat: "&e[&bDiscord&e] &c%nick%&r: &e%msg%"
+  discord-to-minecraft-chat: "&e[&bDiscord&e] &c%nick%&r: &b%have_image% &e%msg%"
+  have-image-text: "[Imagen]"
   advancement: "%player_name% ha conseguido el logro de: %adv%"
 
   command-list:

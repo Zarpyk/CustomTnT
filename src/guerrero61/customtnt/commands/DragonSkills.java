@@ -152,7 +152,13 @@ public class DragonSkills {
                             .spawnEntity(newLocation6, EntityType.ENDER_DRAGON);
                     enderDragon6.setAI(false);
                     new DragonSkill6(main).Skill6(enderDragon6);
+                } else {
+                    player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
+                    return true;
                 }
+                EnderDragon finalEnderDragon6 = enderDragon6;
+                Bukkit.getScheduler()
+                        .runTaskLater(main, finalEnderDragon6::remove, DragonSkill6.killEndermanTimer * 20);
                 return true;
             case "7": //tnt skills 7 <player>
                 if (args.length == 2) {
