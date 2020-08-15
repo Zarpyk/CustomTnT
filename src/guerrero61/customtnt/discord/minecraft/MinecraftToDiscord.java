@@ -123,7 +123,7 @@ public class MinecraftToDiscord implements Listener {
         Advancement advancement = event.getAdvancement();
         String rawAdvancementName = advancement.getKey().getKey();
         if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")
-                || rawAdvancementName.equals("root") || rawAdvancementName.contains("branch")) {
+                || rawAdvancementName.contains("root") || rawAdvancementName.contains("branch")) {
             return;
         }
         String advancementName = Arrays

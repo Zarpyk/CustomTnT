@@ -11,8 +11,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
-
 public class DisableCustomRepair implements Listener {
 
     @EventHandler
@@ -24,9 +22,14 @@ public class DisableCustomRepair implements Listener {
                 ItemStack result = event.getInventory().getItem(2);
                 if (item1 == null || result == null)
                     return;
-                if (NBTItem.get(item1).hasType() && ((Objects.requireNonNull(item2).getType() != Material.ENCHANTED_BOOK
-                        || NBTItem.get(item1).getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D))) {
-                    event.setResult(Event.Result.DENY);
+                if (NBTItem.get(item1).hasType()) {
+                    if (item2 != null) {
+                        if (item2.getType() != Material.ENCHANTED_BOOK || NBTItem.get(item1)
+                                .getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D) {
+                            event.setResult(Event.Result.DENY);
+                            event.setCancelled(true);
+                        }
+                    }
                 }
             }
 

@@ -21,7 +21,7 @@ public class DragonSkill2 {
     public void Skill2(Player player) {
         Skill2(player.getLocation());
         player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
     }
 
     public void Skill2(Location location) {

@@ -18,7 +18,7 @@ public class DragonSkill3 {
     private final Main main;
     public static String skillName = "La LoCuRa";
     public static int effectDuration = 200;
-    public static int soundCount = 35;
+    public static int soundCount = 50;
     public static int soundExtraTime = 600;
 
     public DragonSkill3(Main m) {
@@ -27,7 +27,7 @@ public class DragonSkill3 {
 
     public void Skill3(Player player) {
         player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, effectDuration, 2));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, effectDuration, 1));
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, effectDuration, 1));

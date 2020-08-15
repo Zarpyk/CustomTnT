@@ -2,6 +2,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.ConfigBuilder;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,9 +12,12 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class DragonSkill9 {
+import java.util.Objects;
+
+public class DragonSkill9 extends ConfigBuilder {
 
     private final Main main;
+
     public static String skillName = "Lluvia de TnT";
     public static final int tntFuseTick = 100;
     public static final int timeBetweenTnT = 20;
@@ -21,13 +25,23 @@ public class DragonSkill9 {
     public static final float tntPower = 9.0f;
 
     public DragonSkill9(Main m) {
+        super(TnTDragon.fileName);
         main = m;
     }
 
     public void Skill9(EnderDragon enderDragon) {
         Main.debug("Skill 9");
-        Bukkit.broadcastMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName));
+        for (String key : Objects.requireNonNull(getConfigurationSection("participate"))
+                .getKeys(false)) {
+            Main.debug("Skill9:" + key);
+            Player player = Bukkit.getPlayer(key);
+            if (player != null) {
+                player.sendMessage(Formatter
+                        .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName));
+            } else {
+                Main.consoleMsg(Formatter.FText("&c&lERROR: " + key + " no existe"));
+            }
+        }
         Location dragonLocation = enderDragon.getLocation();
         final double radius = 5;
         final double addAngle = 36;

@@ -95,10 +95,10 @@ public class DragonSkills {
                 return true;
             case "4": //tnt skills 4 <player>
                 if (args.length == 2) {
-                    new DragonSkill4(main).Skill4(player);
+                    new DragonSkill4().Skill4(player);
                 } else if (args.length == 3) {
                     try {
-                        new DragonSkill4(main).Skill4(Objects.requireNonNull(Bukkit.getPlayer(args[2])));
+                        new DragonSkill4().Skill4(Objects.requireNonNull(Bukkit.getPlayer(args[2])));
                     } catch (Exception e) {
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
                         return true;
@@ -176,10 +176,10 @@ public class DragonSkills {
                 return true;
             case "8": //tnt skills 8 <player>
                 if (args.length == 2) {
-                    new DragonSkill8(main).Skill8(player);
+                    new DragonSkill8().Skill8(player);
                 } else if (args.length == 3) {
                     try {
-                        new DragonSkill8(main).Skill8(Objects.requireNonNull(Bukkit.getPlayer(args[2])));
+                        new DragonSkill8().Skill8(Objects.requireNonNull(Bukkit.getPlayer(args[2])));
                     } catch (Exception e) {
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
                         return true;

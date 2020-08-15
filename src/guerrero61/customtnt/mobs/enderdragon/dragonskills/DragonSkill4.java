@@ -13,20 +13,15 @@ import java.util.List;
 
 public class DragonSkill4 {
 
-    private final Main main;
     public static String skillName = "Mob Random";
     public static String[] mobNames = new String[]{"&6Esbirro del Dragon", "&6Soldado del Dragon", "&6Esclavo del Dragon", "&6Guerrero del Dragon", "&6Arma del Dragon", "&6Hijo del Dragon"};
     public static int minMob = 3;
     public static int maxMob = 10;
 
-    public DragonSkill4(Main m) {
-        main = m;
-    }
-
     public void Skill4(Player player) {
         Main.debug("Skill 4");
         player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         int random = Main.random(minMob, maxMob);
         for (int i = 0; i < random; i++) {
             try {

@@ -25,7 +25,7 @@ public class DragonSkill1 {
     public void Skill1(Location particleLocation, Player player) {
         Skill1(particleLocation, player.getLocation());
         player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
     }
 
     public void Skill1(Location particleLocation, Location location) {
@@ -43,8 +43,10 @@ public class DragonSkill1 {
                         if (target.getLocation().distance(particle.a) < 2) {
                             Main.debug("Damage");
                             if (target.getGameMode().equals(GameMode.SURVIVAL) || target.getGameMode()
-                                    .equals(GameMode.ADVENTURE))
-                                ((CraftPlayer) target).getHandle().damageEntity(DamageSource.DRAGON_BREATH, 15);
+                                    .equals(GameMode.ADVENTURE)) {
+                                Main.debug("gamemode");
+                                ((CraftPlayer) target).getHandle().damageEntity(DamageSource.MAGIC, 15);
+                            }
                         }
                     }
                 }

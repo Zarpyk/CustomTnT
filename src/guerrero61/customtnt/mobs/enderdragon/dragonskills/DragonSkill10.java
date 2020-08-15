@@ -2,6 +2,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
+import guerrero61.customtnt.mainutils.config.ConfigBuilder;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,29 +10,53 @@ import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-public class DragonSkill10 {
+import java.util.Objects;
+
+public class DragonSkill10 extends ConfigBuilder {
 
     private final Main main;
+
     public static String skillName = "Dragon Ultimate";
 
     public DragonSkill10(Main m) {
+        super(TnTDragon.fileName);
         main = m;
     }
 
     public void Skill10(EnderDragon enderDragon, Player player) {
-        Bukkit.broadcastMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName));
-        int random = Main.random(1, 3);
+
+        int random = Main.random(2, 4);
         for (int i = 0; i < random; i++) {
             int randomHability = Main.random(1, 10);
+            if (randomHability == 6 && getBool("skill6Active")) {
+                int random2 = Main.random(1, 2);
+                if (random2 == 1) randomHability = Main.random(1, 5);
+                if (random2 == 2) randomHability = Main.random(7, 10);
+            }
             RandomHability(randomHability, enderDragon, player);
+        }
+        for (String key : Objects.requireNonNull(getConfigurationSection("participate"))
+                .getKeys(false)) {
+            Main.debug("Skill10:" + key);
+            Player player2 = Bukkit.getPlayer(key);
+            if (player2 != null) {
+                player2.sendMessage(Formatter
+                        .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&l(" + random + ")"));
+            } else {
+                Bukkit.broadcastMessage(Formatter.FText("&c&lERROR: " + key + " no existe"));
+            }
         }
     }
 
     public void Skill10(Location location, Player player) {
-        int random = Main.random(1, 3);
+        int random = Main.random(2, 4);
         for (int i = 0; i < random; i++) {
             int randomHability = Main.random(1, 10);
+            if (randomHability == 6 && getBool("skill6Active")) {
+                int random2 = Main.random(1, 2);
+                if (random2 == 1) randomHability = Main.random(1, 5);
+                if (random2 == 2) randomHability = Main.random(7, 10);
+            }
             RandomHability(randomHability, location, player);
         }
     }
@@ -48,7 +73,7 @@ public class DragonSkill10 {
                 new DragonSkill3(main).Skill3(player);
                 break;
             case 4:
-                new DragonSkill4(main).Skill4(player);
+                new DragonSkill4().Skill4(player);
                 break;
             case 5:
                 new DragonSkill5(main).Skill5(player);
@@ -60,7 +85,7 @@ public class DragonSkill10 {
                 new DragonSkill7(main).Skill7(player);
                 break;
             case 8:
-                new DragonSkill8(main).Skill8(player, enderDragon);
+                new DragonSkill8().Skill8(player, enderDragon);
                 break;
             case 9:
                 new DragonSkill9(main).Skill9(enderDragon);

@@ -9,21 +9,16 @@ import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Player;
 
 public class DragonSkill8 {
-
-    private final Main main;
+    
     public static String skillName = "Chupa Sangre";
     public static float percentage = 25;
     public static double multiply = 3;
     private float damage;
 
-    public DragonSkill8(Main m) {
-        main = m;
-    }
-
     public void Skill8(Player player) {
         Main.debug("Skill 8");
         player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         damage = (float) (player.getHealth() * (percentage / 100));
         Main.debug(Float.toString(damage));
         player.setHealth(player.getHealth() - damage);

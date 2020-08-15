@@ -38,13 +38,13 @@ public class DragonSkill7 implements Listener {
     public void Skill7(Player player) {
         Main.debug("Skill 7");
         player.sendMessage(guerrero61.customtnt.mainutils.Formatter
-                .FText(TnTDragon.dragonName + " &4&lha usado la habilidad &2&l" + skillName + " &4&len ti."));
+                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         Vex vex = (Vex) player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.VEX);
         Objects.requireNonNull(vex.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(65);
         vex.setHealth(65);
         vex.setCanPickupItems(false);
         vex.setCharging(true);
-        vex.setCustomName(Formatter.FText(vexName, true, player));
+        vex.setCustomName(Formatter.FText(vexName, true));
         vex.setCustomNameVisible(true);
         vex.setGlowing(true);
         vex.setLootTable(null);
@@ -71,7 +71,7 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityAttack(EntityDamageByEntityEvent event) {
         Entity entity = event.getDamager();
-        if (entity.getType() == EntityType.VEX && Objects.equals(entity.getCustomName(), vexName)) {
+        if (entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
             Entity attackedEntity = event.getEntity();
             entity.setInvulnerable(true);
             attackedEntity.getWorld().createExplosion(attackedEntity.getLocation(), 1f, false, false);
@@ -82,7 +82,7 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() == EntityType.VEX && Objects.equals(entity.getCustomName(), vexName)) {
+        if (entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
             if (event.getEntity().getKiller() == null) {
                 for (Player player : entity.getLocation().getNearbyPlayers(10)) {
                     player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
@@ -90,14 +90,12 @@ public class DragonSkill7 implements Listener {
                 return;
             }
             Player killer = event.getEntity().getKiller();
-            if (Objects.equals(entity.getCustomName(), Formatter.FText(vexName, true, killer))) {
-                killer.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20, 10));
-                for (Player player : entity.getLocation().getNearbyPlayers(10)) {
-                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
-                }
-                if (task != null) {
-                    task.cancel();
-                }
+            killer.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 20, 10));
+            for (Player player : entity.getLocation().getNearbyPlayers(10)) {
+                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
+            }
+            if (task != null) {
+                task.cancel();
             }
         }
     }

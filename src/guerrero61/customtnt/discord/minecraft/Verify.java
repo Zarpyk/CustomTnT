@@ -3,6 +3,7 @@ package guerrero61.customtnt.discord.minecraft;
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
+import guerrero61.customtnt.mainutils.config.ConfigBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -11,13 +12,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,50 +22,14 @@ import java.util.Objects;
 public class Verify extends ListenerAdapter implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    private static File verifyFile;
-    private static FileConfiguration verifyConfig;
+    private final ConfigBuilder configBuilder;
 
     boolean isPlayer;
     Player player;
 
     public Verify(Main m) {
         main = m;
-        verifyFile = new File(m.getDataFolder(), "discord-verify.yml");
-        verifyConfig = YamlConfiguration.loadConfiguration(verifyFile);
-        if (!verifyFile.exists()) {
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                verifyFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void set(String key, String value) {
-        verifyConfig.set(key, value);
-        try {
-            verifyConfig.save(verifyFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void set(String key, Boolean value) {
-        verifyConfig.set(key, value);
-        try {
-            verifyConfig.save(verifyFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String getString(String key) {
-        return verifyConfig.getString(key);
-    }
-
-    public static Boolean getBool(String key) {
-        return verifyConfig.getBoolean(key);
+        configBuilder = new ConfigBuilder("discord-verify");
     }
 
     @Override
@@ -86,23 +47,25 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
                     && !args[0].startsWith("#")) {
                 if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4
                         && Main.isNumeric(args[0].split("#")[1])) {
-                    for (String key : Objects.requireNonNull(verifyConfig.getConfigurationSection("")).getKeys(false)) {
+                    for (String key : Objects.requireNonNull(configBuilder.getConfigurationSection(""))
+                            .getKeys(false)) {
                         Main.debug(key);
-                        if (getString(key + ".nick") != null) {
-                            if (getString(key + ".nick").equals(player.getName())) {
-                                set(key + ".nick", (String) null);
-                                set(key + ".verified", (String) null);
-                                set(key, (String) null);
+                        if (configBuilder.getString(key + ".nick") != null) {
+                            if (configBuilder.getString(key + ".nick").equals(player.getName())) {
+                                configBuilder.set(key + ".nick", (String) null);
+                                configBuilder.set(key + ".verified", (String) null);
+                                configBuilder.set(key, (String) null);
                                 main.perms.playerRemove(player, "suffix.20."
                                         + Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
                             }
                         }
                     }
-                    if (getString(args[0] + ".nick") == null || !getBool(args[0] + ".verified")) {
-                        set(args[0] + ".nick", player.getName());
-                        set(args[0] + ".verified", false);
+                    if (configBuilder.getString(args[0] + ".nick") == null || !configBuilder
+                            .getBool(args[0] + ".verified")) {
+                        configBuilder.set(args[0] + ".nick", player.getName());
+                        configBuilder.set(args[0] + ".verified", false);
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyDiscord), player));
-                    } else if (getString(args[0] + ".nick").equals(player.getName())) {
+                    } else if (configBuilder.getString(args[0] + ".nick").equals(player.getName())) {
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyYouVerified), player));
                     } else {
                         player.sendMessage(
@@ -131,18 +94,19 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
         String autorAvatar = event.getAuthor().getAvatarUrl();
         EmbedBuilder embed;
 
-        if (args[1].equals(getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"))) {
-            Player player = Bukkit.getPlayer(getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"));
+        if (args[1].equals(configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"))) {
+            Player player = Bukkit
+                    .getPlayer(configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"));
             if (player == null) {
                 embed = new EmbedBuilder()
                         .setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyNoOnline)), autorAvatar,
                                 autorAvatar)
                         .setColor(new Color(255, 61, 61));
             } else {
-                if (!getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
+                if (!configBuilder.getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
                     main.perms.playerAdd(null, player, "suffix.20."
                             + Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
-                    set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
+                    configBuilder.set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
                     Objects.requireNonNull(event.getMember()).modifyNickname(player.getName()).queue();
                     event.getGuild()
                             .addRoleToMember(event.getMember(), Objects.requireNonNull(
@@ -159,7 +123,7 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
                             .setColor(new Color(255, 61, 61));
                 }
             }
-        } else if (getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick") == null) {
+        } else if (configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick") == null) {
             embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyError)
                             .replace("%discord_tag%", event.getAuthor().getAsTag().replace(" ", "_"))), autorAvatar,
                     autorAvatar).setColor(new Color(255, 61, 61));

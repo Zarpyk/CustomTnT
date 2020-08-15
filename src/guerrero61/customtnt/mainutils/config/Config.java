@@ -92,7 +92,7 @@ public class Config {
         MessagesMinecraftToDiscordChat("Messages.minecraft-to-discord-chat", CONFIG.Discord),
         MessagesRemoveRank("Messages.remove-rank", CONFIG.Discord),
         MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
-        MessagesHaveImageText("Message.have-image-text", CONFIG.Discord),
+        MessagesHaveImageText("Messages.have-image-text", CONFIG.Discord),
         MessagesAdvancement("Messages.advancement", CONFIG.Discord),
         MessagesCommandList("Messages.command-list", CONFIG.Discord),
         //Verify

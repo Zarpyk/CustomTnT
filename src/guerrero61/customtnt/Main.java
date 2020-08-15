@@ -196,4 +196,17 @@ public class Main extends JavaPlugin {
         }
         return true;
     }
+
+    public static boolean contains(String string1, String string2) {
+        if (string1 == null && string2 != null) {
+            return false;
+        } else if (string2 == null && string1 != null) {
+            return false;
+        } else if (string1 == null) { //string2 == null
+            Main.debug("Contains have Null");
+            return true;
+        } else {
+            return Formatter.RemoveFormat(string1).contains(Formatter.RemoveFormat(string2));
+        }
+    }
 }
