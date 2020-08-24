@@ -2,7 +2,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
-import guerrero61.customtnt.mainutils.config.ConfigBuilder;
+import guerrero61.customtnt.mainutils.config.ConfigClass;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class DragonSkill5 extends ConfigBuilder implements Listener {
+public class DragonSkill5 extends ConfigClass implements Listener {
 
     private final Main main;
 
@@ -33,27 +33,28 @@ public class DragonSkill5 extends ConfigBuilder implements Listener {
     public static int tntFuseTick = 40;
 
     public DragonSkill5(Main m) {
-        super(TnTDragon.fileName);
         main = m;
     }
 
     public void Skill5(Player player) {
         Main.debug("Skill 5");
+        if (dataConfig == null) {
+            protectedFileName = TnTDragon.fileName;
+            dataConfig = CreateConfig(TnTDragon.fileName);
+        }
         seconds = Main.random(minSeconds, maxSeconds);
         set(player.getName() + ".number1", Main.random(minNumber, maxNumber));
         set(player.getName() + ".number2", Main.random(minNumber, maxNumber));
         set(player.getName() + ".operation", operation[Main.random(0, operation.length - 1)]);
         player.sendMessage(Formatter
                 .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
-        player.sendMessage(Formatter
-                .FText("&6&lTienes que escribir el resultado de: &c&l" + getInt(player
-                        .getName() + ".number1") + getString(player
-                        .getName() + ".operation") + getInt(player
-                        .getName() + ".number2") + " &6&len menos de " + seconds + "s"));
+        player.sendMessage(Formatter.FText("&6&lTienes que escribir el resultado de: &c&l" + getInt(player
+                .getName() + ".number1") + getString(player.getName() + ".operation") + getInt(player
+                .getName() + ".number2") + " &6&len menos de " + seconds + "s"));
         set(player.getName() + ".skill5Active", true);
         BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()), Formatter
                 .FText("&c&lMates explosiva", true), BarColor.YELLOW, BarStyle.SOLID, BarFlag.CREATE_FOG);
-
+        bossBar.addPlayer(player);
         BukkitTask task = new BukkitRunnable() {
             double timer;
 
@@ -66,14 +67,13 @@ public class DragonSkill5 extends ConfigBuilder implements Listener {
                     tnt.setIsIncendiary(true);
                     tnt.setGlowing(true);
                     tnt.setFuseTicks(tntFuseTick);
-                    Bukkit.getScheduler()
-                            .runTaskLater(main, () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(),
-                                    tnt.getLocation().getY(), tnt.getLocation()
-                                            .getZ(), tntPower, true, true), tntFuseTick);
-                    set(player.getName() + ".skill5Active", false);
-                    Bukkit.removeBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
+                    Bukkit.getScheduler().runTaskLater(main, () -> tnt.getWorld()
+                            .createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(), tnt.getLocation()
+                                    .getZ(), tntPower, true, true), tntFuseTick);
+                    removeBossBar(player);
                     cancel();
                 } else {
+                    bossBar.addPlayer(player);
                     bossBar.setProgress((seconds - timer) / seconds);
                 }
                 timer++;
@@ -85,9 +85,8 @@ public class DragonSkill5 extends ConfigBuilder implements Listener {
 
             @Override
             public void run() {
-                if (!getBool(player.getName() + ".skill5Active") || timerTicks <= 0 ||
-                        getBool("disableSkill5")) {
-                    set(player.getName() + ".skill5Active", false);
+                if (!getBool(player.getName() + ".skill5Active") || timerTicks <= 0 || getBool("disableSkill5")) {
+                    removeBossBar(player);
                     task.cancel();
                     cancel();
                 }
@@ -99,31 +98,40 @@ public class DragonSkill5 extends ConfigBuilder implements Listener {
     @EventHandler
     public void playerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        if (getBool(player.getName() + ".skill5Active") && !getBool("disableSkill5")) {
-            int result = 0;
-            switch (getString(player
-                    .getName() + ".operation")) {
-                case "+": {
-                    result = getInt(player.getName() + ".number1") + getInt(player.getName() + ".number2");
-                    break;
+        if (dataConfig != null && getBool(player
+                .getName() + ".skill5Active") != null && getBool("disableSkill5") != null) {
+            if (getBool(player.getName() + ".skill5Active") && !getBool("disableSkill5")) {
+                int result = 0;
+                switch (getString(player.getName() + ".operation")) {
+                    case "+": {
+                        result = getInt(player.getName() + ".number1") + getInt(player.getName() + ".number2");
+                        break;
+                    }
+                    case "-": {
+                        result = getInt(player.getName() + ".number1") - getInt(player.getName() + ".number2");
+                        break;
+                    }
+                    case "*": {
+                        result = getInt(player.getName() + ".number1") * getInt(player.getName() + ".number2");
+                        break;
+                    }
                 }
-                case "-": {
-                    result = getInt(player.getName() + ".number1") -
-                            getInt(player.getName() + ".number2");
-                    break;
+                if (!event.getMessage().equals(Integer.toString(result))) {
+                    player.sendMessage(Formatter.FText("&c&lHas contestado incorrectamente"));
+                } else {
+                    player.sendMessage(Formatter.FText("&a&lContestado correctamente"));
+                    removeBossBar(player);
                 }
-                case "*": {
-                    result = getInt(player.getName() + ".number1") *
-                            getInt(player.getName() + ".number2");
-                    break;
-                }
-            }
-            if (!event.getMessage().equals(Integer.toString(result))) {
-                player.sendMessage(Formatter.FText("&c&lHas contestado incorrectamente"));
-            } else {
-                player.sendMessage(Formatter.FText("&a&lContestado correctamente"));
-                set(player.getName() + ".skill5Active", false);
             }
         }
+    }
+
+    private void removeBossBar(Player player) {
+        BossBar bossBar = Bukkit.getBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
+        assert bossBar != null;
+        bossBar.setVisible(false);
+        bossBar.removePlayer(player);
+        Bukkit.removeBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
+        set(player.getName() + ".skill5Active", false);
     }
 }

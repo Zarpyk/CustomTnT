@@ -2,7 +2,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
-import guerrero61.customtnt.mainutils.config.ConfigBuilder;
+import guerrero61.customtnt.mainutils.config.ConfigClass;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,19 +12,21 @@ import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
-public class DragonSkill10 extends ConfigBuilder {
+public class DragonSkill10 extends ConfigClass {
 
     private final Main main;
 
     public static String skillName = "Dragon Ultimate";
 
     public DragonSkill10(Main m) {
-        super(TnTDragon.fileName);
         main = m;
     }
 
     public void Skill10(EnderDragon enderDragon, Player player) {
-
+        if (dataConfig == null) {
+            protectedFileName = TnTDragon.fileName;
+            dataConfig = CreateConfig(TnTDragon.fileName);
+        }
         int random = Main.random(2, 4);
         for (int i = 0; i < random; i++) {
             int randomHability = Main.random(1, 10);
@@ -35,15 +37,12 @@ public class DragonSkill10 extends ConfigBuilder {
             }
             RandomHability(randomHability, enderDragon, player);
         }
-        for (String key : Objects.requireNonNull(getConfigurationSection("participate"))
-                .getKeys(false)) {
+        for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
             Main.debug("Skill10:" + key);
             Player player2 = Bukkit.getPlayer(key);
             if (player2 != null) {
                 player2.sendMessage(Formatter
                         .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&l(" + random + ")"));
-            } else {
-                Bukkit.broadcastMessage(Formatter.FText("&c&lERROR: " + key + " no existe"));
             }
         }
     }
@@ -101,8 +100,7 @@ public class DragonSkill10 extends ConfigBuilder {
 
     public void RandomHability(int habilityNumber, Location location, Player player) {
         EnderDragon enderDragon;
-        enderDragon = (EnderDragon) location.getWorld().spawnEntity(location,
-                EntityType.ENDER_DRAGON);
+        enderDragon = (EnderDragon) location.getWorld().spawnEntity(location, EntityType.ENDER_DRAGON);
         enderDragon.setAI(false);
         RandomHability(habilityNumber, enderDragon, player);
     }

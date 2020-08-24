@@ -42,19 +42,19 @@ public class MinecraftToDiscord implements Listener {
     public void playerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPlayedBefore()) {
-            jqMsg(player, Config.Options.MessagesJoin, new Color(125, 255, 100),
-                    !player.hasPermission("essentials.silentjoin"));
+            jqMsg(player, Config.Options.MessagesJoin, new Color(125, 255, 100), !player
+                    .hasPermission("essentials.silentjoin"));
         } else {
-            jqMsg(player, Config.Options.MessagesFirstJoin, new Color(255, 250, 90),
-                    !player.hasPermission("essentials.silentjoin"));
+            jqMsg(player, Config.Options.MessagesFirstJoin, new Color(255, 250, 90), !player
+                    .hasPermission("essentials.silentjoin"));
         }
     }
 
     @EventHandler
     public void playerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        jqMsg(player, Config.Options.MessagesQuit, new Color(255, 61, 61),
-                !player.hasPermission("essentials.silentquit"));
+        jqMsg(player, Config.Options.MessagesQuit, new Color(255, 61, 61), !player
+                .hasPermission("essentials.silentquit"));
     }
 
     private void jqMsg(Player p, Config.Options co, Color c, Boolean b) {
@@ -76,8 +76,8 @@ public class MinecraftToDiscord implements Listener {
         if (!event.isCancelled()) {
             String message = Formatter.RemoveFormat(event.getMessage());
             Player player = event.getPlayer();
-            String sendMessage = Formatter.RemoveFormat(Config.getString(Config.Options.MessagesMinecraftToDiscordChat),
-                    player);
+            String sendMessage = Formatter
+                    .RemoveFormat(Config.getString(Config.Options.MessagesMinecraftToDiscordChat), player);
             for (String rank : Config.getStringList(Config.Options.MessagesRemoveRank)) {
                 if (sendMessage.contains(rank)) {
                     sendMessage = sendMessage.replace(rank, "");
@@ -112,27 +112,23 @@ public class MinecraftToDiscord implements Listener {
 
     @EventHandler
     public void advancementMsg(PlayerAdvancementDoneEvent event) {
-        Main.debug(Boolean.toString(Objects.requireNonNull(Objects
-                .requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld)))
-                .getGameRuleValue(GameRule.ANNOUNCE_ADVANCEMENTS))));
-        if (!Objects.requireNonNull(Objects
-                .requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld)))
+        if (!Objects.requireNonNull(Objects.requireNonNull(Bukkit.getWorld(Config.getString(Config.Options.MainWorld)))
                 .getGameRuleValue(GameRule.ANNOUNCE_ADVANCEMENTS))) {
             return;
         }
         Advancement advancement = event.getAdvancement();
         String rawAdvancementName = advancement.getKey().getKey();
-        if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/")
-                || rawAdvancementName.contains("root") || rawAdvancementName.contains("branch")) {
+        Main.consoleMsg(Formatter.FText("&e" + event.getPlayer().getName() + " complete: " + rawAdvancementName));
+        if (rawAdvancementName.contains("recipes/") || rawAdvancementName.contains("recipe/") || rawAdvancementName
+                .contains("root") || rawAdvancementName.contains("branch")) {
             return;
         }
         String advancementName = Arrays
                 .stream(rawAdvancementName.substring(rawAdvancementName.lastIndexOf("/") + 1).toLowerCase().split("_"))
                 .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1)).collect(Collectors.joining(" "));
-        if (advancementName.equalsIgnoreCase("A Wizards Breakfast Fail")
-                || advancementName.equalsIgnoreCase("Castaway Fail")
-                || advancementName.equalsIgnoreCase("Just Keeps Going Fail")
-                || advancementName.equalsIgnoreCase("Root")) {
+        if (advancementName.equalsIgnoreCase("A Wizards Breakfast Fail") || advancementName
+                .equalsIgnoreCase("Castaway Fail") || advancementName
+                .equalsIgnoreCase("Just Keeps Going Fail") || advancementName.equalsIgnoreCase("Root")) {
             return;
         }
 
@@ -140,10 +136,10 @@ public class MinecraftToDiscord implements Listener {
         String playerN = player.getName();
         String urlSkin = getPlayerHeadUrl(player);
 
-        EmbedBuilder embed = new EmbedBuilder().setAuthor(
-                Formatter.FText(Config.getString(Config.Options.MessagesAdvancement).replace("%adv%", advancementName),
-                        true, player),
-                urlSkin, urlSkin).setColor(new Color(125, 255, 100));
+        EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter
+                .FText(Config.getString(Config.Options.MessagesAdvancement)
+                        .replace("%adv%", advancementName), true, player), urlSkin, urlSkin)
+                .setColor(new Color(125, 255, 100));
 
         textChannel = Objects.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
         textChannel.sendMessage(embed.build()).queue();

@@ -76,6 +76,8 @@ public class Config {
         TotemFailMsg("Totem.fail-msg", CONFIG.Messages), TotemUseMsg("Totem.use-msg", CONFIG.Messages),
         //Chat
         ChatFormat("Chat.format", CONFIG.Messages),
+        //ConfigCommand
+        ConfigCommandSet("ConfigCommand.set", CONFIG.Messages), ConfigCommandDelete("ConfigCommand.delete", CONFIG.Messages),
         /*------------------
          * Discord Config
          ------------------*/

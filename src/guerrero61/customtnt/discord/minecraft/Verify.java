@@ -3,7 +3,7 @@ package guerrero61.customtnt.discord.minecraft;
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
-import guerrero61.customtnt.mainutils.config.ConfigBuilder;
+import guerrero61.customtnt.mainutils.config.ConfigClass;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -22,14 +22,14 @@ import java.util.Objects;
 public class Verify extends ListenerAdapter implements CommandExecutor, TabCompleter {
 
     private final Main main;
-    private final ConfigBuilder configBuilder;
+    private final ConfigClass configClass;
 
     boolean isPlayer;
     Player player;
 
     public Verify(Main m) {
         main = m;
-        configBuilder = new ConfigBuilder("discord-verify");
+        configClass = new ConfigClass("discord-verify");
     }
 
     @Override
@@ -43,33 +43,32 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
                 Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.ErrorsNoConsole)));
                 return true;
             }
-            if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0].endsWith("#")
-                    && !args[0].startsWith("#")) {
-                if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4
-                        && Main.isNumeric(args[0].split("#")[1])) {
-                    for (String key : Objects.requireNonNull(configBuilder.getConfigurationSection(""))
-                            .getKeys(false)) {
+            if (args.length == 1 && args[0].contains("#") && args[0].split("#").length == 2 && !args[0]
+                    .endsWith("#") && !args[0].startsWith("#")) {
+                if (args[0].split("#")[0].length() <= 32 && args[0].split("#")[1].length() == 4 && Main
+                        .isNumeric(args[0].split("#")[1])) {
+                    for (String key : Objects.requireNonNull(configClass.getConfigurationSection("")).getKeys(false)) {
                         Main.debug(key);
-                        if (configBuilder.getString(key + ".nick") != null) {
-                            if (configBuilder.getString(key + ".nick").equals(player.getName())) {
-                                configBuilder.set(key + ".nick", (String) null);
-                                configBuilder.set(key + ".verified", (String) null);
-                                configBuilder.set(key, (String) null);
-                                main.perms.playerRemove(player, "suffix.20."
-                                        + Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
+                        if (configClass.getString(key + ".nick") != null) {
+                            if (configClass.getString(key + ".nick").equals(player.getName())) {
+                                configClass.set(key + ".nick", (String) null);
+                                configClass.set(key + ".verified", (String) null);
+                                configClass.set(key, (String) null);
+                                main.perms.playerRemove(player, "suffix.20." + Formatter
+                                        .FText(Config.getString(Config.Options.VerifyPrefix), true, player));
                             }
                         }
                     }
-                    if (configBuilder.getString(args[0] + ".nick") == null || !configBuilder
+                    if (configClass.getString(args[0] + ".nick") == null || !configClass
                             .getBool(args[0] + ".verified")) {
-                        configBuilder.set(args[0] + ".nick", player.getName());
-                        configBuilder.set(args[0] + ".verified", false);
+                        configClass.set(args[0] + ".nick", player.getName());
+                        configClass.set(args[0] + ".verified", false);
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyDiscord), player));
-                    } else if (configBuilder.getString(args[0] + ".nick").equals(player.getName())) {
+                    } else if (configClass.getString(args[0] + ".nick").equals(player.getName())) {
                         player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyYouVerified), player));
                     } else {
-                        player.sendMessage(
-                                Formatter.FText(Config.getString(Config.Options.VerifyUserAlredyVerified), player));
+                        player.sendMessage(Formatter
+                                .FText(Config.getString(Config.Options.VerifyUserAlredyVerified), player));
                     }
                 } else {
                     player.sendMessage(Formatter.FText(Config.getString(Config.Options.VerifyCommandError), player));
@@ -94,43 +93,37 @@ public class Verify extends ListenerAdapter implements CommandExecutor, TabCompl
         String autorAvatar = event.getAuthor().getAvatarUrl();
         EmbedBuilder embed;
 
-        if (args[1].equals(configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"))) {
+        if (args[1].equals(configClass.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"))) {
             Player player = Bukkit
-                    .getPlayer(configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"));
+                    .getPlayer(configClass.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick"));
             if (player == null) {
-                embed = new EmbedBuilder()
-                        .setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyNoOnline)), autorAvatar,
-                                autorAvatar)
+                embed = new EmbedBuilder().setAuthor(Formatter
+                        .RemoveFormat(Config.getString(Config.Options.VerifyNoOnline)), autorAvatar, autorAvatar)
                         .setColor(new Color(255, 61, 61));
             } else {
-                if (!configBuilder.getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
-                    main.perms.playerAdd(null, player, "suffix.20."
-                            + Formatter.FText(Config.getString(Config.Options.VerifyPrefix), true, player));
-                    configBuilder.set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
+                if (!configClass.getBool(event.getAuthor().getAsTag().replace(" ", "_") + ".verified")) {
+                    main.perms.playerAdd(null, player, "suffix.20." + Formatter
+                            .FText(Config.getString(Config.Options.VerifyPrefix), true, player));
+                    configClass.set(event.getAuthor().getAsTag().replace(" ", "_") + ".verified", true);
                     Objects.requireNonNull(event.getMember()).modifyNickname(player.getName()).queue();
-                    event.getGuild()
-                            .addRoleToMember(event.getMember(), Objects.requireNonNull(
-                                    event.getGuild().getRoleById(Config.getString(Config.Options.VerifyRoleID))))
-                            .queue();
-                    embed = new EmbedBuilder()
-                            .setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifySuccess)),
-                                    autorAvatar, autorAvatar)
+                    event.getGuild().addRoleToMember(event.getMember(), Objects.requireNonNull(event.getGuild()
+                            .getRoleById(Config.getString(Config.Options.VerifyRoleID)))).queue();
+                    embed = new EmbedBuilder().setAuthor(Formatter
+                            .RemoveFormat(Config.getString(Config.Options.VerifySuccess)), autorAvatar, autorAvatar)
                             .setColor(new Color(125, 255, 100));
                 } else {
-                    embed = new EmbedBuilder()
-                            .setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyYouVerified)),
-                                    autorAvatar, autorAvatar)
+                    embed = new EmbedBuilder().setAuthor(Formatter
+                            .RemoveFormat(Config.getString(Config.Options.VerifyYouVerified)), autorAvatar, autorAvatar)
                             .setColor(new Color(255, 61, 61));
                 }
             }
-        } else if (configBuilder.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick") == null) {
+        } else if (configClass.getString(event.getAuthor().getAsTag().replace(" ", "_") + ".nick") == null) {
             embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyError)
-                            .replace("%discord_tag%", event.getAuthor().getAsTag().replace(" ", "_"))), autorAvatar,
-                    autorAvatar).setColor(new Color(255, 61, 61));
+                    .replace("%discord_tag%", event.getAuthor().getAsTag()
+                            .replace(" ", "_"))), autorAvatar, autorAvatar).setColor(new Color(255, 61, 61));
         } else {
-            embed = new EmbedBuilder()
-                    .setAuthor(Formatter.RemoveFormat(Config.getString(Config.Options.VerifyErrorNick)), autorAvatar,
-                            autorAvatar)
+            embed = new EmbedBuilder().setAuthor(Formatter
+                    .RemoveFormat(Config.getString(Config.Options.VerifyErrorNick)), autorAvatar, autorAvatar)
                     .setColor(new Color(255, 61, 61));
         }
 

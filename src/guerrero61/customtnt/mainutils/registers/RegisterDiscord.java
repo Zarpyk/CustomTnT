@@ -32,12 +32,14 @@ public class RegisterDiscord {
 
         main.api.addEventListener(new DiscordReady());
         main.api.addEventListener(new DiscordToMinecraft(main.api));
+        
         main.api.addEventListener(new Help());
         main.api.addEventListener(new IP());
         main.api.addEventListener(new ReportSuggest(main.api));
         main.api.addEventListener(new ServerInfo(main.api, main));
         main.api.addEventListener(new Summon(main));
         main.api.addEventListener(new Busca());
+        main.api.addEventListener(new Mapa());
         if (Config.getBool(Config.Options.DiscordEnable) && Config.getBool(Config.Options.VerifyEnable)) {
             main.api.addEventListener(new Verify(main));
         }

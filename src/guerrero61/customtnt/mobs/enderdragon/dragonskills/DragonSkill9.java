@@ -2,7 +2,7 @@ package guerrero61.customtnt.mobs.enderdragon.dragonskills;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
-import guerrero61.customtnt.mainutils.config.ConfigBuilder;
+import guerrero61.customtnt.mainutils.config.ConfigClass;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Objects;
 
-public class DragonSkill9 extends ConfigBuilder {
+public class DragonSkill9 extends ConfigClass {
 
     private final Main main;
 
@@ -25,21 +25,21 @@ public class DragonSkill9 extends ConfigBuilder {
     public static final float tntPower = 9.0f;
 
     public DragonSkill9(Main m) {
-        super(TnTDragon.fileName);
         main = m;
     }
 
     public void Skill9(EnderDragon enderDragon) {
         Main.debug("Skill 9");
-        for (String key : Objects.requireNonNull(getConfigurationSection("participate"))
-                .getKeys(false)) {
+        if (dataConfig == null) {
+            protectedFileName = TnTDragon.fileName;
+            dataConfig = CreateConfig(TnTDragon.fileName);
+        }
+        for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
             Main.debug("Skill9:" + key);
             Player player = Bukkit.getPlayer(key);
             if (player != null) {
                 player.sendMessage(Formatter
                         .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName));
-            } else {
-                Main.consoleMsg(Formatter.FText("&c&lERROR: " + key + " no existe"));
             }
         }
         Location dragonLocation = enderDragon.getLocation();
@@ -60,24 +60,26 @@ public class DragonSkill9 extends ConfigBuilder {
             double realY = -5;
             double y = dragonLocation.getY() + realY;
             double z = (dragonLocation.getZ() + radius * Math.sin(Math.toRadians(angle)));
-            Location tntLocation = new Location(dragonLocation.getWorld(), dragonLocation.getX(), dragonLocation.getY(),
-                    dragonLocation.getZ());
+            Location tntLocation = new Location(dragonLocation.getWorld(), dragonLocation.getX(), dragonLocation
+                    .getY(), dragonLocation.getZ());
 
             public void run() {
+                if (!enderDragon.isValid()) {
+                    cancel();
+                }
+
                 tntLocation = tntLocation.set(x, y, z);
                 Main.debug("TnT Location: " + tntLocation.getX() + " " + tntLocation.getY() + " " + tntLocation.getZ());
-                Main.debug("Dragon Location: " + dragonLocation.getX() + " " + dragonLocation.getY() + " "
-                        + dragonLocation.getZ());
+                Main.debug("Dragon Location: " + dragonLocation.getX() + " " + dragonLocation
+                        .getY() + " " + dragonLocation.getZ());
                 TNTPrimed tnt = enderDragon.getWorld().spawn(tntLocation, TNTPrimed.class);
                 tnt.setIsIncendiary(true);
                 tnt.setGlowing(true);
                 tnt.setFuseTicks(tntFuseTick);
                 tnt.setGravity(finalNoPlayerInRadius);
-                Bukkit.getScheduler()
-                        .runTaskLater(
-                                main, () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(),
-                                        tnt.getLocation().getY(), tnt.getLocation().getZ(), tntPower, true, true),
-                                tntFuseTick);
+                Bukkit.getScheduler().runTaskLater(main, () -> tnt.getWorld()
+                        .createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(), tnt.getLocation()
+                                .getZ(), tntPower, true, true), tntFuseTick);
                 angle += addAngle;
                 if (angle >= 360) {
                     angle -= 360;

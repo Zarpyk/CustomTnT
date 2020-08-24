@@ -28,3 +28,6 @@ Totem:
   use-msg: "&7El jugador %player_name% ha usado un totem (Probabilidad: %totem_fail% %porcent% %number%)"
 Chat:
   format: "%vault_prefix% &c%essentials_nickname%%vault_suffix%&f: &a%msg%"
+ConfigCommand:
+  set: "&aSe ha establecido el variable \"%key%\" a \"%variable%\" con exito."
+  delete: "&aSe ha borrado el variable \"%key%\" con existo"

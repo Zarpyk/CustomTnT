@@ -17,10 +17,8 @@ public class Reload {
         main.configPath = null;
         Main.messagesConfig = null;
         main.messagesConfigFile = null;
-        if (Config.getBool(Config.Options.DiscordEnable)) {
-            Main.discordConfig = null;
-            main.discordConfigFile = null;
-        }
+        Main.discordConfig = null;
+        main.discordConfigFile = null;
 
         Main.configMap = new HashMap<>();
         Registers registers = new Registers();
