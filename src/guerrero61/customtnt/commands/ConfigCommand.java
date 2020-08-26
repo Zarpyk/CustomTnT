@@ -7,6 +7,7 @@ import guerrero61.customtnt.mainutils.config.ConfigClass;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConfigCommand {
@@ -34,7 +35,7 @@ public class ConfigCommand {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
                                 return true;
                             }
-                            List<String> stringList = Arrays.asList(args);
+                            List<String> stringList = new LinkedList<>(Arrays.asList(args));
                             stringList.remove(4);
                             stringList.remove(3);
                             stringList.remove(2);

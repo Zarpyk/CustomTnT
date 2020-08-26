@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 
+import java.util.Objects;
+
 public class DiscordToMinecraft extends ListenerAdapter {
 
     private final JDA api;
@@ -17,19 +19,30 @@ public class DiscordToMinecraft extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (!event.getChannel().getId().equals(Config.getString(Config.Options.ChannelsSendMsg))
-                || event.getAuthor().getId().equals(api.getSelfUser().getId()) || event.getAuthor().isBot())
+        if (event.getAuthor().getId().equals(api.getSelfUser().getId()) || event.getAuthor().isBot()) {
             return;
-        for (String commandList : Config.getStringList(Config.Options.MessagesCommandList)) {
-            if (event.getMessage().getContentDisplay().startsWith(commandList)) {
-                return;
+        }
+        boolean isChannel = false;
+        for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+            if (event.getChannel().getId().equals(channelID)) {
+                for (String commandList : Config.getStringList(Config.Options.MessagesCommandList)) {
+                    if (event.getMessage().getContentDisplay().startsWith(commandList)) {
+                        return;
+                    }
+                }
+                String nickname = Objects.requireNonNull(event.getMember()).getNickname();
+                if (nickname == null) {
+                    nickname = event.getAuthor().getName();
+                }
+                Bukkit.broadcastMessage(Formatter
+                        .FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
+                                .replace("%nick%", nickname)
+                                .replace("%have_image%", (event.getMessage().getAttachments().size() > 0 ? Config
+                                        .getString(Config.Options.MessagesHaveImageText) : ""))
+                                .replace("%msg%", Formatter
+                                        .FText(event.getMessage().getContentDisplay(), true)), true));
+                break;
             }
         }
-        Bukkit.broadcastMessage(Formatter
-                .FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
-                        .replace("%nick%", event.getAuthor().getName())
-                        .replace("%have_image%", (event.getMessage().getAttachments().size() > 0 ? Config
-                                .getString(Config.Options.MessagesHaveImageText) : ""))
-                        .replace("%msg%", Formatter.FText(event.getMessage().getContentDisplay(), true)), true));
     }
 }

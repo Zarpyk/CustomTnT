@@ -25,7 +25,7 @@ public class ReportSuggest extends ListenerAdapter {
 
         String autorAvatar = event.getAuthor().getAvatarUrl();
 
-        EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir", autorAvatar, autorAvatar)
+        EmbedBuilder embed = new EmbedBuilder().setAuthor("Reportar/Sugerir", null, autorAvatar)
                 .setThumbnail(api.getSelfUser().getAvatarUrl())
                 .addField("Para reportar o sugerir cosas de minecraft o del bot", "https://github.com/GuerreroCraft61/TnTReport/issues", false)
                 .addField("Para reportar o sugerir cosas de Discord", "Puedes usar el canal <#405374777579012107>\n" + "O usar el canal " + "<#401082634433855498>", true)

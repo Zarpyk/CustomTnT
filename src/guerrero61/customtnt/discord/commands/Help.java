@@ -18,7 +18,7 @@ public class Help extends ListenerAdapter {
 
         String autorAvatar = event.getAuthor().getAvatarUrl();
 
-        EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles", autorAvatar, autorAvatar)
+        EmbedBuilder embed = new EmbedBuilder().setAuthor("Comandos disponibles", null, autorAvatar)
                 .addField("/info", "Sirve para ver la información del server de minecraft", false)
                 .addField("/report - /suggest", "Sirve para ver donde reportar o sugerir", false)
                 .addField("/ip", "Sirve para ver el ip", false)

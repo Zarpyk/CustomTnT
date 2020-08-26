@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class Weather implements Listener {
 
@@ -32,9 +31,12 @@ public class Weather implements Listener {
                 EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(StormMessage, null),
                         "https://imgur.com/U7bc9ii.png", "https://imgur.com/U7bc9ii.png")
                         .setColor(new Color(125, 255, 100));
-                TextChannel textChannel = Objects
-                        .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-                textChannel.sendMessage(startEmbed.build()).queue();
+                for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                    TextChannel textChannel = api.getTextChannelById(channelID);
+                    if (textChannel != null) {
+                        textChannel.sendMessage(startEmbed.build()).queue();
+                    }
+                }
             }
         }
     }

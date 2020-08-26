@@ -21,7 +21,7 @@ public class MainCommandCompleter extends CommandCompleterMethods implements Tab
 
         if (args.length == 1) {
             return sortList(new ArrayList<>(List
-                    .of("check", "reload", "debug", "skills", "sounds", "config", "uninmune", "noai", "yesai")), args);
+                    .of("check", "reload", "debug", "skills", "sounds", "config", "event", "uninmune", "noai", "yesai")), args);
         }
 
         if (args.length > 1) {
@@ -35,6 +35,9 @@ public class MainCommandCompleter extends CommandCompleterMethods implements Tab
                     }
                     case "config": {
                         return new ConfigCommandCompleter().use(sender, command, label, args);
+                    }
+                    case "event": {
+                        return new EventCommandCompleter().use(sender, command, label, args);
                     }
                 }
             }

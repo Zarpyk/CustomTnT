@@ -23,7 +23,7 @@ public class IP extends ListenerAdapter {
                 "IP: " + (Config.getBool(Config.Options.CustomIPEnable) ? Config.getString(Config.Options.CustomIPIP)
                         : Main.getIp())
                         + (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort()),
-                autorAvatar, autorAvatar).setColor(new Color(125, 255, 100));
+                null, autorAvatar).setColor(new Color(125, 255, 100));
         event.getChannel().sendMessage(embed.build()).queue();
         event.getMessage().delete().queue();
     }

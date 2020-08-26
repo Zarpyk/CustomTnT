@@ -12,6 +12,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 
+import static guerrero61.customtnt.events.EventClass.eventNameFormatter;
+
 public class EventTimer extends BukkitRunnable implements Listener {
 
     private final EventClass eventClass;
@@ -33,14 +35,19 @@ public class EventTimer extends BukkitRunnable implements Listener {
 
     @Override
     public void run() {
-        seconds = configClass.getDouble(eventName + ".time");
+        seconds = configClass.getDouble("event." + eventNameFormatter(eventName) + ".time");
         if (timer >= seconds) {
             eventClass.deleteEvent(eventName);
             HandlerList.unregisterAll(this);
             HandlerList.unregisterAll(listener);
         }
-        Objects.requireNonNull(Bukkit.getBossBar(new NamespacedKey(Main.getPlugin(), eventName.replace(" ", "_"))))
-                .setProgress((seconds - timer) / seconds);
+        configClass.set("event." + eventNameFormatter(eventName) + ".timeProgress", (seconds - timer) / seconds);
+        /*Objects.requireNonNull(Bukkit
+                .getBossBar(new NamespacedKey(Main.getPlugin(), eventNameFormatter(eventName))))
+                .setProgress((seconds - timer) / seconds);*/
+        Objects.requireNonNull(Bukkit
+                .getBossBar(new NamespacedKey(Main.getPlugin(), eventNameFormatter(eventName))))
+                .setProgress(0);
         timer++;
     }
 

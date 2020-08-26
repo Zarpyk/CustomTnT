@@ -13,6 +13,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,10 +39,8 @@ public class DragonSkill5 extends ConfigClass implements Listener {
 
     public void Skill5(Player player) {
         Main.debug("Skill 5");
-        if (dataConfig == null) {
-            protectedFileName = TnTDragon.fileName;
-            dataConfig = CreateConfig(TnTDragon.fileName);
-        }
+        protectedFileName = TnTDragon.fileName;
+        dataConfig = CreateConfig(TnTDragon.fileName);
         seconds = Main.random(minSeconds, maxSeconds);
         set(player.getName() + ".number1", Main.random(minNumber, maxNumber));
         set(player.getName() + ".number2", Main.random(minNumber, maxNumber));
@@ -95,11 +94,13 @@ public class DragonSkill5 extends ConfigClass implements Listener {
         }.runTaskTimer(main, 0, 1);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void playerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        if (dataConfig != null && getBool(player
-                .getName() + ".skill5Active") != null && getBool("disableSkill5") != null) {
+        protectedFileName = TnTDragon.fileName;
+        dataConfig = CreateConfig(TnTDragon.fileName);
+        if (dataConfig != null && getBool(player.getName() + ".skill5Active") != null
+                && getBool("disableSkill5") != null) {
             if (getBool(player.getName() + ".skill5Active") && !getBool("disableSkill5")) {
                 int result = 0;
                 switch (getString(player.getName() + ".operation")) {
@@ -118,8 +119,10 @@ public class DragonSkill5 extends ConfigClass implements Listener {
                 }
                 if (!event.getMessage().equals(Integer.toString(result))) {
                     player.sendMessage(Formatter.FText("&c&lHas contestado incorrectamente"));
+                    event.setCancelled(true);
                 } else {
                     player.sendMessage(Formatter.FText("&a&lContestado correctamente"));
+                    event.setCancelled(true);
                     removeBossBar(player);
                 }
             }
@@ -128,10 +131,11 @@ public class DragonSkill5 extends ConfigClass implements Listener {
 
     private void removeBossBar(Player player) {
         BossBar bossBar = Bukkit.getBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
-        assert bossBar != null;
-        bossBar.setVisible(false);
-        bossBar.removePlayer(player);
-        Bukkit.removeBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
+        if (bossBar != null) {
+            bossBar.setVisible(false);
+            bossBar.removePlayer(player);
+            Bukkit.removeBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
+        }
         set(player.getName() + ".skill5Active", false);
     }
 }

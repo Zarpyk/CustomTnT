@@ -1,8 +1,11 @@
 package guerrero61.customtnt.commands.tabcompleter;
 
+import guerrero61.customtnt.events.mobs.Mobs.MobType;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -67,4 +70,27 @@ public class CommandCompleterMethods {
         return null;
     }
 
+    protected List<String> mobList() {
+        List<String> stringList = new ArrayList<>();
+        for (Object object : MobType.class.getEnumConstants()) {
+            stringList.add(object.toString());
+        }
+        return stringList;
+    }
+
+    protected List<String> barColorList() {
+        List<String> stringList = new ArrayList<>();
+        for (Object object : BarColor.class.getEnumConstants()) {
+            stringList.add(object.toString());
+        }
+        return stringList;
+    }
+
+    protected List<String> barStyleList() {
+        List<String> stringList = new ArrayList<>();
+        for (Object object : BarStyle.class.getEnumConstants()) {
+            stringList.add(object.toString());
+        }
+        return stringList;
+    }
 }

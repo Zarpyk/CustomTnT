@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
 
 public class EventClass {
 
-    private final Main main;
-    private final ConfigClass configClass;
-    private final String fileName = "events";
+    protected final Main main;
+    protected final ConfigClass configClass;
+    protected final String fileName = "events";
 
     protected EventClass(Main main) {
         configClass = new ConfigClass(fileName);
@@ -33,36 +33,25 @@ public class EventClass {
 
     protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInSeconds) {
         if (!event.cancel) {
-            switch (event.eventType) {
-                case Mobs: {
-                    /*if (entityType == null || mobMultiply < 0 || mobLootMultiply < 0) {
-                        Bukkit.broadcastMessage(Formatter.FText("&c&lError al crear evento"));
-                    }
-                    //MobEvent mobEvent = new MobEvent(entityType, mobMultiply, mobLootMultiply);
-                    //new EventTimer(this, configClass, mobEvent, eventName).runTaskTimer(main, 0, 20);*/
-                }
-                case Block: {
-
-                }
-            }
-            BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, eventName.replace(" ", "_")), Formatter
+            BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, eventNameFormatter(eventName)), Formatter
                     .FText(eventName, true), color, style);
             for (Player player : Bukkit.getOnlinePlayers()) {
                 bossBar.addPlayer(player);
             }
-            configClass.set("events." + eventName + ".time", timeInSeconds);
+            configClass.set("event." + eventNameFormatter(eventName) + ".time", timeInSeconds);
         }
     }
 
     protected void deleteEvent(String eventName) {
-        BossBar bossBar = Bukkit.getBossBar(new NamespacedKey(main, eventName.replace(" ", "_")));
+        BossBar bossBar = Bukkit
+                .getBossBar(new NamespacedKey(main, eventNameFormatter(eventName)));
         assert bossBar != null;
         for (Player player : bossBar.getPlayers()) {
             bossBar.removePlayer(player);
         }
         bossBar.setVisible(false);
-        Bukkit.removeBossBar(new NamespacedKey(main, eventName.replace(" ", "_")));
-        configClass.set("events." + eventName + ".time", (String) null);
+        Bukkit.removeBossBar(new NamespacedKey(main, eventNameFormatter(eventName)));
+        configClass.set("event." + eventNameFormatter(eventName) + ".time", (String) null);
     }
 
 
@@ -77,9 +66,11 @@ public class EventClass {
 
         public boolean cancel;
 
-        public Event(EntityType entityType) {
+        public Event(EntityType entityType, int multiply, int lootMultiply) {
             this.eventType = EventType.Mobs;
             this.entityType = entityType;
+            this.multiply = multiply;
+            this.lootMultiply = lootMultiply;
         }
 
         public Event(Material material) {
@@ -95,5 +86,10 @@ public class EventClass {
 
     public enum EventType {
         Mobs, Block
+    }
+
+    public static String eventNameFormatter(String eventName) {
+        String pattern = "(?![a-z0-9/._-]).";
+        return Formatter.RemoveFormat(eventName.toLowerCase()).replace(" ", "_").replaceAll(pattern, "");
     }
 }

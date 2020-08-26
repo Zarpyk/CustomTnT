@@ -42,7 +42,7 @@ public class ServerInfo extends ListenerAdapter {
         String StringTPS = TPS >= 20 ? "20.0" : Double.toString(TPS);
 
         EmbedBuilder embed = new EmbedBuilder()
-                .setAuthor("Información del server | TnTServer", autorAvatar, autorAvatar)
+                .setAuthor("Información del server | TnTServer", null, autorAvatar)
                 .setThumbnail(api.getSelfUser().getAvatarUrl())
                 .addField("Versión", Bukkit.getVersion().replace("git-", "") + "\n" + (Bukkit
                         .getOnlineMode() ? "Premium" : "Premium/No Premium"), true)

@@ -1,7 +1,7 @@
 package guerrero61.customtnt.death;
 
 import guerrero61.customtnt.Main;
-import guerrero61.customtnt.discord.minecraft.MinecraftToDiscord;
+import guerrero61.customtnt.mainutils.Avatar;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityResurrectEvent;
 
 import java.awt.*;
-import java.util.Objects;
 
 public class Totem implements Listener {
 
@@ -76,11 +75,13 @@ public class Totem implements Listener {
     }
 
     private void sendDiscordMsg(Player player, String msg, Color color) {
-        String urlSkin = MinecraftToDiscord.getPlayerHeadUrl(player);
-        EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(msg), urlSkin, urlSkin)
+        EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(msg), null, "attachment://avatar.png")
                 .setColor(color);
-        TextChannel textChannel = Objects
-                .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-        textChannel.sendMessage(embed.build()).queue();
+        for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+            TextChannel textChannel = api.getTextChannelById(channelID);
+            if (textChannel != null) {
+                textChannel.sendFile(Avatar.getPlayerAvatar(player), "avatar.png").embed(embed.build()).queue();
+            }
+        }
     }
 }

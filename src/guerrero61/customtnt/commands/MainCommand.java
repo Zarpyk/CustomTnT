@@ -75,8 +75,8 @@ public class MainCommand implements CommandExecutor {
                 case "config": {
                     return new ConfigCommand(main).onCommand(player, args);
                 }
-                case "unverify": {
-                    
+                case "event": {
+                    return new EventCommand(main).onCommand(player, args);
                 }
                 case "uninmune": {
                     for (Entity entity : player.getNearbyEntities(100, 100, 100)) {

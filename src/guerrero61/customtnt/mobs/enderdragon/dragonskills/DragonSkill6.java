@@ -152,15 +152,16 @@ public class DragonSkill6 extends ConfigClass implements Listener {
     }
 
     private void removeBossBar(BossBar bossBar) {
-        assert bossBar != null;
-        for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
-            Player player = Bukkit.getPlayer(key);
-            assert player != null;
-            bossBar.removePlayer(player);
+        if (bossBar != null) {
+            for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
+                Player player = Bukkit.getPlayer(key);
+                assert player != null;
+                bossBar.removePlayer(player);
+            }
+            bossBar.setVisible(false);
+            Bukkit.removeBossBar(new NamespacedKey(main, "EndermanBossBar"));
+            Main.debug("skill6 false 2");
         }
-        bossBar.setVisible(false);
-        Bukkit.removeBossBar(new NamespacedKey(main, "EndermanBossBar"));
-        Main.debug("skill6 false 2");
         set("skill6Active", false);
         set("cancelEndermanSpawn", false);
     }

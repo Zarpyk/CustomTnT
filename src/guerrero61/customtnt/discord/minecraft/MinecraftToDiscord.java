@@ -1,6 +1,7 @@
 package guerrero61.customtnt.discord.minecraft;
 
 import guerrero61.customtnt.Main;
+import guerrero61.customtnt.mainutils.Avatar;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.StormActionBar;
 import guerrero61.customtnt.mainutils.config.Config;
@@ -18,7 +19,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import skinsrestorer.bukkit.SkinsRestorer;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -57,17 +57,17 @@ public class MinecraftToDiscord implements Listener {
                 .hasPermission("essentials.silentquit"));
     }
 
-    private void jqMsg(Player p, Config.Options co, Color c, Boolean b) {
-        String playerN = p.getName();
-        String urlSkin = getPlayerHeadUrl(p);
-
-        if (!Main.isVanish(p) && b) {
+    private void jqMsg(Player player, Config.Options co, Color c, Boolean b) {
+        if (!Main.isVanish(player) && b) {
             EmbedBuilder embed = new EmbedBuilder()
-                    .setAuthor(Formatter.RemoveFormat(Config.getString(co), p), urlSkin, urlSkin).setColor(c);
-
-            textChannel = Objects
-                    .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-            textChannel.sendMessage(embed.build()).queue();
+                    .setAuthor(Formatter.RemoveFormat(Config.getString(co), player), null, "attachment://avatar.png")
+                    .setColor(c);
+            for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                textChannel = api.getTextChannelById(channelID);
+                if (textChannel != null) {
+                    textChannel.sendFile(Avatar.getPlayerAvatar(player), "avatar.png").embed(embed.build()).queue();
+                }
+            }
         }
     }
 
@@ -84,9 +84,12 @@ public class MinecraftToDiscord implements Listener {
                 }
             }
             sendMessage = sendMessage.replace("%msg%", message).replace("@", "");
-            textChannel = Objects
-                    .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-            textChannel.sendMessage(sendMessage).queue();
+            for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                textChannel = api.getTextChannelById(channelID);
+                if (textChannel != null) {
+                    textChannel.sendMessage(sendMessage).queue();
+                }
+            }
         }
     }
 
@@ -94,18 +97,21 @@ public class MinecraftToDiscord implements Listener {
     public void deathMsg(PlayerDeathEvent event) {
         String deathMessage = event.getDeathMessage();
         Player player = event.getEntity();
-        String urlSkin = getPlayerHeadUrl(player);
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             assert deathMessage != null;
-            EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.FText(deathMessage, true), urlSkin, urlSkin);
+            EmbedBuilder embed = new EmbedBuilder()
+                    .setAuthor(Formatter.FText(deathMessage, true), null, "attachment://avatar.png");
             if (Config.getBool(Config.Options.StormEnable)) {
                 embed.addField("Horas de tormenta", (StormActionBar.stormTime), false);
             }
             embed.setColor(new Color(255, 10, 10));
-            textChannel = Objects
-                    .requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-            textChannel.sendMessage(embed.build()).queue();
+            for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                textChannel = api.getTextChannelById(channelID);
+                if (textChannel != null) {
+                    textChannel.sendFile(Avatar.getPlayerAvatar(player), "avatar.png").embed(embed.build()).queue();
+                }
+            }
         }, 20L);
 
     }
@@ -133,30 +139,18 @@ public class MinecraftToDiscord implements Listener {
         }
 
         Player player = event.getPlayer();
-        String playerN = player.getName();
-        String urlSkin = getPlayerHeadUrl(player);
 
+        Image image;
         EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter
                 .FText(Config.getString(Config.Options.MessagesAdvancement)
-                        .replace("%adv%", advancementName), true, player), urlSkin, urlSkin)
+                        .replace("%adv%", advancementName), true, player), null, "attachment://avatar.png")
                 .setColor(new Color(125, 255, 100));
 
-        textChannel = Objects.requireNonNull(api.getTextChannelById(Config.getString(Config.Options.ChannelsSendMsg)));
-        textChannel.sendMessage(embed.build()).queue();
-
-    }
-
-    public static String getPlayerHeadUrl(Player player) {
-        String playerN = player.getName();
-        String skin;
-        if (Config.getBool(Config.Options.SkinsRestorerEnable)) {
-            skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
-        } else {
-            skin = playerN;
+        for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+            textChannel = api.getTextChannelById(channelID);
+            if (textChannel != null) {
+                textChannel.sendFile(Avatar.getPlayerAvatar(player), "avatar.png").embed(embed.build()).queue();
+            }
         }
-
-        return "https://www.mc-heads.net/avatar/" + Objects.requireNonNullElse(skin, playerN)
-                .replaceAll("\\s", "") + ".png";
     }
-
 }

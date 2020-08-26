@@ -47,7 +47,7 @@ CustomDragon:
   name: "&cTnT Dragon"
   #Don't change this if you have a new world
   #This option is changed automatically when you kill dragon
-  first-time: true
+  first-time: false
   #First time dragon don't have scaling dificulty
   first-time-health: 5000
   #This only work when isn't first-time
