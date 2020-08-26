@@ -47,13 +47,23 @@ public class Avatar {
         String skin;
         if (Config.getBool(Config.Options.SkinsRestorerEnable)) {
             skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+            Main.debug(skin);
             BufferedImage image;
             if (skin == null) {
                 skin = playerN;
                 image = getMojangAPIAvatar(player, skin);
             } else {
-                File skinFile = new File("plugins\\SkinsRestorer\\Skins", Objects.requireNonNullElse(skin, playerN)
+                /*if (!skin.equals(player.getName())) {
+                    for (OfflinePlayer player2 : Bukkit.getOfflinePlayers()) {
+                        if (skin.equals(player2.getName())) {
+                            getPlayerImage(Objects.requireNonNull(player2.getPlayer()));
+                            break;
+                        }
+                    }
+                }*/
+                File skinFile = new File("plugins/SkinsRestorer/Skins", Objects.requireNonNullElse(skin, playerN)
                         .toLowerCase() + ".skin");
+                Main.debug(skinFile.toString());
                 if (!skinFile.exists()) {
                     skin = playerN;
                     image = getMojangAPIAvatar(player, skin);
@@ -63,6 +73,7 @@ public class Avatar {
                     String decodedString = new String(decodedBytes);
                     JSONObject jsonObject = new JSONObject(decodedString);
                     URL url = new URL(jsonObject.getJSONObject("textures").getJSONObject("SKIN").getString("url"));
+                    Main.debug(url.toString());
                     image = ImageIO.read(url);
                     BufferedImage newImage = image.getSubimage(8, 8, 8, 8);
                     BufferedImage newImage2 = image.getSubimage(40, 8, 8, 8);
@@ -130,7 +141,6 @@ public class Avatar {
         BufferedImage image;
         try {
             url = new URL(jsonObject.getJSONObject("textures").getJSONObject("SKIN").getString("url"));
-            Main.debug(url.toString());
             image = ImageIO.read(url);
         } catch (IOException ioException) {
             ioException.printStackTrace();

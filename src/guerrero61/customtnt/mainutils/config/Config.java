@@ -92,6 +92,7 @@ public class Config {
         MessagesJoin("Messages.join", CONFIG.Discord), MessagesFirstJoin("Messages.first-join", CONFIG.Discord),
         MessagesQuit("Messages.quit", CONFIG.Discord),
         MessagesMinecraftToDiscordChat("Messages.minecraft-to-discord-chat", CONFIG.Discord),
+        MessagesDiscordToOtherDiscordChat("Messages.discord-to-other-discord-chat", CONFIG.Discord),
         MessagesRemoveRank("Messages.remove-rank", CONFIG.Discord),
         MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
         MessagesHaveImageText("Messages.have-image-text", CONFIG.Discord),

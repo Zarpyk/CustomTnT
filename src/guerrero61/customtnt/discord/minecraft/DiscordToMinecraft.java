@@ -3,6 +3,7 @@ package guerrero61.customtnt.discord.minecraft;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
@@ -41,6 +42,17 @@ public class DiscordToMinecraft extends ListenerAdapter {
                                         .getString(Config.Options.MessagesHaveImageText) : ""))
                                 .replace("%msg%", Formatter
                                         .FText(event.getMessage().getContentDisplay(), true)), true));
+                for (String channelID2 : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                    if (!event.getChannel().getId().equals(channelID2)) {
+                        TextChannel textChannel = api.getTextChannelById(channelID2);
+                        if (textChannel != null) {
+                            String sendMessage = Config.getString(Config.Options.MessagesDiscordToOtherDiscordChat)
+                                    .replace("%user_name%", event.getAuthor().getName())
+                                    .replace("%msg%", event.getMessage().getContentDisplay()).replace("@", "");
+                            textChannel.sendMessage(sendMessage).queue();
+                        }
+                    }
+                }
                 break;
             }
         }
