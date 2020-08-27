@@ -47,7 +47,7 @@ public class Avatar {
         String skin;
         if(Config.getBool(Config.Options.SkinsRestorerEnable)) {
             skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
-            Main.debug(skin);
+            //Main.debug(skin);
             BufferedImage image;
             if(skin == null) {
                 skin = playerN;
@@ -63,7 +63,7 @@ public class Avatar {
                 }*/
                 File skinFile = new File("plugins/SkinsRestorer/Skins",
                         Objects.requireNonNullElse(skin, playerN).toLowerCase() + ".skin");
-                Main.debug(skinFile.toString());
+                //.debug(skinFile.toString());
                 if(!skinFile.exists()) {
                     skin = playerN;
                     image = getMojangAPIAvatar(player, skin);
@@ -73,7 +73,7 @@ public class Avatar {
                     String decodedString = new String(decodedBytes);
                     JSONObject jsonObject = new JSONObject(decodedString);
                     URL url = new URL(jsonObject.getJSONObject("textures").getJSONObject("SKIN").getString("url"));
-                    Main.debug(url.toString());
+                    //Main.debug(url.toString());
                     image = ImageIO.read(url);
                     BufferedImage newImage = image.getSubimage(8, 8, 8, 8);
                     BufferedImage newImage2 = image.getSubimage(40, 8, 8, 8);
