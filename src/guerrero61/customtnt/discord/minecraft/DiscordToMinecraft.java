@@ -20,35 +20,36 @@ public class DiscordToMinecraft extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getAuthor().getId().equals(api.getSelfUser().getId()) || event.getAuthor().isBot()) {
+        if(event.getAuthor().getId().equals(api.getSelfUser().getId()) || event.getAuthor().isBot()) {
             return;
         }
         boolean isChannel = false;
         for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
-            if (event.getChannel().getId().equals(channelID)) {
+            if(event.getChannel().getId().equals(channelID)) {
                 for (String commandList : Config.getStringList(Config.Options.MessagesCommandList)) {
-                    if (event.getMessage().getContentDisplay().startsWith(commandList)) {
+                    if(event.getMessage().getContentDisplay().startsWith(commandList)) {
                         return;
                     }
                 }
                 String nickname = Objects.requireNonNull(event.getMember()).getNickname();
-                if (nickname == null) {
+                if(nickname == null) {
                     nickname = event.getAuthor().getName();
                 }
-                Bukkit.broadcastMessage(Formatter
-                        .FText(Config.getString(Config.Options.MessagesDiscordToMinecraftChat)
-                                .replace("%nick%", nickname)
-                                .replace("%have_image%", (event.getMessage().getAttachments().size() > 0 ? Config
-                                        .getString(Config.Options.MessagesHaveImageText) : ""))
-                                .replace("%msg%", Formatter
-                                        .FText(event.getMessage().getContentDisplay(), true)), true));
+                Bukkit.broadcastMessage(Formatter.FText(
+                        Config.getString(Config.Options.MessagesDiscordToMinecraftChat).replace("%nick%",
+                                nickname).replace("%have_image%", (event.getMessage().getAttachments().size() > 0 ?
+                                                                           Config.getString(
+                                                                                   Config.Options.MessagesHaveImageText) :
+                                                                           "")).replace("%msg%",
+                                Formatter.FText(event.getMessage().getContentDisplay(), true)), true));
                 for (String channelID2 : Config.getStringList(Config.Options.ChannelsSendMsg)) {
-                    if (!event.getChannel().getId().equals(channelID2)) {
+                    if(!event.getChannel().getId().equals(channelID2)) {
                         TextChannel textChannel = api.getTextChannelById(channelID2);
-                        if (textChannel != null) {
-                            String sendMessage = Config.getString(Config.Options.MessagesDiscordToOtherDiscordChat)
-                                    .replace("%user_name%", event.getAuthor().getName())
-                                    .replace("%msg%", event.getMessage().getContentDisplay()).replace("@", "");
+                        if(textChannel != null) {
+                            String sendMessage = Config.getString(
+                                    Config.Options.MessagesDiscordToOtherDiscordChat).replace("%user_name%",
+                                    event.getAuthor().getName()).replace("%msg%",
+                                    event.getMessage().getContentDisplay()).replace("@", "");
                             textChannel.sendMessage(sendMessage).queue();
                         }
                     }

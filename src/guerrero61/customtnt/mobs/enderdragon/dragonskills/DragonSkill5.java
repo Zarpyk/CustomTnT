@@ -45,30 +45,31 @@ public class DragonSkill5 extends ConfigClass implements Listener {
         set(player.getName() + ".number1", Main.random(minNumber, maxNumber));
         set(player.getName() + ".number2", Main.random(minNumber, maxNumber));
         set(player.getName() + ".operation", operation[Main.random(0, operation.length - 1)]);
-        player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
-        player.sendMessage(Formatter.FText("&6&lTienes que escribir el resultado de: &c&l" + getInt(player
-                .getName() + ".number1") + getString(player.getName() + ".operation") + getInt(player
-                .getName() + ".number2") + " &6&len menos de " + seconds + "s"));
+        player.sendMessage(
+                Formatter.FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
+        player.sendMessage(Formatter.FText(
+                "&6&lTienes que escribir el resultado de: &c&l" + getInt(player.getName() + ".number1") +
+                getString(player.getName() + ".operation") + getInt(player.getName() + ".number2") +
+                " &6&len menos de " + seconds + "s"));
         set(player.getName() + ".skill5Active", true);
-        BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()), Formatter
-                .FText("&c&lMates explosiva", true), BarColor.YELLOW, BarStyle.SOLID, BarFlag.CREATE_FOG);
+        BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()),
+                Formatter.FText("&c&lMates explosiva", true), BarColor.YELLOW, BarStyle.SOLID, BarFlag.CREATE_FOG);
         bossBar.addPlayer(player);
         BukkitTask task = new BukkitRunnable() {
             double timer;
 
             @Override
             public void run() {
-                if (timer >= seconds) {
+                if(timer >= seconds) {
                     player.sendMessage(Formatter.FText("&c&lSe acabo el tiempo >:D"));
-                    TNTPrimed tnt = player.getLocation().getWorld()
-                            .spawn(player.getLocation().add(0, 2, 0), TNTPrimed.class);
+                    TNTPrimed tnt = player.getLocation().getWorld().spawn(player.getLocation().add(0, 2, 0),
+                            TNTPrimed.class);
                     tnt.setIsIncendiary(true);
                     tnt.setGlowing(true);
                     tnt.setFuseTicks(tntFuseTick);
-                    Bukkit.getScheduler().runTaskLater(main, () -> tnt.getWorld()
-                            .createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(), tnt.getLocation()
-                                    .getZ(), tntPower, true, true), tntFuseTick);
+                    Bukkit.getScheduler().runTaskLater(main,
+                            () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(),
+                                    tnt.getLocation().getZ(), tntPower, true, true), tntFuseTick);
                     removeBossBar(player);
                     cancel();
                 } else {
@@ -84,7 +85,7 @@ public class DragonSkill5 extends ConfigClass implements Listener {
 
             @Override
             public void run() {
-                if (!getBool(player.getName() + ".skill5Active") || timerTicks <= 0 || getBool("disableSkill5")) {
+                if(!getBool(player.getName() + ".skill5Active") || timerTicks <= 0 || getBool("disableSkill5")) {
                     removeBossBar(player);
                     task.cancel();
                     cancel();
@@ -99,9 +100,9 @@ public class DragonSkill5 extends ConfigClass implements Listener {
         Player player = event.getPlayer();
         protectedFileName = TnTDragon.fileName;
         dataConfig = CreateConfig(TnTDragon.fileName);
-        if (dataConfig != null && getBool(player.getName() + ".skill5Active") != null
-                && getBool("disableSkill5") != null) {
-            if (getBool(player.getName() + ".skill5Active") && !getBool("disableSkill5")) {
+        if(dataConfig != null && getBool(player.getName() + ".skill5Active") != null &&
+           getBool("disableSkill5") != null) {
+            if(getBool(player.getName() + ".skill5Active") && !getBool("disableSkill5")) {
                 int result = 0;
                 switch (getString(player.getName() + ".operation")) {
                     case "+": {
@@ -117,7 +118,7 @@ public class DragonSkill5 extends ConfigClass implements Listener {
                         break;
                     }
                 }
-                if (!event.getMessage().equals(Integer.toString(result))) {
+                if(!event.getMessage().equals(Integer.toString(result))) {
                     player.sendMessage(Formatter.FText("&c&lHas contestado incorrectamente"));
                     event.setCancelled(true);
                 } else {
@@ -131,7 +132,7 @@ public class DragonSkill5 extends ConfigClass implements Listener {
 
     private void removeBossBar(Player player) {
         BossBar bossBar = Bukkit.getBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));
-        if (bossBar != null) {
+        if(bossBar != null) {
             bossBar.setVisible(false);
             bossBar.removePlayer(player);
             Bukkit.removeBossBar(new NamespacedKey(main, "ExplosiveMath" + player.getName()));

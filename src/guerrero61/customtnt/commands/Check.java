@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class Check {
 
     public Check(boolean isPlayer, CommandSender sender) {
-        if (isPlayer) {
+        if(isPlayer) {
             Player player = (Player) sender;
             String playerMsg = Config.getString(Config.Options.CheckPlayer);
             player.sendMessage(Formatter.FText(playerMsg));

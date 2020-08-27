@@ -24,7 +24,7 @@ public class EventCommand {
 
     public boolean onCommand(Player player, String[] args) {
         //tnt event <mob/block> <type> <color> <style> <multiply> <lootMultiply> <time> <eventName...>
-        if (args.length >= 9) {
+        if(args.length >= 9) {
             switch (args[1].toLowerCase()) {
                 case "mob": {
                     switch (args[2].toLowerCase()) {
@@ -36,8 +36,8 @@ public class EventCommand {
                             try {
                                 barColor = BarColor.valueOf(args[3].toUpperCase());
                                 barStyle = BarStyle.valueOf(args[4].toUpperCase());
-                                event = new Event(Mobs.MobType.valueOf(args[2])
-                                        .getEntityType(), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
+                                event = new Event(Mobs.MobType.valueOf(args[2]).getEntityType(),
+                                        Integer.parseInt(args[5]), Integer.parseInt(args[6]));
                                 timeInSeconds = Integer.parseInt(args[7]);
                             } catch (Exception e) {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));

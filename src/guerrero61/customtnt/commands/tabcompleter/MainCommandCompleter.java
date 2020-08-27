@@ -13,19 +13,20 @@ public class MainCommandCompleter extends CommandCompleterMethods implements Tab
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender instanceof Player) {
-            if (!sender.hasPermission("ctnt.*")) {
+        if(sender instanceof Player) {
+            if(!sender.hasPermission("ctnt.*")) {
                 return null;
             }
         }
 
-        if (args.length == 1) {
-            return sortList(new ArrayList<>(List
-                    .of("check", "reload", "debug", "skills", "sounds", "config", "event", "uninmune", "noai", "yesai")), args);
+        if(args.length == 1) {
+            return sortList(new ArrayList<>(
+                    List.of("check", "reload", "debug", "skills", "sounds", "config", "event", "uninmune", "noai",
+                            "yesai")), args);
         }
 
-        if (args.length > 1) {
-            if (sender instanceof Player) {
+        if(args.length > 1) {
+            if(sender instanceof Player) {
                 switch (args[0]) {
                     case "skills": {
                         return new SkillsCommandCompleter().use(sender, command, label, args);

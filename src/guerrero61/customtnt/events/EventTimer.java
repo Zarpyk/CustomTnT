@@ -36,7 +36,7 @@ public class EventTimer extends BukkitRunnable implements Listener {
     @Override
     public void run() {
         seconds = configClass.getDouble("event." + eventNameFormatter(eventName) + ".time");
-        if (timer >= seconds) {
+        if(timer >= seconds) {
             eventClass.deleteEvent(eventName);
             HandlerList.unregisterAll(this);
             HandlerList.unregisterAll(listener);
@@ -45,9 +45,8 @@ public class EventTimer extends BukkitRunnable implements Listener {
         /*Objects.requireNonNull(Bukkit
                 .getBossBar(new NamespacedKey(Main.getPlugin(), eventNameFormatter(eventName))))
                 .setProgress((seconds - timer) / seconds);*/
-        Objects.requireNonNull(Bukkit
-                .getBossBar(new NamespacedKey(Main.getPlugin(), eventNameFormatter(eventName))))
-                .setProgress(0);
+        Objects.requireNonNull(
+                Bukkit.getBossBar(new NamespacedKey(Main.getPlugin(), eventNameFormatter(eventName)))).setProgress(0);
         timer++;
     }
 

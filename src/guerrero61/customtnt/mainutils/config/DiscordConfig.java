@@ -14,14 +14,14 @@ import java.util.Objects;
 public class DiscordConfig {
 
     public static FileConfiguration getDiscordConfig(Main m) {
-        if (Main.discordConfig == null) {
+        if(Main.discordConfig == null) {
             reloadDiscordConfig(m);
         }
         return Main.discordConfig;
     }
 
     private static void reloadDiscordConfig(Main m) {
-        if (Main.discordConfig == null) {
+        if(Main.discordConfig == null) {
             m.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
         }
         Main.discordConfig = YamlConfiguration.loadConfiguration(m.discordConfigFile);

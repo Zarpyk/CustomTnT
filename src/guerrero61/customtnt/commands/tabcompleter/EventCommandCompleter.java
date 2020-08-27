@@ -51,8 +51,9 @@ public class EventCommandCompleter extends CommandCompleterMethods {
                 }
             }
             case 8: {
-                return sortList(new ArrayList<>(List
-                        .of("time", "60", "120", "240", "480", "960", "1920", "3200", "6400", "19200", "38400", "76800")), args);
+                return sortList(new ArrayList<>(
+                        List.of("time", "60", "120", "240", "480", "960", "1920", "3200", "6400", "19200", "38400",
+                                "76800")), args);
             }
             case 9: {
                 return sortList(new ArrayList<>(List.of("eventName...")), args);

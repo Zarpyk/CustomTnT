@@ -63,11 +63,11 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage(startMessage);
-        if (CheckDisablePlugin()) {
+        if(CheckDisablePlugin()) {
             configMap = new HashMap<>();
             Registers registers = new Registers();
             registers.registerConfig(this);
-            if (api == null && Config.getBool(Config.Options.DiscordEnable)) {
+            if(api == null && Config.getBool(Config.Options.DiscordEnable)) {
                 registers.registerDiscord(this);
             }
             registers.registerDependencies(this);
@@ -76,7 +76,7 @@ public class Main extends JavaPlugin {
 
             new StormActionBar().StormAB(this);
             Scheduler scheduler = new Scheduler();
-            if (Config.getBool(Config.Options.DiscordEnable)) {
+            if(Config.getBool(Config.Options.DiscordEnable)) {
                 scheduler.startMessageDelayScheduler(this);
                 scheduler.reloadStatusScheduler(this);
             }
@@ -89,8 +89,8 @@ public class Main extends JavaPlugin {
     }
 
     public void onDisable() {
-        ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api, Config
-                .getString(Config.Options.MessagesStop), new Color(255, 10, 10), "offline");
+        ReloadStatus.startStopToDiscord("https://imgur.com/Ilu3YmV.png", api,
+                Config.getString(Config.Options.MessagesStop), new Color(255, 10, 10), "offline");
         try {
             DisableBot.Disable(this);
         } catch (NoClassDefFoundError e) {
@@ -106,7 +106,7 @@ public class Main extends JavaPlugin {
     public static boolean CheckDisablePlugin() {
         String IP = Bukkit.getServer().getIp();
         for (String s : allowIP) {
-            if (IP.equals(s)) {
+            if(IP.equals(s)) {
                 return true;
             }
         }
@@ -118,14 +118,14 @@ public class Main extends JavaPlugin {
     }
 
     public static void debug(String text) {
-        if (Config.getBool(Config.Options.DebugMode)) {
+        if(Config.getBool(Config.Options.DebugMode)) {
             consoleMsg(Formatter.FText("&5[&bDEBUG&5] &e" + text));
         }
     }
 
     public static String getIp() {
-        return Bukkit.getServer().getIp() + (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer()
-                .getPort());
+        return Bukkit.getServer().getIp() +
+               (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort());
     }
 
     public static String getPlayerCount() {
@@ -134,19 +134,19 @@ public class Main extends JavaPlugin {
 
     public static boolean isVanish(Player player) {
         for (MetadataValue meta : player.getMetadata("vanished")) {
-            if (meta.asBoolean()) return true;
+            if(meta.asBoolean()) return true;
         }
         return false;
     }
 
     public static Boolean checkCommand(String command, Message msg, MessageChannel mChannel) {
-        if (!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase())) {
+        if(!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase())) {
             return true;
         }
 
         List<String> channels = Config.getStringList(Config.Options.ChannelsCommands);
         for (String channel : channels) {
-            if (mChannel.getId().equals(channel)) {
+            if(mChannel.getId().equals(channel)) {
                 return false;
             }
         }
@@ -154,14 +154,14 @@ public class Main extends JavaPlugin {
     }
 
     public static Boolean checkCommand(String command, String command2, Message msg, MessageChannel mChannel) {
-        if (!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase()) && !msg.getContentDisplay()
-                .toLowerCase().startsWith("/" + command2.toLowerCase())) {
+        if(!msg.getContentDisplay().toLowerCase().startsWith("/" + command.toLowerCase()) &&
+           !msg.getContentDisplay().toLowerCase().startsWith("/" + command2.toLowerCase())) {
             return true;
         }
 
         List<String> channels = Config.getStringList(Config.Options.ChannelsCommands);
         for (String channel : channels) {
-            if (mChannel.getId().equals(channel)) {
+            if(mChannel.getId().equals(channel)) {
                 return false;
             }
         }
@@ -177,7 +177,7 @@ public class Main extends JavaPlugin {
     }
 
     public static double round(double value, int places, RoundingMode roundingMode) {
-        if (places < 0) throw new IllegalArgumentException();
+        if(places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(places, roundingMode);
@@ -185,7 +185,7 @@ public class Main extends JavaPlugin {
     }
 
     public static boolean isNumeric(String string) {
-        if (string == null) {
+        if(string == null) {
             return false;
         }
         try {
@@ -197,18 +197,18 @@ public class Main extends JavaPlugin {
     }
 
     public static boolean isBool(String string) {
-        if (string == null) {
+        if(string == null) {
             return false;
         }
         return string.equalsIgnoreCase("true") || string.equalsIgnoreCase("false");
     }
 
     public static boolean contains(String string1, String string2) {
-        if (string1 == null && string2 != null) {
+        if(string1 == null && string2 != null) {
             return false;
-        } else if (string2 == null && string1 != null) {
+        } else if(string2 == null && string1 != null) {
             return false;
-        } else if (string1 == null) { //string2 == null
+        } else if(string1 == null) { //string2 == null
             Main.debug("Contains have Null");
             return true;
         } else {
@@ -218,7 +218,7 @@ public class Main extends JavaPlugin {
 
     public static BufferedImage scale(BufferedImage imageToScale, int dWidth, int dHeight) {
         BufferedImage scaledImage = null;
-        if (imageToScale != null) {
+        if(imageToScale != null) {
             scaledImage = new BufferedImage(dWidth, dHeight, imageToScale.getType());
             Graphics2D graphics2D = scaledImage.createGraphics();
             graphics2D.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);

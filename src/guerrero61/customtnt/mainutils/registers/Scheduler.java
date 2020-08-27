@@ -12,11 +12,9 @@ import java.awt.*;
 public class Scheduler {
 
     public void startMessageDelayScheduler(Main main) {
-        Bukkit.getScheduler()
-                .scheduleSyncDelayedTask(main,
-                        () -> ReloadStatus.startStopToDiscord("https://imgur.com/uIcXfam.png", main.api,
-                                Config.getString(Config.Options.MessagesStart), new Color(125, 255, 100), "online"),
-                        25L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(main,
+                () -> ReloadStatus.startStopToDiscord("https://imgur.com/uIcXfam.png", main.api,
+                        Config.getString(Config.Options.MessagesStart), new Color(125, 255, 100), "online"), 25L);
     }
 
     public void reloadStatusScheduler(Main main) {

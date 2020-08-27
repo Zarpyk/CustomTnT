@@ -30,16 +30,16 @@ public class DragonSkill9 extends ConfigClass {
 
     public void Skill9(EnderDragon enderDragon) {
         Main.debug("Skill 9");
-        if (dataConfig == null) {
+        if(dataConfig == null) {
             protectedFileName = TnTDragon.fileName;
             dataConfig = CreateConfig(TnTDragon.fileName);
         }
         for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
             Main.debug("Skill9:" + key);
             Player player = Bukkit.getPlayer(key);
-            if (player != null) {
-                player.sendMessage(Formatter
-                        .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName));
+            if(player != null) {
+                player.sendMessage(
+                        Formatter.FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName));
             }
         }
         Location dragonLocation = enderDragon.getLocation();
@@ -47,8 +47,8 @@ public class DragonSkill9 extends ConfigClass {
         final double addAngle = 36;
         boolean noPlayerInRadius = true;
         for (Player target : Bukkit.getOnlinePlayers()) {
-            if (target.getWorld().equals(enderDragon.getWorld())) {
-                if (target.getLocation().distance(dragonLocation) < radius * 2) {
+            if(target.getWorld().equals(enderDragon.getWorld())) {
+                if(target.getLocation().distance(dragonLocation) < radius * 2) {
                     noPlayerInRadius = false;
                 }
             }
@@ -60,28 +60,28 @@ public class DragonSkill9 extends ConfigClass {
             double realY = -5;
             double y = dragonLocation.getY() + realY;
             double z = (dragonLocation.getZ() + radius * Math.sin(Math.toRadians(angle)));
-            Location tntLocation = new Location(dragonLocation.getWorld(), dragonLocation.getX(), dragonLocation
-                    .getY(), dragonLocation.getZ());
+            Location tntLocation = new Location(dragonLocation.getWorld(), dragonLocation.getX(), dragonLocation.getY(),
+                    dragonLocation.getZ());
 
             public void run() {
-                if (!enderDragon.isValid()) {
+                if(!enderDragon.isValid()) {
                     cancel();
                 }
 
                 tntLocation = tntLocation.set(x, y, z);
                 Main.debug("TnT Location: " + tntLocation.getX() + " " + tntLocation.getY() + " " + tntLocation.getZ());
-                Main.debug("Dragon Location: " + dragonLocation.getX() + " " + dragonLocation
-                        .getY() + " " + dragonLocation.getZ());
+                Main.debug("Dragon Location: " + dragonLocation.getX() + " " + dragonLocation.getY() + " " +
+                           dragonLocation.getZ());
                 TNTPrimed tnt = enderDragon.getWorld().spawn(tntLocation, TNTPrimed.class);
                 tnt.setIsIncendiary(true);
                 tnt.setGlowing(true);
                 tnt.setFuseTicks(tntFuseTick);
                 tnt.setGravity(finalNoPlayerInRadius);
-                Bukkit.getScheduler().runTaskLater(main, () -> tnt.getWorld()
-                        .createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(), tnt.getLocation()
-                                .getZ(), tntPower, true, true), tntFuseTick);
+                Bukkit.getScheduler().runTaskLater(main,
+                        () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(),
+                                tnt.getLocation().getZ(), tntPower, true, true), tntFuseTick);
                 angle += addAngle;
-                if (angle >= 360) {
+                if(angle >= 360) {
                     angle -= 360;
                 }
                 x = (dragonLocation.getX() + radius * Math.cos(Math.toRadians(angle)));

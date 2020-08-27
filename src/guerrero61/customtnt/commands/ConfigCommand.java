@@ -20,7 +20,7 @@ public class ConfigCommand {
 
     public boolean onCommand(Player player, String[] args) {
         //tnt config <config> <get/set/delete> <type> <key> <content>
-        if (args.length >= 5) {
+        if(args.length >= 5) {
             ConfigClass configClass = new ConfigClass(args[1]);
             String key = args[4];
             switch (args[3].toLowerCase()) {
@@ -31,7 +31,7 @@ public class ConfigCommand {
                             return true;
                         }
                         case "set": {
-                            if (args.length < 6) {
+                            if(args.length < 6) {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
                                 return true;
                             }
@@ -44,15 +44,15 @@ public class ConfigCommand {
                             String string = String.join(" ", stringList);
                             Main.debug(string);
                             configClass.set(key, string);
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key)
-                                            .replace("%variable%", string)));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key).replace(
+                                            "%variable%", string)));
                             return true;
                         }
                         case "delete": {
                             configClass.set(key, (String) null);
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
                             return true;
                         }
                         default: {
@@ -68,7 +68,7 @@ public class ConfigCommand {
                             return true;
                         }
                         case "set": {
-                            if (args.length != 6) {
+                            if(args.length != 6) {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
                                 return true;
                             }
@@ -79,15 +79,15 @@ public class ConfigCommand {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
                                 return true;
                             }
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key)
-                                            .replace("%variable%", args[5])));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key).replace(
+                                            "%variable%", args[5])));
                             return true;
                         }
                         case "delete": {
                             configClass.set(key, (Integer) null);
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
                             return true;
                         }
                         default: {
@@ -103,7 +103,7 @@ public class ConfigCommand {
                             return true;
                         }
                         case "set": {
-                            if (args.length != 6) {
+                            if(args.length != 6) {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
                                 return true;
                             }
@@ -114,15 +114,15 @@ public class ConfigCommand {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
                                 return true;
                             }
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key)
-                                            .replace("%variable%", args[5])));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key).replace(
+                                            "%variable%", args[5])));
                             return true;
                         }
                         case "delete": {
                             configClass.set(key, (Double) null);
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
                             return true;
                         }
                         default: {
@@ -138,26 +138,26 @@ public class ConfigCommand {
                             return true;
                         }
                         case "set": {
-                            if (args.length != 6) {
+                            if(args.length != 6) {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsMiss)));
                                 return true;
                             }
-                            if (args[5].equalsIgnoreCase("true") || args[5].equalsIgnoreCase("false")) {
+                            if(args[5].equalsIgnoreCase("true") || args[5].equalsIgnoreCase("false")) {
                                 boolean b = Boolean.parseBoolean(args[5]);
                                 configClass.set(key, b);
                             } else {
                                 player.sendMessage(Formatter.FText(Config.getString(Config.Options.ErrorsArgsError)));
                                 return true;
                             }
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key)
-                                            .replace("%variable%", args[5])));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandSet).replace("%key%", key).replace(
+                                            "%variable%", args[5])));
                             return true;
                         }
                         case "delete": {
                             configClass.set(key, (Boolean) null);
-                            player.sendMessage(Formatter
-                                    .FText(Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
+                            player.sendMessage(Formatter.FText(
+                                    Config.getString(Config.Options.ConfigCommandDelete).replace("%key%", key)));
                             return true;
                         }
                         default: {

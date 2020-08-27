@@ -17,8 +17,8 @@ public class WitherSkeleton extends MobEvent {
     @Override
     public void mobSpawnEvent(EntitySpawnEvent event) {
         super.mobSpawnEvent(event);
-        if (event.getEntity().getType().equals(entityType)) {
-            if (currentEntityCount != oldEntityCount) {
+        if(event.getEntity().getType().equals(entityType)) {
+            if(currentEntityCount != oldEntityCount) {
                 for (Entity witherSkeleton : spawnedMob) {
                     ((org.bukkit.entity.WitherSkeleton) witherSkeleton).setRemoveWhenFarAway(true);
                 }

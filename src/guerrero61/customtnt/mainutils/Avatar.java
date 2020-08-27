@@ -45,11 +45,11 @@ public class Avatar {
     private static InputStream getPlayerImage(Player player) throws IOException {
         String playerN = player.getName();
         String skin;
-        if (Config.getBool(Config.Options.SkinsRestorerEnable)) {
+        if(Config.getBool(Config.Options.SkinsRestorerEnable)) {
             skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
             Main.debug(skin);
             BufferedImage image;
-            if (skin == null) {
+            if(skin == null) {
                 skin = playerN;
                 image = getMojangAPIAvatar(player, skin);
             } else {
@@ -61,10 +61,10 @@ public class Avatar {
                         }
                     }
                 }*/
-                File skinFile = new File("plugins/SkinsRestorer/Skins", Objects.requireNonNullElse(skin, playerN)
-                        .toLowerCase() + ".skin");
+                File skinFile = new File("plugins/SkinsRestorer/Skins",
+                        Objects.requireNonNullElse(skin, playerN).toLowerCase() + ".skin");
                 Main.debug(skinFile.toString());
-                if (!skinFile.exists()) {
+                if(!skinFile.exists()) {
                     skin = playerN;
                     image = getMojangAPIAvatar(player, skin);
                 } else {
@@ -106,8 +106,9 @@ public class Avatar {
         String UUIDJson;
         BufferedImage errorImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         try {
-            errorImage = ImageIO.read(new URL("https://minotar.net/helm/" + Objects.requireNonNullElse(skin, name)
-                    .replaceAll("\\s", "") + "/256.png"));
+            errorImage = ImageIO.read(
+                    new URL("https://minotar.net/helm/" + Objects.requireNonNullElse(skin, name).replaceAll("\\s", "") +
+                            "/256.png"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
@@ -118,7 +119,7 @@ public class Avatar {
             ioException.printStackTrace();
             return errorImage;
         }
-        if (UUIDJson.isEmpty()) {
+        if(UUIDJson.isEmpty()) {
             return errorImage;
         }
         JSONObject UUIDJsonObject = new JSONObject(UUIDJson);

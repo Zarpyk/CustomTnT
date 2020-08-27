@@ -9,12 +9,12 @@ import java.io.File;
 
 public class RegisterConfigs {
     /**
-     Sirve para registrar los archivos de configuración
+     * Sirve para registrar los archivos de configuración
      */
     public void registerConfig(Main m) {
         File fConfig = new File(m.getDataFolder(), "config.yml");
         m.configPath = fConfig.getPath();
-        if (!fConfig.exists()) {
+        if(!fConfig.exists()) {
             m.getConfig().options().copyDefaults(true);
             m.saveConfig();
         }
@@ -24,7 +24,7 @@ public class RegisterConfigs {
 
     public void registerMessagesConfig(Main m) {
         m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
-        if (!m.messagesConfigFile.exists()) {
+        if(!m.messagesConfigFile.exists()) {
             MessagesConfig.getMessagesConfig(m).options().copyDefaults(true);
             MessagesConfig.saveMessagesConfig(m);
         }
@@ -34,7 +34,7 @@ public class RegisterConfigs {
 
     public void registerDiscordConfig(Main m) {
         m.discordConfigFile = new File(m.getDataFolder(), "discord.yml");
-        if (!m.discordConfigFile.exists()) {
+        if(!m.discordConfigFile.exists()) {
             DiscordConfig.getDiscordConfig(m).options().copyDefaults(true);
             DiscordConfig.saveDiscordConfig(m);
         }

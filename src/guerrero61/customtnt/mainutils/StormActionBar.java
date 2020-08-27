@@ -11,11 +11,11 @@ public class StormActionBar {
     public static String stormTime;
 
     public void StormAB(Main main) {
-        if (Config.getBool(Config.Options.StormActionBarEnable)) {
+        if(Config.getBool(Config.Options.StormActionBarEnable)) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
                 int segundosbrutos = (Objects.requireNonNull(Bukkit.getWorld("world")).getWeatherDuration() / 20);
                 int days = Math.toIntExact(segundosbrutos / 86400L);
-                if (days < 1L && Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm()) {
+                if(days < 1L && Objects.requireNonNull(Bukkit.getWorld("world")).hasStorm()) {
                     String Message = Config.getString(Config.Options.DeathTrainActionBar);
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         assert Message != null;

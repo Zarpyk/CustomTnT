@@ -33,8 +33,8 @@ public class Sleep implements Listener {
         boolean playerIsInMainWorld = player.getWorld().equals(Bukkit.getWorld(world));
         Server server = Bukkit.getServer();
         long time = Objects.requireNonNull(Bukkit.getWorld(world)).getTime();
-        if (playerIsInMainWorld) {
-            if (time > 13000L && !executed && !Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) {
+        if(playerIsInMainWorld) {
+            if(time > 13000L && !executed && !Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) {
                 executed = true;
                 Bukkit.getServer().getScheduler().runTaskLater(main, () -> {
                     event.getPlayer().getWorld().setTime(0L);
@@ -43,8 +43,8 @@ public class Sleep implements Listener {
                     Bukkit.broadcastMessage(Formatter.FText(sleepMsg, player));
                     event.setCancelled(true);
                 }, 100L);
-            } else if ((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm())
-                    && Config.getBool(Config.Options.SleepExplosive)) {
+            } else if((time < 13000L || executed || Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) &&
+                      Config.getBool(Config.Options.SleepExplosive)) {
                 event.setCancelled(true);
                 player.setStatistic(Statistic.TIME_SINCE_REST, 0);
                 Location playerbed = player.getBedSpawnLocation();

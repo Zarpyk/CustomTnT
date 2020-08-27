@@ -14,14 +14,14 @@ import java.util.Objects;
 public class MessagesConfig {
 
     public static FileConfiguration getMessagesConfig(Main m) {
-        if (Main.messagesConfig == null) {
+        if(Main.messagesConfig == null) {
             reloadMessagesConfig(m);
         }
         return Main.messagesConfig;
     }
 
     private static void reloadMessagesConfig(Main m) {
-        if (Main.messagesConfig == null) {
+        if(Main.messagesConfig == null) {
             m.messagesConfigFile = new File(m.getDataFolder(), "messages.yml");
         }
         Main.messagesConfig = YamlConfiguration.loadConfiguration(m.messagesConfigFile);

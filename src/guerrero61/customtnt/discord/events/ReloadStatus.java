@@ -16,7 +16,7 @@ public class ReloadStatus {
         EmbedBuilder startEmbed = new EmbedBuilder().setAuthor(msg, url, url).setColor(color);
         for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
             TextChannel textChannel = api.getTextChannelById(channelID);
-            if (textChannel != null) {
+            if(textChannel != null) {
                 textChannel.sendMessage(startEmbed.build()).complete();
             }
         }
@@ -26,18 +26,16 @@ public class ReloadStatus {
     public static void reloadStatus(JDA api, String status) {
         for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
             TextChannel textChannel = api.getTextChannelById(channelID);
-            if (textChannel != null) {
-                textChannel.getManager()
-                        .setTopic(Formatter.FText(
-                                Config.getString(Config.Options.ChannelDescription)
-                                        .replace("%status%",
-                                                "Servidor " + status
-                                                        + (status.equals("online") ? (" | " + Main
-                                                        .getPlayerCount()) : ""))
-                                        .replace("%unique-players%", Integer
-                                                .toString(Bukkit.getOfflinePlayers().length)),
-                                true))
-                        .queue();
+            if(textChannel != null) {
+                textChannel.getManager().setTopic(Formatter.FText(
+                        Config.getString(Config.Options.ChannelDescription).replace("%status%", "Servidor " + status +
+                                                                                                (status.equals(
+                                                                                                        "online") ?
+                                                                                                         (" | " +
+                                                                                                          Main.getPlayerCount()) :
+                                                                                                         "")).replace(
+                                "%unique-players%", Integer.toString(Bukkit.getOfflinePlayers().length)),
+                        true)).queue();
             }
         }
     }

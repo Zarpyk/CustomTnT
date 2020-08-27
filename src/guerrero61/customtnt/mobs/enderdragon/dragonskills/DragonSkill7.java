@@ -37,8 +37,8 @@ public class DragonSkill7 implements Listener {
 
     public void Skill7(Player player) {
         Main.debug("Skill 7");
-        player.sendMessage(guerrero61.customtnt.mainutils.Formatter
-                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
+        player.sendMessage(guerrero61.customtnt.mainutils.Formatter.FText(
+                TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         Vex vex = (Vex) player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.VEX);
         Objects.requireNonNull(vex.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(65);
         vex.setHealth(65);
@@ -71,7 +71,7 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityAttack(EntityDamageByEntityEvent event) {
         Entity entity = event.getDamager();
-        if (entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
+        if(entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
             Entity attackedEntity = event.getEntity();
             entity.setInvulnerable(true);
             attackedEntity.getWorld().createExplosion(attackedEntity.getLocation(), 1f, false, false);
@@ -82,8 +82,8 @@ public class DragonSkill7 implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
-            if (event.getEntity().getKiller() == null) {
+        if(entity.getType() == EntityType.VEX && Main.contains(entity.getCustomName(), vexName)) {
+            if(event.getEntity().getKiller() == null) {
                 for (Player player : entity.getLocation().getNearbyPlayers(10)) {
                     player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
                 }
@@ -94,7 +94,7 @@ public class DragonSkill7 implements Listener {
             for (Player player : entity.getLocation().getNearbyPlayers(10)) {
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1.5F);
             }
-            if (task != null) {
+            if(task != null) {
                 task.cancel();
             }
         }

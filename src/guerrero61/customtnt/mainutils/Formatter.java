@@ -35,7 +35,7 @@ public class Formatter {
     }
 
     public static String FText(String text, boolean noPrefix) {
-        if (noPrefix) {
+        if(noPrefix) {
             text = org.bukkit.ChatColor.translateAlternateColorCodes('&', text);
         } else {
             text = org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.prefix + text);
@@ -50,7 +50,7 @@ public class Formatter {
     }
 
     public static String FText(String text, boolean noPrefix, Player player) {
-        if (noPrefix) {
+        if(noPrefix) {
             text = org.bukkit.ChatColor.translateAlternateColorCodes('&', text);
         } else {
             text = org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.prefix + text);
@@ -65,7 +65,7 @@ public class Formatter {
     }
 
     public static String Capitalize(String str) {
-        if (str == null || str.isEmpty()) {
+        if(str == null || str.isEmpty()) {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -80,11 +80,10 @@ public class Formatter {
         }
 
         String t = text.replace("§", "&");
-        return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "")
-                .replace("&f", "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "")
-                .replace("&5", "").replace("&6", "").replace("&7", "").replace("&8", "").replace("&9", "")
-                .replace("&0", "").replace("&k", "").replace("&l", "").replace("&m", "").replace("&n", "")
-                .replace("&o", "").replace("&r", "");
+        return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "").replace("&f",
+                "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "").replace("&5", "").replace(
+                "&6", "").replace("&7", "").replace("&8", "").replace("&9", "").replace("&0", "").replace("&k",
+                "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");
     }
 
     public static String RemoveFormat(String text, Player player) {
@@ -97,10 +96,9 @@ public class Formatter {
         }
 
         String t = text.replace("§", "&");
-        return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "")
-                .replace("&f", "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "")
-                .replace("&5", "").replace("&6", "").replace("&7", "").replace("&8", "").replace("&9", "")
-                .replace("&0", "").replace("&k", "").replace("&l", "").replace("&m", "").replace("&n", "")
-                .replace("&o", "").replace("&r", "");
+        return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "").replace("&f",
+                "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "").replace("&5", "").replace(
+                "&6", "").replace("&7", "").replace("&8", "").replace("&9", "").replace("&0", "").replace("&k",
+                "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");
     }
 }

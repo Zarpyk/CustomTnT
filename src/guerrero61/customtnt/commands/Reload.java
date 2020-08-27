@@ -24,12 +24,12 @@ public class Reload {
         Registers registers = new Registers();
         registers.registerConfig(main);
 
-        if (main.api == null && Config.getBool(Config.Options.DiscordEnable)) {
+        if(main.api == null && Config.getBool(Config.Options.DiscordEnable)) {
             registers.registerDiscord(main);
             main.api.cancelRequests();
         }
 
-        if (isPlayer) {
+        if(isPlayer) {
             sender.sendMessage(Formatter.FText(Config.getString(Config.Options.Reload)));
         } else {
             Main.consoleMsg(Formatter.FText(Config.getString(Config.Options.Reload)));

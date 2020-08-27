@@ -22,14 +22,15 @@ import java.util.Objects;
 public class DragonSkill4 implements Listener {
 
     public static String skillName = "Mob Random";
-    public static String[] mobNames = new String[]{"&6Esbirro del Dragon", "&6Soldado del Dragon", "&6Esclavo del Dragon", "&6Guerrero del Dragon", "&6Arma del Dragon", "&6Hijo del Dragon"};
+    public static String[] mobNames = new String[]{"&6Esbirro del Dragon", "&6Soldado del Dragon",
+            "&6Esclavo del Dragon", "&6Guerrero del Dragon", "&6Arma del Dragon", "&6Hijo del Dragon"};
     public static int minMob = 4;
     public static int maxMob = 10;
 
     public void Skill4(Player player) {
         Main.debug("Skill 4");
-        player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
+        player.sendMessage(
+                Formatter.FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         int random = Main.random(minMob, maxMob);
         for (int i = 0; i < random; i++) {
             try {
@@ -37,9 +38,9 @@ public class DragonSkill4 implements Listener {
                 int y = Main.random(0, 3);
                 int z = Main.random(0, 3);
                 int witherChance = Main.random(0, 50);
-                if (witherChance == 50) {
-                    Wither entity = (Wither) player.getLocation().getWorld()
-                            .spawnEntity(player.getLocation().add(x, y, z), EntityType.WITHER);
+                if(witherChance == 50) {
+                    Wither entity = (Wither) player.getLocation().getWorld().spawnEntity(
+                            player.getLocation().add(x, y, z), EntityType.WITHER);
                     entity.clearLootTable();
                     entity.setGlowing(true);
                     int randomName = Main.random(0, mobNames.length - 1);
@@ -47,8 +48,8 @@ public class DragonSkill4 implements Listener {
                     entity.setCustomNameVisible(true);
                     Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(50);
                 } else {
-                    Entity entity = player.getLocation().getWorld()
-                            .spawnEntity(player.getLocation().add(x, y, z), EntityType.valueOf(randomMob()));
+                    Entity entity = player.getLocation().getWorld().spawnEntity(player.getLocation().add(x, y, z),
+                            EntityType.valueOf(randomMob()));
                     entity.setGlowing(true);
                     int randomName = Main.random(0, mobNames.length - 1);
                     entity.setCustomName(Formatter.FText(mobNames[randomName], true, player));
@@ -61,8 +62,11 @@ public class DragonSkill4 implements Listener {
     }
 
     private String randomMob() {
-        List<String> mobList = new ArrayList<>(List
-                .of("BLAZE", "CAVE_SPIDER", "CREEPER", "DROWNED", "ENDERMAN", "ENDERMITE", "EVOKER", "GHAST", "HOGLIN", "HUSK", "MAGMA_CUBE", "PHANTOM", "PIGLIN", "PILLAGER", "RAVAGER", "SILVERFISH", "SKELETON", "SLIME", "SPIDER", "STRAY", "VEX", "VINDICATOR", "WITCH", "WITHER_SKELETON", "ZOMBIE", "ZOGLIN", "ZOMBIFIED_PIGLIN"));
+        List<String> mobList = new ArrayList<>(
+                List.of("BLAZE", "CAVE_SPIDER", "CREEPER", "DROWNED", "ENDERMAN", "ENDERMITE", "EVOKER", "GHAST",
+                        "HOGLIN", "HUSK", "MAGMA_CUBE", "PHANTOM", "PIGLIN", "PILLAGER", "RAVAGER", "SILVERFISH",
+                        "SKELETON", "SLIME", "SPIDER", "STRAY", "VEX", "VINDICATOR", "WITCH", "WITHER_SKELETON",
+                        "ZOMBIE", "ZOGLIN", "ZOMBIFIED_PIGLIN"));
         int random = Main.random(0, mobList.size() - 1);
         return mobList.get(random);
     }

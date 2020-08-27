@@ -10,7 +10,7 @@ import java.util.List;
 public class SkillsCommandCompleter extends CommandCompleterMethods {
 
     public List<String> use(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 2) {
+        if(args.length == 2) {
             List<String> count = new ArrayList<>();
             for (int i = 1; i <= 10; i++) {
                 count.add(Integer.toString(i));
@@ -36,7 +36,7 @@ public class SkillsCommandCompleter extends CommandCompleterMethods {
             case "10": {
                 Player player = (Player) sender;
                 List<String> list = targetBlock(player, args);
-                if (args.length == 3) {
+                if(args.length == 3) {
                     list.addAll(playerList());
                 }
                 return sortList(list, args);
@@ -46,7 +46,7 @@ public class SkillsCommandCompleter extends CommandCompleterMethods {
             case "5":
             case "7":
             case "8": {
-                if (args.length == 3) {
+                if(args.length == 3) {
                     return sortList(playerList(), args);
                 }
             }

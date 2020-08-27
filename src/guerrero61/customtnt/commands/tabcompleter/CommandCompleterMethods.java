@@ -19,7 +19,7 @@ public class CommandCompleterMethods {
         List<String> newList = new ArrayList<>();
 
         for (String s : numberListOld)
-            if (s.toLowerCase().startsWith(args[args.length - 1])) newList.add(s);
+            if(s.toLowerCase().startsWith(args[args.length - 1])) newList.add(s);
         return newList;
     }
 
@@ -45,7 +45,7 @@ public class CommandCompleterMethods {
 
     protected List<String> targetBlock(Player player, String[] args, boolean twoCoord) {
         Block targ = player.getTargetBlock(null, 5);
-        if (twoCoord) {
+        if(twoCoord) {
             switch (args.length) {
                 case 3:
                 case 6:

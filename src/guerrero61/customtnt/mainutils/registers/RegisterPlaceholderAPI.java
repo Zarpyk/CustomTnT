@@ -43,7 +43,7 @@ public class RegisterPlaceholderAPI extends PlaceholderExpansion {
 
     @Override
     public String onRequest(OfflinePlayer p, String params) {
-        if (p != null && p.isOnline()) {
+        if(p != null && p.isOnline()) {
             return onPlaceholderRequest(p.getPlayer(), params);
         }
         return null;
@@ -58,7 +58,7 @@ public class RegisterPlaceholderAPI extends PlaceholderExpansion {
             case "add_storm_time":
                 return Float.toString(Death.stormHours);
             default:
-                if (player == null) {
+                if(player == null) {
                     return null;
                 }
                 return null;

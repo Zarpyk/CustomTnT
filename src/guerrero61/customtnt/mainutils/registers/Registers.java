@@ -20,19 +20,19 @@ import java.util.Objects;
 public class Registers {
 
     /**
-     Sirve para registrar los archivos de configuración
+     * Sirve para registrar los archivos de configuración
      */
     public void registerConfig(Main m) {
         RegisterConfigs registerConfigs = new RegisterConfigs();
         registerConfigs.registerConfig(m);
         registerConfigs.registerMessagesConfig(m);
-        if (Config.getBool(Config.Options.DiscordEnable)) {
+        if(Config.getBool(Config.Options.DiscordEnable)) {
             registerConfigs.registerDiscordConfig(m);
         }
     }
 
     /**
-     Sirve para iniciar el bot de Discord
+     * Sirve para iniciar el bot de Discord
      */
     public void registerDiscord(Main m) {
         RegisterDiscord registerDiscord = new RegisterDiscord(m);
@@ -40,30 +40,30 @@ public class Registers {
     }
 
     public void registerDependencies(Main m) {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             PlaceholderAPI.registerPlaceholderHook("customtnt", new RegisterPlaceholderAPI(m));
             //registerPAPI(m);
         } else {
             Main.consoleMsg(Formatter.FText("&c&lPlaceholderAPI is not in the plugin folder"));
             Bukkit.getPluginManager().disablePlugin(m);
         }
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-            RegisteredServiceProvider<Permission> rsp = m.getServer().getServicesManager()
-                    .getRegistration(Permission.class);
+        if(Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            RegisteredServiceProvider<Permission> rsp = m.getServer().getServicesManager().getRegistration(
+                    Permission.class);
             assert rsp != null;
             m.perms = rsp.getProvider();
         } else {
             Main.consoleMsg(Formatter.FText("&c&lVault is not in the plugin folder"));
             Bukkit.getPluginManager().disablePlugin(m);
         }
-        if (Bukkit.getPluginManager().getPlugin("SkinsRestorer") == null) {
+        if(Bukkit.getPluginManager().getPlugin("SkinsRestorer") == null) {
             Config.set(Config.Options.SkinsRestorerEnable, false);
         }
-        if (Bukkit.getPluginManager().getPlugin("MMOLib") == null
-                || Bukkit.getPluginManager().getPlugin("MMOItems") == null) {
+        if(Bukkit.getPluginManager().getPlugin("MMOLib") == null ||
+           Bukkit.getPluginManager().getPlugin("MMOItems") == null) {
             Config.set(Config.Options.MMOItemsEnable, false);
         }
-        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
+        if(Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             m.lpApi = registerLuckPerms();
         } else {
             Config.set(Config.Options.LuckPermsEnable, false);
@@ -71,14 +71,14 @@ public class Registers {
     }
 
     /**
-     Sirve para registrar los eventos
+     * Sirve para registrar los eventos
      */
     public void registerEvents(Main m) {
         new RegisterEvents(m);
     }
 
     /**
-     Sirve para registrar los comandos
+     * Sirve para registrar los comandos
      */
     public void registerCommands(Main m) {
         Objects.requireNonNull(m.getCommand("tnt")).setExecutor(new MainCommand(m, m.api));
@@ -90,7 +90,7 @@ public class Registers {
 
     private LuckPerms registerLuckPerms() {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) {
+        if(provider != null) {
             return provider.getProvider();
         } else {
             Main.consoleMsg(Formatter.FText("&cNo se ha podido cargar LuckPerms."));
@@ -105,16 +105,18 @@ public class Registers {
         assert papi != null;
         for (String expansionName : expansionList) {
             CloudExpansion expansion = papi.getExpansionCloud().getCloudExpansion(expansionName);
-            if (expansion == null) {
+            if(expansion == null) {
                 Main.consoleMsg(Formatter.FText("&bPAPI: &cNo expansion found with the name: &f" + expansionName));
                 return;
             }
             PlaceholderExpansion loaded = papi.getExpansionManager().getRegisteredExpansion(expansionName);
-            if (loaded != null && loaded.isRegistered())
+            if(loaded != null && loaded.isRegistered()) {
                 PlaceholderAPI.unregisterPlaceholderHook(loaded.getIdentifier());
+            }
             String version = expansion.getLatestVersion();
-            Main.consoleMsg(Formatter.FText("&bPAPI: &aDownload starting for expansion: &f" + expansion.getName()
-                    + " &aversion: &f" + version));
+            Main.consoleMsg(Formatter.FText(
+                    "&bPAPI: &aDownload starting for expansion: &f" + expansion.getName() + " &aversion: &f" +
+                    version));
             papi.getExpansionCloud().downloadExpansion(null, expansion, version);
             papi.getExpansionCloud().clean();
             papi.getExpansionCloud().fetch(papi.getPlaceholderAPIConfig().cloudAllowUnverifiedExpansions());

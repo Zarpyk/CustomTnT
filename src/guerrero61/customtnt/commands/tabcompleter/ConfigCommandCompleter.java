@@ -34,36 +34,35 @@ public class ConfigCommandCompleter extends CommandCompleterMethods {
                 for (String key : configClass.getConfigurationSection("").getKeys(true)) {
                     switch (args[3].toLowerCase()) {
                         case "string": {
-                            if (!Main.isNumeric(configClass.getString(key)) && !Main
-                                    .isBool(configClass.getString(key)) && !configClass.getString(key)
-                                    .contains("MemorySection[path='")) {
+                            if(!Main.isNumeric(configClass.getString(key)) &&
+                               !Main.isBool(configClass.getString(key)) &&
+                               !configClass.getString(key).contains("MemorySection[path='")) {
                                 stringList.add(key);
                             }
                             break;
                         }
                         case "int": {
-                            if (Main.isNumeric(configClass.getString(key)) && !configClass.getString(key)
-                                    .contains(".")) {
+                            if(Main.isNumeric(configClass.getString(key)) &&
+                               !configClass.getString(key).contains(".")) {
                                 stringList.add(key);
                             }
                             break;
                         }
                         case "double": {
-                            if (Main.isNumeric(configClass.getString(key)) && configClass.getString(key)
-                                    .contains(".")) {
+                            if(Main.isNumeric(configClass.getString(key)) && configClass.getString(key).contains(".")) {
                                 stringList.add(key);
                             }
                             break;
                         }
                         case "bool": {
-                            if (Main.isBool(configClass.getString(key))) {
+                            if(Main.isBool(configClass.getString(key))) {
                                 stringList.add(key);
                             }
                             break;
                         }
                     }
                 }
-                if (stringList.size() == 0) {
+                if(stringList.size() == 0) {
                     return sortList(new ArrayList<>(List.of("NoHayNadaQueSea" + Formatter.Capitalize(args[3]))), args);
                 } else {
                     return sortList(stringList, args);

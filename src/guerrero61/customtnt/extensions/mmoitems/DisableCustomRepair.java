@@ -15,23 +15,23 @@ public class DisableCustomRepair implements Listener {
 
     @EventHandler
     public void getResult(InventoryClickEvent event) {
-        if (Config.getBool(Config.Options.MMOItemsDisableCutomsRepair))
-            if (event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
+        if(Config.getBool(Config.Options.MMOItemsDisableCutomsRepair)) {
+            if(event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
                 ItemStack item1 = event.getInventory().getItem(0);
                 ItemStack item2 = event.getInventory().getItem(1);
                 ItemStack result = event.getInventory().getItem(2);
-                if (item1 == null || result == null)
-                    return;
-                if (NBTItem.get(item1).hasType()) {
-                    if (item2 != null) {
-                        if (item2.getType() != Material.ENCHANTED_BOOK || NBTItem.get(item1)
-                                .getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D) {
+                if(item1 == null || result == null) return;
+                if(NBTItem.get(item1).hasType()) {
+                    if(item2 != null) {
+                        if(item2.getType() != Material.ENCHANTED_BOOK ||
+                           NBTItem.get(item1).getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D) {
                             event.setResult(Event.Result.DENY);
                             event.setCancelled(true);
                         }
                     }
                 }
             }
+        }
 
 		/*if (event.getInventory().getType().equals(InventoryType.ANVIL) && event.getSlot() == 2) {
 			ItemStack item1 = event.getInventory().getItem(0);

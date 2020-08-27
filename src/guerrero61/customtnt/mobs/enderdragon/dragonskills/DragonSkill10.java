@@ -23,26 +23,27 @@ public class DragonSkill10 extends ConfigClass {
     }
 
     public void Skill10(EnderDragon enderDragon, Player player) {
-        if (dataConfig == null) {
+        if(dataConfig == null) {
             protectedFileName = TnTDragon.fileName;
             dataConfig = CreateConfig(TnTDragon.fileName);
         }
         int random = Main.random(2, 4);
         for (int i = 0; i < random; i++) {
             int randomHability = Main.random(1, 10);
-            if (randomHability == 6 && getBool("skill6Active")) {
+            if(randomHability == 6 && getBool("skill8Active")) {
                 int random2 = Main.random(1, 2);
-                if (random2 == 1) randomHability = Main.random(1, 5);
-                if (random2 == 2) randomHability = Main.random(7, 10);
+                if(random2 == 1) randomHability = Main.random(1, 5);
+                if(random2 == 2) randomHability = Main.random(7, 10);
             }
             RandomHability(randomHability, enderDragon, player);
         }
         for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
             Main.debug("Skill10:" + key);
             Player player2 = Bukkit.getPlayer(key);
-            if (player2 != null) {
-                player2.sendMessage(Formatter
-                        .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&l(" + random + ")"));
+            if(player2 != null) {
+                player2.sendMessage(Formatter.FText(
+                        TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&l(" + random +
+                        ")"));
             }
         }
     }
@@ -51,10 +52,10 @@ public class DragonSkill10 extends ConfigClass {
         int random = Main.random(2, 4);
         for (int i = 0; i < random; i++) {
             int randomHability = Main.random(1, 10);
-            if (randomHability == 6 && getBool("skill6Active")) {
+            if(randomHability == 6 && getBool("skill8Active")) {
                 int random2 = Main.random(1, 2);
-                if (random2 == 1) randomHability = Main.random(1, 5);
-                if (random2 == 2) randomHability = Main.random(7, 10);
+                if(random2 == 1) randomHability = Main.random(1, 5);
+                if(random2 == 2) randomHability = Main.random(7, 10);
             }
             RandomHability(randomHability, location, player);
         }
@@ -78,13 +79,13 @@ public class DragonSkill10 extends ConfigClass {
                 new DragonSkill5(main).Skill5(player);
                 break;
             case 6:
-                new DragonSkill6(main).Skill6(enderDragon);
+                new DragonSkill8(main).Skill8(enderDragon);
                 break;
             case 7:
                 new DragonSkill7(main).Skill7(player);
                 break;
             case 8:
-                new DragonSkill8().Skill8(player, enderDragon);
+                new DragonSkill6().Skill6(player, enderDragon);
                 break;
             case 9:
                 new DragonSkill9(main).Skill9(enderDragon);

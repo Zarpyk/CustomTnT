@@ -20,8 +20,8 @@ public class DragonSkill2 {
 
     public void Skill2(Player player) {
         Skill2(player.getLocation());
-        player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
+        player.sendMessage(
+                Formatter.FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
     }
 
     public void Skill2(Location location) {
@@ -30,8 +30,9 @@ public class DragonSkill2 {
         tnt.setIsIncendiary(true);
         tnt.setGlowing(true);
         tnt.setFuseTicks(tntFuseTick);
-        Bukkit.getScheduler().runTaskLater(main, () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(),
-                tnt.getLocation().getY(), tnt.getLocation().getZ(), 7.0f, true, true), tntFuseTick);
+        Bukkit.getScheduler().runTaskLater(main,
+                () -> tnt.getWorld().createExplosion(tnt.getLocation().getX(), tnt.getLocation().getY(),
+                        tnt.getLocation().getZ(), 7.0f, true, true), tntFuseTick);
     }
 
 }

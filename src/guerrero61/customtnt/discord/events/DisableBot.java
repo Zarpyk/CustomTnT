@@ -17,9 +17,9 @@ public class DisableBot {
 
     public static void Disable(Main main) {
         api = main.api;
-        if (api != null) {
-            api.getEventManager().getRegisteredListeners()
-                    .forEach(listener -> api.getEventManager().unregister(listener));
+        if(api != null) {
+            api.getEventManager().getRegisteredListeners().forEach(
+                    listener -> api.getEventManager().unregister(listener));
             CompletableFuture<Void> shutdownTask = new CompletableFuture<>();
             api.addEventListener(new ListenerAdapter() {
                 @Override
@@ -34,8 +34,8 @@ public class DisableBot {
             try {
                 shutdownTask.get(5, TimeUnit.SECONDS);
             } catch (TimeoutException | InterruptedException | ExecutionException e) {
-                main.getLogger()
-                        .warning("JDA no esta cerrando... saltando proceso... Se recomienda reiniciar el servidor.");
+                main.getLogger().warning(
+                        "JDA no esta cerrando... saltando proceso... Se recomienda reiniciar el servidor.");
             }
         }
     }

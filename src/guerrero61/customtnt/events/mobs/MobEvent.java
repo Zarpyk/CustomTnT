@@ -29,14 +29,14 @@ public class MobEvent extends EventClass implements Listener {
 
     @EventHandler
     public void mobSpawnEvent(EntitySpawnEvent event) {
-        if (event.getEntity().getType().equals(entityType)) {
-            if (multiply > 0) {
+        if(event.getEntity().getType().equals(entityType)) {
+            if(multiply > 0) {
                 for (int i = 0; i < (multiply - 1); i++) {
                     int x = Main.random(0, 2);
                     int y = 0;
                     int z = Main.random(0, 2);
-                    Entity entity = event.getEntity().getLocation().getWorld()
-                            .spawnEntity(event.getEntity().getLocation().add(x, y, z), entityType);
+                    Entity entity = event.getEntity().getLocation().getWorld().spawnEntity(
+                            event.getEntity().getLocation().add(x, y, z), entityType);
                     entity.setCustomName(Formatter.FText("&6&lMob Extra"));
                     entity.setCustomNameVisible(true);
                     spawnedMob.add(entity);
@@ -51,9 +51,9 @@ public class MobEvent extends EventClass implements Listener {
 
     @EventHandler
     public void mobDeadEvent(EntityDeathEvent event) {
-        if (event.getEntity().getType().equals(entityType)) {
+        if(event.getEntity().getType().equals(entityType)) {
             for (ItemStack itemStack : event.getDrops()) {
-                if (itemStack.getMaxStackSize() >= itemStack.getAmount() * lootMultiply) {
+                if(itemStack.getMaxStackSize() >= itemStack.getAmount() * lootMultiply) {
                     itemStack.setAmount(itemStack.getAmount() * lootMultiply);
                 }
             }

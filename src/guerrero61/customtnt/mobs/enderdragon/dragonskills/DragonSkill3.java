@@ -26,8 +26,8 @@ public class DragonSkill3 {
     }
 
     public void Skill3(Player player) {
-        player.sendMessage(Formatter
-                .FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
+        player.sendMessage(
+                Formatter.FText(TnTDragon.dragonName + " &6&lha usado la habilidad &c&l" + skillName + " &6&len ti."));
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, effectDuration, 10));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, effectDuration, 1));
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, effectDuration, 1));

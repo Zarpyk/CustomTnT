@@ -21,20 +21,19 @@ public class TabList implements Listener {
         Scoreboard scoreboard = main.getServer().getScoreboardManager().getMainScoreboard();
 
         for (Player player : main.getServer().getOnlinePlayers()) {
-            if (!Formatter.FText("%vault_prefix%", true, player).equals("%vault_prefix%")
-                    && !Formatter.FText("%vault_suffix%", true, player).equals("%vault_suffix%")) {
+            if(!Formatter.FText("%vault_prefix%", true, player).equals("%vault_prefix%") &&
+               !Formatter.FText("%vault_suffix%", true, player).equals("%vault_suffix%")) {
                 Team team = scoreboard.getTeam(Formatter.FText(player.getName(), true, player));
-                if (team == null) {
+                if(team == null) {
                     team = scoreboard.registerNewTeam(Formatter.FText(player.getName(), true, player));
                 }
                 boolean playerIsInTeam = false;
                 for (String playerN : team.getEntries()) {
-                    if (playerN.equals(player.getName())) {
+                    if(playerN.equals(player.getName())) {
                         playerIsInTeam = true;
                     }
                 }
-                if (!playerIsInTeam)
-                    team.addEntry(player.getName());
+                if(!playerIsInTeam) team.addEntry(player.getName());
                 team.setPrefix(Formatter.FText("%vault_prefix%", true, player));
                 team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
             }
@@ -44,20 +43,19 @@ public class TabList implements Listener {
     public void reloadTab(Player player) {
         Scoreboard scoreboard = main.getServer().getScoreboardManager().getMainScoreboard();
 
-        if (!Formatter.FText("%vault_prefix%", true, player).equals("%vault_prefix%")
-                && !Formatter.FText("%vault_suffix%", true, player).equals("%vault_suffix%")) {
+        if(!Formatter.FText("%vault_prefix%", true, player).equals("%vault_prefix%") &&
+           !Formatter.FText("%vault_suffix%", true, player).equals("%vault_suffix%")) {
             Team team = scoreboard.getTeam(Formatter.FText(player.getName(), true, player));
-            if (team == null) {
+            if(team == null) {
                 team = scoreboard.registerNewTeam(Formatter.FText(player.getName(), true, player));
             }
             boolean playerIsInTeam = false;
             for (String playerN : team.getEntries()) {
-                if (playerN.equals(player.getName())) {
+                if(playerN.equals(player.getName())) {
                     playerIsInTeam = true;
                 }
             }
-            if (!playerIsInTeam)
-                team.addEntry(player.getName());
+            if(!playerIsInTeam) team.addEntry(player.getName());
             team.setPrefix(Formatter.FText("%vault_prefix%", true, player));
             team.setSuffix(Formatter.FText("%vault_suffix%", true, player));
         }

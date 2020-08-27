@@ -26,25 +26,22 @@ public class Totem implements Listener {
 
     @EventHandler
     public void totemNerf(EntityResurrectEvent event) {
-        if (!(event.getEntity() instanceof Player))
-            return;
-        if (((Player) event.getEntity()).getInventory().getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING
-                || ((Player) event.getEntity()).getInventory().getItemInOffHand()
-                .getType() == Material.TOTEM_OF_UNDYING) {
-            if (!Config.getBool(Config.Options.TotemFailEnable))
-                return;
+        if(!(event.getEntity() instanceof Player)) return;
+        if(((Player) event.getEntity()).getInventory().getItemInMainHand().getType() == Material.TOTEM_OF_UNDYING ||
+           ((Player) event.getEntity()).getInventory().getItemInOffHand().getType() == Material.TOTEM_OF_UNDYING) {
+            if(!Config.getBool(Config.Options.TotemFailEnable)) return;
             Player player = (Player) event.getEntity();
             String playerN = player.getName();
             int failProb = Config.getInt(Config.Options.TotemProbability);
 
-            if (failProb > 100) {
+            if(failProb > 100) {
                 failProb = 100;
-            } else if (failProb < 0) {
+            } else if(failProb < 0) {
                 failProb = 0;
             }
             int random = Main.random(1, 99);
             int resta = 100 - failProb;
-            if (random >= resta) {
+            if(random >= resta) {
                 message(player, random, resta, ">=", true);
                 event.setCancelled(true);
             } else {
@@ -55,31 +52,30 @@ public class Totem implements Listener {
 
     private void message(Player player, int random, int resta, String symbol, boolean fail) {
         String totemMessage = Formatter.FText(
-                Config.getString(Config.Options.TotemUseMsg).replace("%porcent%", symbol)
-                        .replace("%totem_fail%", Integer.toString(random)).replace("%number%", Integer.toString(resta)),
-                true, player);
+                Config.getString(Config.Options.TotemUseMsg).replace("%porcent%", symbol).replace("%totem_fail%",
+                        Integer.toString(random)).replace("%number%", Integer.toString(resta)), true, player);
         String totemFail = Formatter.FText(Config.getString(Config.Options.TotemFailMsg), true, player);
 
-        if (!fail) {
+        if(!fail) {
             Bukkit.broadcastMessage(Formatter.FText(totemMessage));
-            if (Config.getBool(Config.Options.DiscordEnable)) {
+            if(Config.getBool(Config.Options.DiscordEnable)) {
                 sendDiscordMsg(player, totemMessage, new Color(255, 250, 90));
             }
         } else {
             Bukkit.broadcastMessage(Formatter.FText(totemMessage));
             Bukkit.broadcastMessage(Formatter.FText(totemFail));
-            if (Config.getBool(Config.Options.DiscordEnable)) {
+            if(Config.getBool(Config.Options.DiscordEnable)) {
                 sendDiscordMsg(player, totemMessage + " " + totemFail, new Color(255, 10, 10));
             }
         }
     }
 
     private void sendDiscordMsg(Player player, String msg, Color color) {
-        EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(msg), null, "attachment://avatar.png")
-                .setColor(color);
+        EmbedBuilder embed = new EmbedBuilder().setAuthor(Formatter.RemoveFormat(msg), null,
+                "attachment://avatar.png").setColor(color);
         for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
             TextChannel textChannel = api.getTextChannelById(channelID);
-            if (textChannel != null) {
+            if(textChannel != null) {
                 textChannel.sendFile(Avatar.getPlayerAvatar(player), "avatar.png").embed(embed.build()).queue();
             }
         }

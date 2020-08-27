@@ -37,7 +37,7 @@ public class Death implements Listener {
         Player player = e.getEntity().getPlayer();
         assert player != null;
         String victim = player.getName();
-        if (stormEnable) {
+        if(stormEnable) {
             // Codigo modificado de PermadeathCore por vo1d & SebazCRC
             boolean weather = Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm();
             int stormDuration = Objects.requireNonNull(Bukkit.getWorld(world)).getWeatherDuration();
@@ -45,44 +45,45 @@ public class Death implements Listener {
             int stormIncrement = Math.round(stormTicksToSeconds + this.addStormSeconds);
             int inc = Math.round(stormIncrement);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "minecraft:weather thunder");
-            if (weather) {
+            if(weather) {
                 Objects.requireNonNull(Bukkit.getWorld(world)).setWeatherDuration(inc * 20);
             } else {
                 Objects.requireNonNull(Bukkit.getWorld(world)).setWeatherDuration(addStormSeconds * 20);
             }
         }
-        if (deathMsgEnable) {
+        if(deathMsgEnable) {
             String DeathChatMessage = Config.getString(Config.Options.DeathMsg);
             Bukkit.broadcastMessage(Formatter.FText(DeathChatMessage, true, player));
         }
-        if (deathCoordEnable) {
+        if(deathCoordEnable) {
             String CoordsMessage = Config.getString(Config.Options.DeathCoordsMsg);
             String Dx = Integer.toString(player.getLocation().getBlockX());
             String Dy = Integer.toString(player.getLocation().getBlockY());
             String Dz = Integer.toString(player.getLocation().getBlockZ());
-            Bukkit.broadcastMessage(Formatter
-                    .FText(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz), true, player));
+            Bukkit.broadcastMessage(
+                    Formatter.FText(CoordsMessage.replace("%x%", Dx).replace("%y%", Dy).replace("%z%", Dz), true,
+                            player));
         }
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask(main, () -> {
-            if (stormEnable) {
+            if(stormEnable) {
                 String DeathTrainMessage = Config.getString(Config.Options.DeathTrainMsg);
                 Bukkit.broadcastMessage(
                         Formatter.FText(DeathTrainMessage.replace("%time%", Float.toString(stormHours)), true, player));
             }
-            if (soundEnable) {
+            if(soundEnable) {
                 for (Player p : Bukkit.getOnlinePlayers())
                     p.playSound(p.getLocation(), Sound.ENTITY_SKELETON_HORSE_DEATH, 1, 1);
             }
         }, 75L);
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (titleEnable) {
+            if(titleEnable) {
                 String ServerMessageTitle = Config.getString(Config.Options.DeathTitle);
                 String ServerMessageSubtitle = Config.getString(Config.Options.DeathSubtitle);
                 p.sendTitle(Formatter.FText(ServerMessageTitle, true, player),
                         Formatter.FText(ServerMessageSubtitle, true, player), 10, 70, 20);
             }
-            if (soundEnable) {
+            if(soundEnable) {
                 p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, 0);
             }
         }

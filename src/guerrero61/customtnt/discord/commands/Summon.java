@@ -19,15 +19,14 @@ public class Summon extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (Main.checkCommand("summon", event.getMessage(), event.getChannel())
-                || !event.getAuthor().getId().equals("290223330773172225")) {
+        if(Main.checkCommand("summon", event.getMessage(), event.getChannel()) ||
+           !event.getAuthor().getId().equals("290223330773172225")) {
             return;
         }
         try {
-            boolean success = Bukkit
-                    .getScheduler().callSyncMethod(main, () -> Bukkit
-                            .dispatchCommand(main.getServer().getConsoleSender(), "boss summonp PhyPsi15 BossPalPepsi"))
-                    .get();
+            boolean success = Bukkit.getScheduler().callSyncMethod(main,
+                    () -> Bukkit.dispatchCommand(main.getServer().getConsoleSender(),
+                            "boss summonp PhyPsi15 BossPalPepsi")).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

@@ -24,7 +24,7 @@ public class ConfigClass {
     protected FileConfiguration CreateConfig(String fileName) {
         protectedFileName = fileName;
         File dataFile = new File(Main.getPlugin().getDataFolder(), fileName + ".yml");
-        if (!dataFile.exists()) {
+        if(!dataFile.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 dataFile.createNewFile();
@@ -44,12 +44,12 @@ public class ConfigClass {
 
     public void rename(String newName) {
         dataConfig = null;
-        if (new File(Main.getPlugin().getDataFolder(), newName + ".yml").exists()) {
+        if(new File(Main.getPlugin().getDataFolder(), newName + ".yml").exists()) {
             boolean deleteFileDelete = new File(Main.getPlugin().getDataFolder(), newName + ".yml").delete();
             Main.debug("Rename File Delete:" + deleteFileDelete);
         }
-        boolean rename = new File(Main.getPlugin().getDataFolder(), protectedFileName + ".yml")
-                .renameTo(new File(Main.getPlugin().getDataFolder(), newName + ".yml"));
+        boolean rename = new File(Main.getPlugin().getDataFolder(), protectedFileName + ".yml").renameTo(
+                new File(Main.getPlugin().getDataFolder(), newName + ".yml"));
         protectedFileName = null;
         Main.debug("Rename File:" + rename);
     }

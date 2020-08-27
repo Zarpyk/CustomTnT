@@ -23,18 +23,20 @@ public class EventClass {
         this.main = main;
     }
 
-    protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInHours, int timeInMinutes, int timeInSeconds) {
+    protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInHours,
+                               int timeInMinutes, int timeInSeconds) {
         createEvent(eventName, color, style, event, (timeInHours * 60) + timeInMinutes, timeInSeconds);
     }
 
-    protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInMinutes, int timeInSeconds) {
+    protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInMinutes,
+                               int timeInSeconds) {
         createEvent(eventName, color, style, event, (timeInMinutes * 60) + timeInSeconds);
     }
 
     protected void createEvent(String eventName, BarColor color, BarStyle style, Event event, int timeInSeconds) {
-        if (!event.cancel) {
-            BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, eventNameFormatter(eventName)), Formatter
-                    .FText(eventName, true), color, style);
+        if(!event.cancel) {
+            BossBar bossBar = Bukkit.createBossBar(new NamespacedKey(main, eventNameFormatter(eventName)),
+                    Formatter.FText(eventName, true), color, style);
             for (Player player : Bukkit.getOnlinePlayers()) {
                 bossBar.addPlayer(player);
             }
@@ -43,8 +45,7 @@ public class EventClass {
     }
 
     protected void deleteEvent(String eventName) {
-        BossBar bossBar = Bukkit
-                .getBossBar(new NamespacedKey(main, eventNameFormatter(eventName)));
+        BossBar bossBar = Bukkit.getBossBar(new NamespacedKey(main, eventNameFormatter(eventName)));
         assert bossBar != null;
         for (Player player : bossBar.getPlayers()) {
             bossBar.removePlayer(player);
@@ -74,7 +75,7 @@ public class EventClass {
         }
 
         public Event(Material material) {
-            if (!material.isBlock()) {
+            if(!material.isBlock()) {
                 Main.consoleMsg(Formatter.FText("&c&lERROR, El material indicado no es un bloque"));
                 cancel = true;
             } else {
