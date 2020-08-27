@@ -26,7 +26,7 @@ public class Avatar {
             e.printStackTrace();
             Image image;
             try {
-                image = ImageIO.read(new URL("https://minotar.net/helm/notch/256.png"));
+                image = ImageIO.read(new URL("https://imgur.com/3QZOSvJ.png"));
             } catch (IOException ioException) {
                 ioException.printStackTrace();
                 return new ByteArrayInputStream("Error".getBytes());
