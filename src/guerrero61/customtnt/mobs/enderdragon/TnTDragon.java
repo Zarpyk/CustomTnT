@@ -6,6 +6,9 @@ import guerrero61.customtnt.mainutils.config.Config;
 import guerrero61.customtnt.mainutils.config.ConfigClass;
 import guerrero61.customtnt.mobs.enderdragon.dragonskills.*;
 import guerrerocraft61.particleapi.VectorMath;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -20,7 +23,9 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.awt.*;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.*;
 
 public class TnTDragon extends ConfigClass implements Listener {
@@ -29,6 +34,7 @@ public class TnTDragon extends ConfigClass implements Listener {
     public static String dragonNameColor = "&c";
     public static String dragonName = dragonNameColor + "TnT Dragon";
     private final Main main;
+    private final JDA api;
     private final int getAutoHabilityCooldown = 30;
     private final int perPlayerScales = 6;
     private final int perPlayerXP = 3097;
@@ -43,8 +49,9 @@ public class TnTDragon extends ConfigClass implements Listener {
     private int totalScaleAmount = 0;
     private int totalXPAmount = 0;
 
-    public TnTDragon(Main m) {
+    public TnTDragon(Main m, JDA a) {
         main = m;
+        api = a;
         sethabilityCooldown = habilityCooldown;
         autoHabilityCooldown = getAutoHabilityCooldown;
         canUseSkill = false;
@@ -166,7 +173,6 @@ public class TnTDragon extends ConfigClass implements Listener {
                         List<Player> playerList = new ArrayList<>();
                         for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(
                                 false)) {
-                            Main.debug("TnTDragon:" + key);
                             Player player = Bukkit.getPlayer(key);
                             if(player != null) {
                                 if(player.getLocation().getWorld().equals(enderDragon.getWorld())) {
@@ -180,6 +186,10 @@ public class TnTDragon extends ConfigClass implements Listener {
                             onDamage(new EntityDamageByEntityEvent(selectedTarget, enderDragon,
                                     EntityDamageEvent.DamageCause.ENTITY_ATTACK, 0));
                             autoHabilityCooldown = getAutoHabilityCooldown;
+                        } else {
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                set("participate." + player.getName(), true);
+                            }
                         }
                     }
                     if(enderDragon.getHealth() <= 0 || !enderDragon.isValid()) {
@@ -229,14 +239,52 @@ public class TnTDragon extends ConfigClass implements Listener {
                         canUseSkill = true;
                     }
 
-                    if(((EnderDragon) entity).getHealth() <= 0) {
+                    if(((EnderDragon) entity).getHealth() <= 0 || !entity.isValid()) {
                         cancel();
                     }
                 }
             }.runTaskTimer(main, 0, 20L);
             schedulerActivated = true;
         }
-        Main.debug("EntityDamageByEntityEvent can use skill");
+        EnderDragon enderDragon = (EnderDragon) entity;
+        if(!autoHabilitySchedulerActivated) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    Main.debug(Integer.toString(autoHabilityCooldown));
+                    if(autoHabilityCooldown > 0) {
+                        autoHabilityCooldown--;
+                    } else {
+                        List<Player> playerList = new ArrayList<>();
+                        for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(
+                                false)) {
+                            Player player = Bukkit.getPlayer(key);
+                            if(player != null) {
+                                if(player.getLocation().getWorld().equals(enderDragon.getWorld())) {
+                                    playerList.add(player);
+                                }
+                            }
+                        }
+                        if(playerList.size() > 0) {
+                            Player selectedTarget = playerList.get(
+                                    playerList.size() == 1 ? 0 : Main.random(0, playerList.size() - 1));
+                            onDamage(new EntityDamageByEntityEvent(selectedTarget, enderDragon,
+                                    EntityDamageEvent.DamageCause.ENTITY_ATTACK, 0));
+                            autoHabilityCooldown = getAutoHabilityCooldown;
+                        } else {
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                set("participate." + player.getName(), true);
+                            }
+                        }
+                    }
+                    if(enderDragon.getHealth() <= 0 || !enderDragon.isValid()) {
+                        cancel();
+                    }
+                }
+
+            }.runTaskTimer(main, 0, 20L);
+            autoHabilitySchedulerActivated = true;
+        }
         Entity damager = event.getDamager();
         if(!damager.getType().equals(EntityType.PLAYER) && !damager.getType().equals(EntityType.ARROW) &&
            !damager.getType().equals(EntityType.SPECTRAL_ARROW) && !damager.getType().equals(EntityType.TRIDENT)) {
@@ -258,7 +306,7 @@ public class TnTDragon extends ConfigClass implements Listener {
             event.setCancelled(true);
             return;
         }
-        EnderDragon enderDragon = (EnderDragon) entity;
+        Main.debug("EntityDamageByEntityEvent can use skill");
 
         set("dragonHealth", Main.round(enderDragon.getHealth() - event.getDamage(), 1));
         set("damage." + player.getName(), Main.round(getDouble("damage." + player.getName()) + event.getDamage(), 2));
@@ -409,30 +457,44 @@ public class TnTDragon extends ConfigClass implements Listener {
                 Bukkit.broadcastMessage(Formatter.FText("&c&lERROR, NO HAY EL 100%±5 DEL DAÑO", true));
             } else if(totalDamagePercent >= 95 && totalDamagePercent <= 105) {
                 int i = 1;
+                EmbedBuilder embed = new EmbedBuilder();
+                embed.setAuthor("Top Damage", null,
+                        "https://vignette.wikia.nocookie.net/minecraft/images/d/d6/DragonHead.gif");
+                embed.setColor(new Color(125, 255, 100));
                 Bukkit.broadcastMessage(Formatter.FText("&a-----------------&c&lTop Damge&a-----------------", true));
                 for (PlayerData data : topList) {
                     if(data.scaleAmount != 0) {
+                        double damagePercent = Main.round(data.damagePercent, 2, roundingMode);
                         Bukkit.broadcastMessage(Formatter.FText(
                                 "&c" + i + ".&6" + data.playerName + " hizo &c" + data.playerDamage + "&6 de daño (" +
-                                Main.round(data.damagePercent, 2, roundingMode) + "%)", true,
-                                Bukkit.getPlayer(data.playerName)));
+                                damagePercent + "%)", true, Bukkit.getPlayer(data.playerName)));
+                        embed.addField("Top " + i, data.playerName, true);
+                        embed.addField("Daño", data.playerDamage + " de daño (" + damagePercent + "%)", true);
                         Bukkit.broadcastMessage(Formatter.FText(
-                                "&c➢ &6Consiguio " + data.scaleAmount + " &5&lEscamas &6y " + data.XPAmount + " de XP",
-                                true, Bukkit.getPlayer(data.playerName)));
+                                "&c➢ &6Consiguio " + data.scaleAmount + " Escamas y " + data.XPAmount + " de XP", true,
+                                Bukkit.getPlayer(data.playerName)));
                         if(i == 1) {
                             int random = Main.random(0, 100);
                             if(random > 75) {
                                 Bukkit.broadcastMessage(Formatter.FText("&c➢ &6Consiguio 1 &6&lCorazon de Dragon", true,
                                         Bukkit.getPlayer(data.playerName)));
+                                embed.addField("Recompensa", data.scaleAmount + " Escamas y " + data.XPAmount +
+                                                             " de XP y 1 Corazon de Dragon", true);
                                 ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-                                String command = "mi MATERIAL DRAGON_HEART " + data.playerName + " 1";
+                                String command = "mi give MATERIAL DRAGON_HEART " + data.playerName + " 1";
                                 Bukkit.dispatchCommand(console, command);
+                            } else {
+                                embed.addField("Recompensa",
+                                        data.scaleAmount + " Escamas y " + data.XPAmount + " de XP", true);
                             }
+                        } else {
+                            embed.addField("Recompensa", data.scaleAmount + " Escamas y " + data.XPAmount + " de XP",
+                                    true);
                         }
                         i++;
 
                         ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-                        String command = "mi MATERIAL DRAGON_SCALE " + data.playerName + " " + data.scaleAmount;
+                        String command = "mi give MATERIAL DRAGON_SCALE " + data.playerName + " " + data.scaleAmount;
                         Main.debug(command);
                         Bukkit.dispatchCommand(console, command);
                         String command2 = "xp give " + data.playerName + " " + data.XPAmount;
@@ -441,6 +503,12 @@ public class TnTDragon extends ConfigClass implements Listener {
                     }
                 }
                 Bukkit.broadcastMessage(Formatter.FText("&a--------------------------------------------", true));
+                for (String channelID : Config.getStringList(Config.Options.ChannelsSendMsg)) {
+                    TextChannel textChannel = api.getTextChannelById(channelID);
+                    if(textChannel != null) {
+                        textChannel.sendMessage(embed.build()).queue();
+                    }
+                }
             }
             Main.debug("skill8 false");
             set("skill8Active", false);

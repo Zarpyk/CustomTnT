@@ -12,8 +12,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,8 @@ public class DragonSkill4 implements Listener {
             "&6Esclavo del Dragon", "&6Guerrero del Dragon", "&6Arma del Dragon", "&6Hijo del Dragon"};
     public static int minMob = 4;
     public static int maxMob = 10;
+
+    private BukkitTask task;
 
     public void Skill4(Player player) {
         Main.debug("Skill 4");
@@ -47,6 +52,19 @@ public class DragonSkill4 implements Listener {
                     entity.setCustomName(Formatter.FText(mobNames[randomName], true, player));
                     entity.setCustomNameVisible(true);
                     Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(50);
+                    task = new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                entity.setTarget(player);
+                                if(!entity.isValid()) {
+                                    cancel();
+                                }
+                            } catch (Exception exception) {
+                                cancel();
+                            }
+                        }
+                    }.runTaskTimer(Main.getPlugin(), 0, 20L);
                 } else {
                     Entity entity = player.getLocation().getWorld().spawnEntity(player.getLocation().add(x, y, z),
                             EntityType.valueOf(randomMob()));
@@ -77,5 +95,20 @@ public class DragonSkill4 implements Listener {
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 600, 1));
         player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1200, 3));
         player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 1200, 1));
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        if(event.getEntityType().equals(EntityType.WITHER)) {
+            for (String name : mobNames) {
+                if(Main.contains(name, event.getEntity().getCustomName())) {
+                    event.getDrops().clear();
+                    if(task != null) {
+                        task.cancel();
+                    }
+                    return;
+                }
+            }
+        }
     }
 }

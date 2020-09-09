@@ -104,6 +104,9 @@ public class MainCommand implements CommandExecutor {
                     }
                     return true;
                 }
+                case "test": {
+                    return true;
+                }
                 default: {
                     SendHelp();
                     return true;

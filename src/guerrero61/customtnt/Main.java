@@ -1,5 +1,6 @@
 package guerrero61.customtnt;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import guerrero61.customtnt.discord.events.DisableBot;
 import guerrero61.customtnt.discord.events.ReloadStatus;
 import guerrero61.customtnt.mainutils.Formatter;
@@ -25,6 +26,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +58,7 @@ public class Main extends JavaPlugin {
     public JDA api;
     public LuckPerms lpApi;
     public Permission perms = null;
+    private Connection skinRestorerConnection;
 
     @Override
     public void onLoad() {
@@ -63,29 +67,27 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         Bukkit.getConsoleSender().sendMessage(startMessage);
-        if(CheckDisablePlugin()) {
-            configMap = new HashMap<>();
-            Registers registers = new Registers();
-            registers.registerConfig(this);
-            if(api == null && Config.getBool(Config.Options.DiscordEnable)) {
-                registers.registerDiscord(this);
-            }
-            registers.registerDependencies(this);
-            registers.registerEvents(this);
-            registers.registerCommands(this);
-
-            new StormActionBar().StormAB(this);
-            Scheduler scheduler = new Scheduler();
-            if(Config.getBool(Config.Options.DiscordEnable)) {
-                scheduler.startMessageDelayScheduler(this);
-                scheduler.reloadStatusScheduler(this);
-            }
-            scheduler.registerScoreboard(this);
-            //scheduler.registerDependencies(this);
-        } else {
-            Bukkit.getPluginManager().disablePlugin(this);
+        configMap = new HashMap<>();
+        Registers registers = new Registers();
+        registers.registerConfig(this);
+        if(api == null && Config.getBool(Config.Options.DiscordEnable)) {
+            registers.registerDiscord(this);
         }
+        registers.registerDependencies(this);
+        registers.registerEvents(this);
+        registers.registerCommands(this);
+        new StormActionBar().StormAB(this);
+        Scheduler scheduler = new Scheduler();
+        if(Config.getBool(Config.Options.DiscordEnable)) {
+            scheduler.startMessageDelayScheduler(this);
+            scheduler.reloadStatusScheduler(this);
+        }
+        scheduler.registerScoreboard(this);
+        //scheduler.registerDependencies(this);
         Main.prefix = Config.getString(Config.Options.Prefix);
+        if(Config.getBool(Config.Options.SkinsRestorerMySQLEnable)) {
+            skinsRestorerMySqlSetup();
+        }
     }
 
     public void onDisable() {
@@ -103,16 +105,6 @@ public class Main extends JavaPlugin {
         return plugin;
     }
 
-    public static boolean CheckDisablePlugin() {
-        String IP = Bukkit.getServer().getIp();
-        for (String s : allowIP) {
-            if(IP.equals(s)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static void consoleMsg(String text) {
         Bukkit.getConsoleSender().sendMessage(text);
     }
@@ -124,8 +116,11 @@ public class Main extends JavaPlugin {
     }
 
     public static String getIp() {
-        return Bukkit.getServer().getIp() +
-               (Bukkit.getServer().getPort() == 25565 ? "" : ":" + Bukkit.getServer().getPort());
+        if(Config.getBool(Config.Options.CustomIPEnable)) {
+            return Config.getString(Config.Options.CustomIPIP);
+        } else {
+            return Config.getString(Config.Options.CustomIPRealIP);
+        }
     }
 
     public static String getPlayerCount() {
@@ -166,6 +161,40 @@ public class Main extends JavaPlugin {
             }
         }
         return true;
+    }
+
+    public void skinsRestorerMySqlSetup() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setServerName(Config.getString(Config.Options.SkinsRestorerMySQLHost));
+            dataSource.setPort(Config.getInt(Config.Options.SkinsRestorerMySQLPort));
+            dataSource.setDatabaseName(Config.getString(Config.Options.SkinsRestorerMySQLDatabase));
+            dataSource.setUser(Config.getString(Config.Options.SkinsRestorerMySQLUsername));
+            dataSource.setPassword(Config.getString(Config.Options.SkinsRestorerMySQLPassword));
+            skinRestorerConnection = dataSource.getConnection();
+            Main.consoleMsg(Formatter.FText("&a&lSkinsRestorer MySQL Connected"));
+        } catch (Exception e) {
+            Main.consoleMsg(Formatter.FText("&c&lSkinsRestorer MySQL Error"));
+            Main.consoleMsg(Formatter.FText("&c&lDisabling plugin..."));
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+    }
+
+    public Connection getSkinRestorerConnection() {
+        try {
+            if(skinRestorerConnection == null || skinRestorerConnection.isClosed()) {
+                Main.consoleMsg(Formatter.FText("&c&lSkinsRestorer MySQL Error"));
+                Main.consoleMsg(Formatter.FText("&c&lDisabling plugin..."));
+                Bukkit.getPluginManager().disablePlugin(this);
+            }
+            return skinRestorerConnection;
+        } catch (SQLException throwables) {
+            Main.consoleMsg(Formatter.FText("&c&lSkinsRestorer MySQL Error"));
+            Main.consoleMsg(Formatter.FText("&c&lDisabling plugin..."));
+            Bukkit.getPluginManager().disablePlugin(this);
+            return skinRestorerConnection;
+        }
     }
 
     public static int random(int a, int b) {

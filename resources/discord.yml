@@ -38,6 +38,7 @@ Messages:
     - "/ip"
     - "/busca"
     - "/verify"
+    - "/mapa"
 Verify:
   enable: true
   prefix: "&eⓥ"
@@ -50,6 +51,17 @@ Verify:
   error: "No te has verificado todavia en minecraft, usa el comando /verify %discord_tag% dentro del juego"
   error-nick: "El nick indicado no es correcto"
   no-online: "No estas conectado en el juego"
+SkinsRestorerMySQL:
+  #Bungee Only work with MySQL
+  Enabled: true
+  Host: "localhost"
+  Port: 3306
+  Database: "skindb"
+  Username: "root"
+  Password: "***REMOVED***"
+  SkinTable: "Skins"
+  PlayerTable: "Players"
 CustomIP:
-  enable: true #Show custom ip in /ip [Default: true]
+  enable: false #Show custom ip in /ip [Default: true]
   IP: "***REMOVED***" #The custom ip [Default: ***REMOVED***]
+  realIP: "***REMOVED***" #The ip if enable is false [Default: ***REMOVED***:25565] [Default2: ***REMOVED***]

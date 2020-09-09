@@ -82,8 +82,18 @@ public class Config {
                 "Verify.command-error", CONFIG.Discord), VerifyYouVerified("Verify.you-verified",
                 CONFIG.Discord), VerifyUserAlredyVerified("Verify.user-alredy-verified", CONFIG.Discord), VerifySuccess(
                 "Verify.success", CONFIG.Discord), VerifyError("Verify.error", CONFIG.Discord), VerifyErrorNick(
-                "Verify.error-nick", CONFIG.Discord), VerifyNoOnline("Verify.no-online", CONFIG.Discord), //CustomIP
-        CustomIPEnable("CustomIP.enable", CONFIG.Main), CustomIPIP("CustomIP.IP", CONFIG.Main);
+                "Verify.error-nick", CONFIG.Discord), VerifyNoOnline("Verify.no-online",
+                CONFIG.Discord), //SkinsRestorerMySQL
+        SkinsRestorerMySQLEnable("SkinsRestorerMySQL.Enabled", CONFIG.Discord), SkinsRestorerMySQLHost(
+                "SkinsRestorerMySQL.Host", CONFIG.Discord), SkinsRestorerMySQLPort("SkinsRestorerMySQL.Port",
+                CONFIG.Discord), SkinsRestorerMySQLDatabase("SkinsRestorerMySQL.Database",
+                CONFIG.Discord), SkinsRestorerMySQLUsername("SkinsRestorerMySQL.Username",
+                CONFIG.Discord), SkinsRestorerMySQLPassword("SkinsRestorerMySQL.Password",
+                CONFIG.Discord), SkinsRestorerMySQLSkinTable("SkinsRestorerMySQL.SkinTable",
+                CONFIG.Discord), SkinsRestorerMySQLPlayerTable("SkinsRestorerMySQL.PlayerTable",
+                CONFIG.Discord), //CustomIP
+        CustomIPEnable("CustomIP.enable", CONFIG.Discord), CustomIPIP("CustomIP.IP", CONFIG.Discord), CustomIPRealIP(
+                "CustomIP.realIP", CONFIG.Discord);
 
         private final String string;
         private final CONFIG type;

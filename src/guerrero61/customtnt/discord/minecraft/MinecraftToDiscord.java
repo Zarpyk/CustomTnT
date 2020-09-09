@@ -140,7 +140,6 @@ public class MinecraftToDiscord implements Listener {
 
         Player player = event.getPlayer();
 
-        Image image;
         EmbedBuilder embed = new EmbedBuilder().setAuthor(
                 Formatter.FText(Config.getString(Config.Options.MessagesAdvancement).replace("%adv%", advancementName),
                         true, player), null, "attachment://avatar.png").setColor(new Color(125, 255, 100));

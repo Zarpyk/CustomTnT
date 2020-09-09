@@ -15,6 +15,9 @@ import java.awt.image.RenderedImage;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -26,10 +29,14 @@ public class Avatar {
             e.printStackTrace();
             Image image;
             try {
-                image = ImageIO.read(new URL("https://imgur.com/3QZOSvJ.png"));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-                return new ByteArrayInputStream("Error".getBytes());
+                image = getMojangAPIAvatar(player, player.getName());
+            } catch (Exception e2) {
+                try {
+                    image = ImageIO.read(new URL("https://imgur.com/3QZOSvJ.png"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                    return new ByteArrayInputStream("Error".getBytes());
+                }
             }
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             try {
@@ -46,30 +53,64 @@ public class Avatar {
         String playerN = player.getName();
         String skin;
         if(Config.getBool(Config.Options.SkinsRestorerEnable)) {
-            skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+            if(Config.getBool(Config.Options.SkinsRestorerMySQLEnable)) {
+                try {
+                    PreparedStatement statement = Main.getPlugin().getSkinRestorerConnection().prepareStatement(
+                            "SELECT * FROM " + Config.getString(Config.Options.SkinsRestorerMySQLPlayerTable) +
+                            " WHERE Nick=?");
+                    statement.setString(1, playerN.toLowerCase());
+                    ResultSet resultSet = statement.executeQuery();
+                    if(resultSet.next()) {
+                        skin = resultSet.getString("Skin");
+                    } else {
+                        skin = playerN;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+                }
+            } else {
+                skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+            }
             //Main.debug(skin);
-            BufferedImage image;
+            BufferedImage image = null;
             if(skin == null) {
                 skin = playerN;
                 image = getMojangAPIAvatar(player, skin);
             } else {
-                /*if (!skin.equals(player.getName())) {
-                    for (OfflinePlayer player2 : Bukkit.getOfflinePlayers()) {
-                        if (skin.equals(player2.getName())) {
-                            getPlayerImage(Objects.requireNonNull(player2.getPlayer()));
-                            break;
+                String base64Text = "";
+                boolean getSkinFile = true;
+                boolean getImage = true;
+                if(Config.getBool(Config.Options.SkinsRestorerMySQLEnable)) {
+                    try {
+                        PreparedStatement statement = Main.getPlugin().getSkinRestorerConnection().prepareStatement(
+                                "SELECT * FROM " + Config.getString(Config.Options.SkinsRestorerMySQLSkinTable) +
+                                " WHERE Nick=?");
+                        statement.setString(1, skin.toLowerCase());
+                        ResultSet resultSet = statement.executeQuery();
+                        if(resultSet.next()) {
+                            base64Text = resultSet.getString("Value");
+                            getSkinFile = false;
                         }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
                     }
-                }*/
-                File skinFile = new File("plugins/SkinsRestorer/Skins",
-                        Objects.requireNonNullElse(skin, playerN).toLowerCase() + ".skin");
-                //.debug(skinFile.toString());
-                if(!skinFile.exists()) {
-                    skin = playerN;
-                    image = getMojangAPIAvatar(player, skin);
-                } else {
-                    String base64 = Files.readAllLines(skinFile.toPath()).get(0);
-                    byte[] decodedBytes = Base64.getDecoder().decode(base64);
+                }
+                if(getSkinFile) {
+                    File skinFile = new File("plugins/SkinsRestorer/Skins",
+                            Objects.requireNonNullElse(skin, playerN).toLowerCase() + ".skin");
+                    //Main.debug(skinFile.toString());
+                    if(!skinFile.exists()) {
+                        skin = playerN;
+                        image = getMojangAPIAvatar(player, skin);
+                        getImage = false;
+                    } else {
+                        base64Text = Files.readAllLines(skinFile.toPath()).get(0);
+                    }
+                }
+                if(getImage) {
+                    byte[] decodedBytes = Base64.getDecoder().decode(base64Text);
                     String decodedString = new String(decodedBytes);
                     JSONObject jsonObject = new JSONObject(decodedString);
                     URL url = new URL(jsonObject.getJSONObject("textures").getJSONObject("SKIN").getString("url"));

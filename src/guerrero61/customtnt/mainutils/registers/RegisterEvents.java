@@ -47,7 +47,7 @@ public class RegisterEvents {
         }
         //CustomDragon
         if(Config.getBool(Config.Options.CustomDragonEnable)) {
-            pm.registerEvents(new TnTDragon(m), m);
+            pm.registerEvents(new TnTDragon(m, m.api), m);
             pm.registerEvents(new DragonSkill4(), m);
             pm.registerEvents(new DragonSkill5(m), m);
             pm.registerEvents(new DragonSkill8(m), m);

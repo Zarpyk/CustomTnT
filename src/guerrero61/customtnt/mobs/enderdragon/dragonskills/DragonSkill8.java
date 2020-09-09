@@ -156,8 +156,9 @@ public class DragonSkill8 extends ConfigClass implements Listener {
         if(bossBar != null) {
             for (String key : Objects.requireNonNull(getConfigurationSection("participate")).getKeys(false)) {
                 Player player = Bukkit.getPlayer(key);
-                assert player != null;
-                bossBar.removePlayer(player);
+                if(player != null) {
+                    bossBar.removePlayer(player);
+                }
             }
             bossBar.setVisible(false);
             Bukkit.removeBossBar(new NamespacedKey(main, "EndermanBossBar"));
