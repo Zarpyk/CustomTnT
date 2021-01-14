@@ -7,7 +7,7 @@
         <option name="formatter" value="ECLIPSE" />
         <option name="id" value="1594568591166" />
         <option name="name" value="Eclipse" />
-        <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../format.xml" />
+        <option name="pathToConfigFileJava" value="$USER_HOME$/IdeaProjects/format.xml" />
         <option name="pathToEclipse" value="E:/Users/GuerreroCraft61/eclipse/java-2019-12/eclipse" />
         <option name="selectedJavaProfile" value="EclipseProfile" />
       </Settings>
