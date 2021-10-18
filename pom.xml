@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>CustomTnT</groupId>
     <artifactId>CustomTnT</artifactId>
-    <version>2.9.3</version>
+    <version>3.0.0</version>
 
     <name>CustomTnT</name>
     <description>Plugin para el servidor de EspañolTNT</description>
@@ -23,31 +23,27 @@
         <maven.compiler.source>9</maven.compiler.source>
         <author>GuerreroCraft61</author>
         <mainClass>guerrero61.customtnt.Main</mainClass>
-        <api-version>1.13</api-version>
+        <api-version>1.17</api-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
+            <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>papermc-repo</id>
+            <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>jcenter</id>
-            <name>jcenter-bintray</name>
-            <url>https://jcenter.bintray.com</url>
+            <id>dv8tion</id>
+            <name>m2-dv8tion</name>
+            <url>https://m2.dv8tion.net/releases</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>cubekrowd-repo</id>
-            <url>https://mavenrepo.cubekrowd.net/artifactory/repo/</url>
         </repository>
         <repository>
             <id>codemc-snapshots</id>
@@ -62,23 +58,23 @@
     <dependencies>
         <!--Paperclip API -->
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
+            <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.16.2-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Spigot API and NMS -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.2-R0.1-SNAPSHOT</version>
+            <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Java Discord API -->
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.2.0_177</version>
+            <version>4.3.0_277</version>
             <scope>compile</scope>
         </dependency>
         <!-- Simple Particle API -->
@@ -92,14 +88,14 @@
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
         <!--LuckPerms API -->
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.1</version>
+            <version>5.3</version>
             <scope>provided</scope>
         </dependency>
         <!-- MMOLib -->
@@ -108,7 +104,7 @@
             <artifactId>MMOLib</artifactId>
             <version>1.2.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libraries/MMOLib-1.2.4.jar</systemPath>
+            <systemPath>${project.basedir}/libraries/MythicLib-1.1.3.jar</systemPath>
         </dependency>
         <!-- MMOItems -->
         <dependency>
@@ -116,34 +112,34 @@
             <artifactId>MMOItems</artifactId>
             <version>5.5.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libraries/MMOItems-5.5.1.jar</systemPath>
+            <systemPath>${project.basedir}/libraries/MMOItems-6.6.1.jar</systemPath>
         </dependency>
         <!-- SuperVanish -->
         <dependency>
-            <groupId>de.myzelyam</groupId>
+            <groupId>com.github.LeonMangler</groupId>
             <artifactId>SuperVanish</artifactId>
-            <version>6.1.3</version>
+            <version>6.2.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- SkinsRestorer API -->
         <dependency>
-            <groupId>com</groupId>
+            <groupId>net.skinsrestorer</groupId>
             <artifactId>skinsrestorer</artifactId>
-            <version>13.8.0-SNAPSHOT</version>
+            <version>14.1.6-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- Placeholder API -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.6</version>
+            <version>2.10.10</version>
             <scope>provided</scope>
         </dependency>
         <!--JSON-->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20200518</version>
+            <version>20210307</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -152,7 +148,7 @@
         <profile>
             <id>ServerDir</id>
             <build>
-                <directory>F:\Users\GuerreroCraft61\Desktop\TnTServer\CustomTnT</directory>
+                <directory>C:\Users\GuerreroCraft61\Desktop\CustomTnT\builds</directory>
             </build>
         </profile>
     </profiles>
@@ -181,11 +177,12 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <source>17</source>
+                    <target>17</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -207,7 +204,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <outputDirectory>F:\Users\GuerreroCraft61\Desktop\TnTServer\Server\plugins</outputDirectory>
+                    <outputDirectory>C:\Users\GuerreroCraft61\Desktop\Server\plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

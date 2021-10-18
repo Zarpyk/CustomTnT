@@ -1,8 +1,8 @@
 package guerrero61.customtnt.extensions.mmoitems;
 
 import guerrero61.customtnt.mainutils.config.Config;
+import io.lumine.mythic.lib.api.item.NBTItem;
 import net.Indyuce.mmoitems.stat.type.ItemStat;
-import net.mmogroup.mmolib.api.item.NBTItem;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public class DisableCustomRepair implements Listener {
                 if(NBTItem.get(item1).hasType()) {
                     if(item2 != null) {
                         if(item2.getType() != Material.ENCHANTED_BOOK ||
-                           NBTItem.get(item1).getStat(ItemStat.DISABLE_ENCHANTING) == 1.0D) {
+                           NBTItem.get(item1).getStat(ItemStat.translate("DISABLE_ENCHANTING")) == 1.0D) {
                             event.setResult(Event.Result.DENY);
                             event.setCancelled(true);
                         }

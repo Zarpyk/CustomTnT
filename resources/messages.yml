@@ -3,10 +3,10 @@ Errors:
   no-exist: "&cEste comando no existe."
   no-console: "&cEste comando no esta disponible para consola."
   args-miss: "&cFalta o sobra algun argumento para este comando."
-  args-error: "&cAlgun argumento no esta en el formato correcto"
+  args-error: "&cAlgun argumento no esta en el formato correcto."
   no-perm: "&cNo tienes permiso para ejecutar este comando."
 Check:
-  player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador"
+  player: "&aEl plugin esta funcionando. Comando ejecutado des del jugador."
   console: "&aEl plugin esta funcionando. Comando ejecutado des de la consola."
 Death:
   #msg: "&c&lEl comienzo del sufrimiento infinito de &4&l%player% &c&lha comenzado!"
@@ -30,4 +30,4 @@ Chat:
   format: "%vault_prefix% &c%essentials_nickname%%vault_suffix%&f: &a%msg%"
 ConfigCommand:
   set: "&aSe ha establecido el variable \"%key%\" a \"%variable%\" con exito."
-  delete: "&aSe ha borrado el variable \"%key%\" con existo"
+  delete: "&aSe ha borrado el variable \"%key%\" con existo."

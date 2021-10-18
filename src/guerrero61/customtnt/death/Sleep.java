@@ -31,7 +31,6 @@ public class Sleep implements Listener {
     public void playerSleep(final PlayerBedEnterEvent event) {
         Player player = event.getPlayer();
         boolean playerIsInMainWorld = player.getWorld().equals(Bukkit.getWorld(world));
-        Server server = Bukkit.getServer();
         long time = Objects.requireNonNull(Bukkit.getWorld(world)).getTime();
         if(playerIsInMainWorld) {
             if(time > 13000L && !executed && !Objects.requireNonNull(Bukkit.getWorld(world)).hasStorm()) {

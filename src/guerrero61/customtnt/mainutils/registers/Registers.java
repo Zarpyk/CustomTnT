@@ -7,9 +7,6 @@ import guerrero61.customtnt.discord.minecraft.Verify;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mainutils.config.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderAPIPlugin;
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.clip.placeholderapi.expansion.cloud.CloudExpansion;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
@@ -98,7 +95,7 @@ public class Registers {
         }
     }
 
-    @Deprecated
+/*    @Deprecated
     private void autoRegisterPAPI(Main m) {
         String[] expansionList = new String[]{"Vault", "Player", "Server", "Essentials"};
         PlaceholderAPIPlugin papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
@@ -122,5 +119,5 @@ public class Registers {
             papi.getExpansionCloud().fetch(papi.getPlaceholderAPIConfig().cloudAllowUnverifiedExpansions());
         }
         Bukkit.getScheduler().scheduleSyncDelayedTask(m, () -> papi.reloadConf(Bukkit.getConsoleSender()), 100L);
-    }
+    }*/
 }

@@ -9,7 +9,9 @@ import java.util.Objects;
 public class Config {
 
     public enum CONFIG {
-        Main, Messages, Discord
+        Main,
+        Messages,
+        Discord
     }
 
     public enum Options {
@@ -17,83 +19,134 @@ public class Config {
          * Main Config
          ------------------*/
         //Features
-        DeathEnable("Features.Death", CONFIG.Main), DisableEnable("Features.Disable", CONFIG.Main), DiscordEnable(
-                "Features.Discord", CONFIG.Main), FormatterEnable("Features.Formatter",
-                CONFIG.Main), CustomDragonEnable("Features.CustomDragon", CONFIG.Main), //Features Plugin Hooks
-        SkinsRestorerEnable("Features.SkinsRestorer", CONFIG.Main), MMOItemsEnable("Features.MMOItems",
-                CONFIG.Main), LuckPermsEnable("Features.LuckPerms", CONFIG.Main), //Death
-        DeathMsgEnable("Death.msg-enable", CONFIG.Main), DeathCoordsEnable("Death.coords-enable",
-                CONFIG.Main), //Death.Sleep
-        SleepExplosive("Death.Sleep.explosive", CONFIG.Main), //Death.Storm
-        StormEnable("Death.Storm.enable", CONFIG.Main), StormAddSeconds("Death.Storm.add-seconds",
-                CONFIG.Main), StormSoundEnable("Death.Storm.sound-enable", CONFIG.Main), StormTitleEnable(
-                "Death.Storm.title-enable", CONFIG.Main), StormActionBarEnable("Death.Storm.actionbar-enable",
-                CONFIG.Main), StormActionBarDelay("Death.Storm.actionbar-delay", CONFIG.Main), //Death.Totem
-        TotemFailEnable("Death.Totem.fail-enable", CONFIG.Main), TotemProbability("Death.Totem.probability",
-                CONFIG.Main), //Disable
-        DisableTrident("Disable.trident", CONFIG.Main), //Formatter
-        FormatterTabList("Formatter.tab-list", CONFIG.Main), FormatterCustomChat("Formatter.custom-chat",
-                CONFIG.Main), //CustomDragon
-        CustomDragonName("CustomDragon.name", CONFIG.Main), CustomDragonFirstTime("CustomDragon.first-time",
-                CONFIG.Main), CustomDragonFirstTimeHealth("CustomDragon.first-time-health",
-                CONFIG.Main), CustomDragonPerPlayerDificultyScalingMode(
-                "CustomDragon.per-player-scaling-dificulty-mode", CONFIG.Main), CustomDragonPerPlayerHealth(
-                "CustomDragon.per-player-health", CONFIG.Main), CustomDragonStaticHealth("CustomDragon.static-health",
-                CONFIG.Main), //MMOItems
-        MMOItemsDisableCutomsRepair("MMOItems.disable-custom-repair", CONFIG.Main), //MainWorld
-        MainWorld("MainWorld", CONFIG.Main), //Debug Mode
-        DebugMode("Debug-mode", CONFIG.Main), /*------------------
+        DeathEnable("Features.Death", CONFIG.Main),
+        DisableEnable("Features.Disable", CONFIG.Main),
+        DiscordEnable("Features.Discord", CONFIG.Main),
+        FormatterEnable("Features.Formatter", CONFIG.Main),
+        CustomDragonEnable("Features.CustomDragon", CONFIG.Main),
+        //Features Plugin Hooks
+        SkinsRestorerEnable("Features.SkinsRestorer", CONFIG.Main),
+        MMOItemsEnable("Features.MMOItems", CONFIG.Main),
+        LuckPermsEnable("Features.LuckPerms", CONFIG.Main),
+        //Death
+        DeathMsgEnable("Death.msg-enable", CONFIG.Main),
+        DeathCoordsEnable("Death.coords-enable", CONFIG.Main),
+        //Death.Sleep
+        SleepExplosive("Death.Sleep.explosive", CONFIG.Main),
+        //Death.Storm
+        StormEnable("Death.Storm.enable", CONFIG.Main),
+        StormAddSeconds("Death.Storm.add-seconds", CONFIG.Main),
+        StormSoundEnable("Death.Storm.sound-enable", CONFIG.Main),
+        StormTitleEnable("Death.Storm.title-enable", CONFIG.Main),
+        StormActionBarEnable("Death.Storm.actionbar-enable", CONFIG.Main),
+        StormActionBarDelay("Death.Storm.actionbar-delay", CONFIG.Main),
+        //Death.Totem
+        TotemFailEnable("Death.Totem.fail-enable", CONFIG.Main),
+        TotemProbability("Death.Totem.probability", CONFIG.Main),
+        //Disable
+        DisableTrident("Disable.trident", CONFIG.Main),
+        //Formatter
+        FormatterTabList("Formatter.tab-list", CONFIG.Main),
+        FormatterCustomChat("Formatter.custom-chat", CONFIG.Main),
+        //CustomDragon
+        CustomDragonName("CustomDragon.name", CONFIG.Main),
+        CustomDragonFirstTime("CustomDragon.first-time", CONFIG.Main),
+        CustomDragonFirstTimeHealth("CustomDragon.first-time-health", CONFIG.Main),
+        CustomDragonPerPlayerDificultyScalingMode("CustomDragon.per-player-scaling-dificulty-mode", CONFIG.Main),
+        CustomDragonPerPlayerHealth("CustomDragon.per-player-health", CONFIG.Main),
+        CustomDragonStaticHealth("CustomDragon.static-health", CONFIG.Main),
+        //MMOItems
+        MMOItemsDisableCutomsRepair("MMOItems.disable-custom-repair", CONFIG.Main),
+        //MainWorld
+        MainWorld("MainWorld", CONFIG.Main),
+        //Debug Mode
+        DebugMode("Debug-mode", CONFIG.Main),
+
+        /*------------------
          * Messages Config
          ------------------*/
         Prefix("Prefix", CONFIG.Messages), //Errors
-        ErrorsNoExist("Errors.no-exist", CONFIG.Messages), ErrorsNoConsole("Errors.no-console",
-                CONFIG.Messages), ErrorsArgsMiss("Errors.args-miss", CONFIG.Messages), ErrorsArgsError(
-                "Errors.args-error", CONFIG.Messages), ErrorsNoPerm("Errors.no-perm", CONFIG.Messages), //Check
-        CheckPlayer("Check.player", CONFIG.Messages), CheckConsole("Check.console", CONFIG.Messages), //Death
-        DeathMsg("Death.msg", CONFIG.Messages), DeathCoordsMsg("Death.coords-msg", CONFIG.Messages), DeathTrainMsg(
-                "Death.train-msg", CONFIG.Messages), DeathTrainActionBar("Death.train-actionbar",
-                CONFIG.Messages), DeathTitle("Death.title", CONFIG.Messages), DeathSubtitle("Death.subtitle",
-                CONFIG.Messages), DeathPlayers("Death.players", CONFIG.Messages), //Reload
-        Reload("Reload", CONFIG.Messages), //Sleep
-        SleepMsg("Sleep.msg", CONFIG.Messages), //Storm
-        StormEndMsg("Storm.end-msg", CONFIG.Messages), //Totem
-        TotemFailMsg("Totem.fail-msg", CONFIG.Messages), TotemUseMsg("Totem.use-msg", CONFIG.Messages), //Chat
-        ChatFormat("Chat.format", CONFIG.Messages), //ConfigCommand
-        ConfigCommandSet("ConfigCommand.set", CONFIG.Messages), ConfigCommandDelete("ConfigCommand.delete",
-                CONFIG.Messages), /*------------------
+        ErrorsNoExist("Errors.no-exist", CONFIG.Messages),
+        ErrorsNoConsole("Errors.no-console", CONFIG.Messages),
+        ErrorsArgsMiss("Errors.args-miss", CONFIG.Messages),
+        ErrorsArgsError("Errors.args-error", CONFIG.Messages),
+        ErrorsNoPerm("Errors.no-perm", CONFIG.Messages),
+        //Check
+        CheckPlayer("Check.player", CONFIG.Messages),
+        CheckConsole("Check.console", CONFIG.Messages),
+        //Death
+        DeathMsg("Death.msg", CONFIG.Messages),
+        DeathCoordsMsg("Death.coords-msg", CONFIG.Messages),
+        DeathTrainMsg("Death.train-msg", CONFIG.Messages),
+        DeathTrainActionBar("Death.train-actionbar", CONFIG.Messages),
+        DeathTitle("Death.title", CONFIG.Messages),
+        DeathSubtitle("Death.subtitle", CONFIG.Messages),
+        DeathPlayers("Death.players", CONFIG.Messages),
+        //Reload
+        Reload("Reload", CONFIG.Messages),
+        //Sleep
+        SleepMsg("Sleep.msg", CONFIG.Messages),
+        //Storm
+        StormEndMsg("Storm.end-msg", CONFIG.Messages),
+        //Totem
+        TotemFailMsg("Totem.fail-msg", CONFIG.Messages),
+        TotemUseMsg("Totem.use-msg", CONFIG.Messages),
+        //Chat
+        ChatFormat("Chat.format", CONFIG.Messages),
+        //ConfigCommand
+        ConfigCommandSet("ConfigCommand.set", CONFIG.Messages),
+        ConfigCommandDelete("ConfigCommand.delete", CONFIG.Messages),
+
+        /*------------------
          * Discord Config
          ------------------*/
         //Token
-        Token("Token", CONFIG.Discord), //Channels
-        ChannelsSendMsg("Channels.send-msg", CONFIG.Discord), ChannelsCommands("Channels.commands",
-                CONFIG.Discord), //Channel Description
-        ChannelDescription("Channel-description", CONFIG.Discord), //Messages
-        MessagesStart("Messages.start", CONFIG.Discord), MessagesStop("Messages.stop", CONFIG.Discord), MessagesJoin(
-                "Messages.join", CONFIG.Discord), MessagesFirstJoin("Messages.first-join",
-                CONFIG.Discord), MessagesQuit("Messages.quit", CONFIG.Discord), MessagesMinecraftToDiscordChat(
-                "Messages.minecraft-to-discord-chat", CONFIG.Discord), MessagesDiscordToOtherDiscordChat(
-                "Messages.discord-to-other-discord-chat", CONFIG.Discord), MessagesRemoveRank("Messages.remove-rank",
-                CONFIG.Discord), MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat",
-                CONFIG.Discord), MessagesHaveImageText("Messages.have-image-text", CONFIG.Discord), MessagesAdvancement(
-                "Messages.advancement", CONFIG.Discord), MessagesCommandList("Messages.command-list",
-                CONFIG.Discord), //Verify
-        VerifyEnable("Verify.enable", CONFIG.Discord), VerifyPrefix("Verify.prefix", CONFIG.Discord), VerifyRoleID(
-                "Verify.role-id", CONFIG.Discord), VerifyDiscord("Verify.discord", CONFIG.Discord), VerifyCommandError(
-                "Verify.command-error", CONFIG.Discord), VerifyYouVerified("Verify.you-verified",
-                CONFIG.Discord), VerifyUserAlredyVerified("Verify.user-alredy-verified", CONFIG.Discord), VerifySuccess(
-                "Verify.success", CONFIG.Discord), VerifyError("Verify.error", CONFIG.Discord), VerifyErrorNick(
-                "Verify.error-nick", CONFIG.Discord), VerifyNoOnline("Verify.no-online",
-                CONFIG.Discord), //SkinsRestorerMySQL
-        SkinsRestorerMySQLEnable("SkinsRestorerMySQL.Enabled", CONFIG.Discord), SkinsRestorerMySQLHost(
-                "SkinsRestorerMySQL.Host", CONFIG.Discord), SkinsRestorerMySQLPort("SkinsRestorerMySQL.Port",
-                CONFIG.Discord), SkinsRestorerMySQLDatabase("SkinsRestorerMySQL.Database",
-                CONFIG.Discord), SkinsRestorerMySQLUsername("SkinsRestorerMySQL.Username",
-                CONFIG.Discord), SkinsRestorerMySQLPassword("SkinsRestorerMySQL.Password",
-                CONFIG.Discord), SkinsRestorerMySQLSkinTable("SkinsRestorerMySQL.SkinTable",
-                CONFIG.Discord), SkinsRestorerMySQLPlayerTable("SkinsRestorerMySQL.PlayerTable",
-                CONFIG.Discord), //CustomIP
-        CustomIPEnable("CustomIP.enable", CONFIG.Discord), CustomIPIP("CustomIP.IP", CONFIG.Discord), CustomIPRealIP(
-                "CustomIP.realIP", CONFIG.Discord);
+        Token("Token", CONFIG.Discord),
+        //Channels
+        ChannelsSendMsg("Channels.send-msg", CONFIG.Discord),
+        ChannelsCommands("Channels.commands", CONFIG.Discord),
+        //Channel Description
+        ChannelDescription("Channel-description", CONFIG.Discord),
+        //Messages
+        MessagesStart("Messages.start", CONFIG.Discord),
+        MessagesStop("Messages.stop", CONFIG.Discord),
+        MessagesJoin("Messages.join", CONFIG.Discord),
+        MessagesFirstJoin("Messages.first-join", CONFIG.Discord),
+        MessagesQuit("Messages.quit", CONFIG.Discord),
+        MessagesMinecraftToDiscordChat(
+                "Messages.minecraft-to-discord-chat", CONFIG.Discord),
+        MessagesDiscordToOtherDiscordChat(
+                "Messages.discord-to-other-discord-chat", CONFIG.Discord),
+        MessagesRemoveRank("Messages.remove-rank", CONFIG.Discord),
+        MessagesDiscordToMinecraftChat("Messages.discord-to-minecraft-chat", CONFIG.Discord),
+        MessagesHaveImageText("Messages.have-image-text", CONFIG.Discord),
+        MessagesAdvancement("Messages.advancement", CONFIG.Discord),
+        MessagesCommandList("Messages.command-list", CONFIG.Discord),
+        //Verify
+        VerifyEnable("Verify.enable", CONFIG.Discord),
+        VerifyPrefix("Verify.prefix", CONFIG.Discord),
+        VerifyRoleID("Verify.role-id", CONFIG.Discord),
+        VerifyDiscord("Verify.discord", CONFIG.Discord),
+        VerifyCommandError("Verify.command-error", CONFIG.Discord),
+        VerifyYouVerified("Verify.you-verified", CONFIG.Discord),
+        VerifyUserAlredyVerified("Verify.user-alredy-verified", CONFIG.Discord),
+        VerifySuccess("Verify.success", CONFIG.Discord),
+        VerifyError("Verify.error", CONFIG.Discord),
+        VerifyErrorNick("Verify.error-nick", CONFIG.Discord),
+        VerifyNoOnline("Verify.no-online", CONFIG.Discord),
+        //SkinsRestorerMySQL
+        SkinsRestorerMySQLEnable("SkinsRestorerMySQL.Enabled", CONFIG.Discord),
+        SkinsRestorerMySQLHost("SkinsRestorerMySQL.Host", CONFIG.Discord),
+        SkinsRestorerMySQLPort("SkinsRestorerMySQL.Port", CONFIG.Discord),
+        SkinsRestorerMySQLDatabase("SkinsRestorerMySQL.Database", CONFIG.Discord),
+        SkinsRestorerMySQLUsername("SkinsRestorerMySQL.Username", CONFIG.Discord),
+        SkinsRestorerMySQLPassword("SkinsRestorerMySQL.Password", CONFIG.Discord),
+        SkinsRestorerMySQLSkinTable("SkinsRestorerMySQL.SkinTable", CONFIG.Discord),
+        SkinsRestorerMySQLPlayerTable("SkinsRestorerMySQL.PlayerTable", CONFIG.Discord),
+        //CustomIP
+        CustomIPEnable("CustomIP.enable", CONFIG.Discord),
+        CustomIPIP("CustomIP.IP", CONFIG.Discord),
+        CustomIPRealIP("CustomIP.realIP", CONFIG.Discord);
 
         private final String string;
         private final CONFIG type;

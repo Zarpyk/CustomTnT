@@ -2,6 +2,10 @@ package guerrero61.customtnt.mainutils;
 
 import guerrero61.customtnt.Main;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -12,44 +16,17 @@ import java.util.regex.Pattern;
 public class Formatter {
 
     private static final Pattern pattern = Pattern.compile("(?<!\\\\)(#[a-fA-F0-9]{6})");
+    private static final Pattern pattern2 = Pattern.compile("([&§][0-9a-fA-Fk-oK-OrR])");
 
     public static String FText(String text) {
-        /*text = org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.prefix + text);
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, "" + ChatColor.of(color));
-        }
-        text = PlaceholderAPI.setPlaceholders(null, text);
-        return text;*/
         return FText(text, true, null);
     }
 
     public static String FText(String text, Player player) {
-        /*text = org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.prefix + text);
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, "" + ChatColor.of(color));
-        }
-        text = PlaceholderAPI.setPlaceholders(player, text);
-        return text;*/
         return FText(text, true, player);
     }
 
     public static String FText(String text, boolean noPrefix) {
-        /*if(noPrefix) {
-            text = org.bukkit.ChatColor.translateAlternateColorCodes('&', text);
-        } else {
-            text = org.bukkit.ChatColor.translateAlternateColorCodes('&', Main.prefix + text);
-        }
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, "" + ChatColor.of(color));
-        }
-        text = PlaceholderAPI.setPlaceholders(null, text);
-        return text;*/
         return FText(text, noPrefix, null);
     }
 
@@ -73,6 +50,40 @@ public class Formatter {
         return text;
     }
 
+    public static TextComponent FText2(String text, boolean noPrefix, @Nullable Player player) {
+        if(text == null || text.isEmpty()) {
+            return Component.empty();
+        }
+        if(player != null) {
+            text = PlaceholderAPI.setPlaceholders(player, text);
+        }
+        TextComponent textComponent = Component.empty();
+        for (String string : text.split("&")) {
+            boolean firstPart = false;
+            if(string.contains("#")) {
+                for (String hexColorString : string.split("#")) {
+                    Matcher matcher = pattern.matcher(string);
+                    while (matcher.find()) {
+                        if(!firstPart) {
+                            if(matcher.start() != 0) {
+                                textComponent = textComponent.append(
+                                        LegacyComponentSerializer.legacyAmpersand().deserialize(
+                                                string.substring(0, matcher.start())));
+                            }
+                            firstPart = true;
+                        }
+                        int hexColor = Integer.decode(
+                                hexColorString.substring(matcher.start(), matcher.end()).replace("#", "0x"));
+                        textComponent = textComponent.append(
+                                Component.text(hexColorString.substring(matcher.end())).color(
+                                        TextColor.color(hexColor)));
+                    }
+                }
+            }
+        }
+        return textComponent;
+    }
+
     public static String Capitalize(String str) {
         if(str == null || str.isEmpty()) {
             return str;
@@ -81,17 +92,6 @@ public class Formatter {
     }
 
     public static String RemoveFormat(String text) {
-        /*Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, "");
-        }
-
-        String t = text.replace("§", "&");
-        return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "").replace("&f",
-                "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "").replace("&5", "").replace(
-                "&6", "").replace("&7", "").replace("&8", "").replace("&9", "").replace("&0", "").replace("&k",
-                "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");*/
         return RemoveFormat(text, null);
     }
 
@@ -109,11 +109,7 @@ public class Formatter {
             String color = text.substring(matcher.start(), matcher.end());
             text = text.replace(color, "");
         }
-        
+
         return text.replaceAll("([&§][0-9a-fA-Fk-oK-OrR])", "");
-        /*return t.replace("&a", "").replace("&b", "").replace("&c", "").replace("&d", "").replace("&e", "").replace("&f",
-                "").replace("&1", "").replace("&2", "").replace("&3", "").replace("&4", "").replace("&5", "").replace(
-                "&6", "").replace("&7", "").replace("&8", "").replace("&9", "").replace("&0", "").replace("&k",
-                "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");*/
     }
 }

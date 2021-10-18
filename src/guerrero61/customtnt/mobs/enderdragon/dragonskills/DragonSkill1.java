@@ -4,12 +4,12 @@ import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.Formatter;
 import guerrero61.customtnt.mobs.enderdragon.TnTDragon;
 import guerrerocraft61.particleapi.particletypes.LineParticle;
-import net.minecraft.server.v1_16_R2.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -45,7 +45,7 @@ public class DragonSkill1 {
                             if(target.getGameMode().equals(GameMode.SURVIVAL) ||
                                target.getGameMode().equals(GameMode.ADVENTURE)) {
                                 Main.debug("gamemode");
-                                ((CraftPlayer) target).getHandle().damageEntity(DamageSource.MAGIC, 15);
+                                ((CraftPlayer) target).getHandle().damageEntity(DamageSource.a, 15);
                             }
                         }
                     }

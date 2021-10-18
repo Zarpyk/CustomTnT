@@ -2,10 +2,10 @@ package guerrero61.customtnt.mainutils;
 
 import guerrero61.customtnt.Main;
 import guerrero61.customtnt.mainutils.config.Config;
+import net.skinsrestorer.api.SkinsRestorerAPI;
 import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
 import org.bukkit.entity.Player;
 import org.json.JSONObject;
-import skinsrestorer.bukkit.SkinsRestorer;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
@@ -55,9 +55,10 @@ public class Avatar {
         if(Config.getBool(Config.Options.SkinsRestorerEnable)) {
             if(Config.getBool(Config.Options.SkinsRestorerMySQLEnable)) {
                 try {
-                    PreparedStatement statement = Main.getPlugin().getSkinRestorerConnection().prepareStatement(
-                            "SELECT * FROM " + Config.getString(Config.Options.SkinsRestorerMySQLPlayerTable) +
-                            " WHERE Nick=?");
+                    PreparedStatement statement = Main.getPlugin().getSkinRestorerConnection()
+                                                      .prepareStatement("SELECT * FROM " + Config.getString(
+                                                              Config.Options.SkinsRestorerMySQLPlayerTable) +
+                                                                        " WHERE Nick=?");
                     statement.setString(1, playerN.toLowerCase());
                     ResultSet resultSet = statement.executeQuery();
                     if(resultSet.next()) {
@@ -67,10 +68,10 @@ public class Avatar {
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+                    skin = SkinsRestorerAPI.getApi().getSkinName(playerN);
                 }
             } else {
-                skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+                skin = SkinsRestorerAPI.getApi().getSkinName(playerN);
             }
             //Main.debug(skin);
             BufferedImage image = null;
@@ -84,8 +85,8 @@ public class Avatar {
                 if(Config.getBool(Config.Options.SkinsRestorerMySQLEnable)) {
                     try {
                         PreparedStatement statement = Main.getPlugin().getSkinRestorerConnection().prepareStatement(
-                                "SELECT * FROM " + Config.getString(Config.Options.SkinsRestorerMySQLSkinTable) +
-                                " WHERE Nick=?");
+                                "SELECT * FROM " + Config.getString(Config.Options.SkinsRestorerMySQLSkinTable)
+                                + " WHERE Nick=?");
                         statement.setString(1, skin.toLowerCase());
                         ResultSet resultSet = statement.executeQuery();
                         if(resultSet.next()) {
@@ -94,7 +95,7 @@ public class Avatar {
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
-                        skin = SkinsRestorer.getInstance().getSkinStorage().getPlayerSkin(playerN);
+                        skin = SkinsRestorerAPI.getApi().getSkinName(playerN);
                     }
                 }
                 if(getSkinFile) {
@@ -147,9 +148,9 @@ public class Avatar {
         String UUIDJson;
         BufferedImage errorImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         try {
-            errorImage = ImageIO.read(
-                    new URL("https://minotar.net/helm/" + Objects.requireNonNullElse(skin, name).replaceAll("\\s", "") +
-                            "/256.png"));
+            errorImage = ImageIO.read(new URL("https://minotar.net/helm/"
+                                              + Objects.requireNonNullElse(skin, name).replaceAll("\\s", "") +
+                                              "/256.png"));
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
