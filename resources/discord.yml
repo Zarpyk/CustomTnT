@@ -1,4 +1,4 @@
-Token: "***REMOVED***"
+Token: "discord token"
 Channels:
   send-msg:
     - "712066417150787657"
@@ -58,10 +58,10 @@ SkinsRestorerMySQL:
   Port: 3306
   Database: "skindb"
   Username: "root"
-  Password: "***REMOVED***"
+  Password: "password"
   SkinTable: "Skins"
   PlayerTable: "Players"
 CustomIP:
   enable: false #Show custom ip in /ip [Default: true]
-  IP: "***REMOVED***" #The custom ip [Default: ***REMOVED***]
-  realIP: "***REMOVED***" #The ip if enable is false [Default: ***REMOVED***:25565] [Default2: ***REMOVED***]
+  IP: "domain" #The custom ip [Default: domain]
+  realIP: "ip" #The ip if enable is false [Default: ip:25565] [Default2: ip]
